@@ -40,7 +40,7 @@ public class MesaController {
         model.addAttribute("mesas", mesas);
         pageName = "Mesas";
         model.addAttribute("pageName", pageName);
-        return "/User/Mesas";
+        return "User/Mesas";
 
     }
 }

@@ -33,7 +33,7 @@ public class IndexController {
     @GetMapping("/index")
     public String index() {
 
-        return "/index";
+        return "index";
     }
 
 
@@ -64,13 +64,13 @@ public class IndexController {
 
     public String login(Model model) {
 
-        return "/login";
+        return "login";
     }
     @GetMapping("/login-error")
 
     public String loginError(Model model) {
 
         model.addAttribute("loginError", true);
-        return "/login";
+        return "login";
     }
 }

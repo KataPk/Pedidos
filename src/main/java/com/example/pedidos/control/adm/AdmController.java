@@ -67,7 +67,7 @@ public class AdmController {
         this.mesaService = mesaService;
         this.userService = userService;
 
-        this.categoriaService = categoriaService;
+        this.categoriaService = categoriaServi ce;
         this.produtoService = produtoService;
     }
 
@@ -76,7 +76,7 @@ public class AdmController {
     public String Mesas(Model model){
         List<MesaRecordDto> mesas = mesaService.findAll();
         model.addAttribute("mesas", mesas);
-    return "/Adm/MesasAdm";
+    return "Adm/MesasAdm";
     }
 
     @PostMapping("/Mesa")
@@ -94,7 +94,7 @@ public class AdmController {
        List<UserRecordDto> users = userService.findAll();
 
         model.addAttribute("users", users);
-        return "/Adm/Funcionarios";
+        return "Adm/Funcionarios";
     }
 
 
@@ -103,7 +103,7 @@ public class AdmController {
     public String categorias(Model model){
         List<CategoriaRecordDto>  categorias = categoriaService.findAll();
         model.addAttribute("categorias", categorias);
-        return "/Adm/CategoriasAdm";
+        return "Adm/CategoriasAdm";
     }
 
     @PostMapping("/createCategoria")
@@ -137,7 +137,7 @@ public class AdmController {
         model.addAttribute("categorias", categorias);
 
 
-        return "/Adm/ProdutosAdm";
+        return "Adm/ProdutosAdm";
     }
     @PostMapping("/createProduto")
     public RedirectView createProduto(@RequestParam ("nome") String nome,
@@ -176,4 +176,3 @@ public class AdmController {
 
 
 }
-//https://www.baeldung.com/spring-file-upload
