@@ -80,8 +80,9 @@ public class PedidoController {
 //        muda o status da mesa para ocupada
         mesa.setmStatus("OCUPADA");
         mesaRepository.save(mesa);
+        long pedidoId = pedido.getId();
 
-        return new RedirectView("/api/user/categorias");
+        return new RedirectView("/api/user/" + pedidoId + "/categorias");
     }
 
 

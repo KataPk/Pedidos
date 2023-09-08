@@ -17,6 +17,9 @@ public class Produto {
     @Column(name = "id")
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 

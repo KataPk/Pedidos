@@ -4,6 +4,7 @@ package com.example.pedidos.service;
 import com.example.pedidos.dtos.MesaRecordDto;
 import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.repository.MesaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,41 @@ public class MesaService {
             .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void ativarMesaInativa(){
+        List<Mesa> mesasInativas = mesaRepository.findByMStatus("INATIVA");
+
+        for (Mesa mesa : mesasInativas){
+            // Verifique se há mesas ativas com o mesmo número
+            List<Mesa> mesasAtivasComMesmoNumero = mesaRepository.findByNumMesaAndMStatusNot(mesa.getNumMesa(), "INATIVA");
+
+            if (mesasAtivasComMesmoNumero.isEmpty()){
+                mesa.setmStatus("ATIVADA");
+            } else {
+                Integer novoNum = obterNovNum();
+                mesa.setNumMesa(novoNum);
+                mesa.setmStatus("ATIVADA");
+
+            }
+            mesaRepository.save(mesa);
+
+        }
 
 
+    }
 
+
+private Integer obterNovNum(){
+
+        List<Integer> numeroMesas = mesaRepository.findNumeroMesasAtivas();
+
+        for (int i = 1; i<= 1000; i++){
+            if (!numeroMesas.contains(i)){
+                return i;
+            }
+        }
+        throw new RuntimeException("Erro ao encontrar número da mesa");
+}
 
 
 }

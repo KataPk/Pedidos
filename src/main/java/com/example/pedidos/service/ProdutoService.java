@@ -3,6 +3,7 @@ package com.example.pedidos.service;
 
 import com.example.pedidos.dtos.PedidoRecordDTO;
 import com.example.pedidos.dtos.ProdutoRecordDto;
+import com.example.pedidos.model.entity.Categoria;
 import com.example.pedidos.model.entity.Pedido;
 import com.example.pedidos.model.entity.Produto;
 import com.example.pedidos.model.repository.CategoriaRepository;
@@ -24,8 +25,10 @@ public class ProdutoService {
     @Autowired
     CategoriaRepository categoriaRepository;
 
-//    @Autowired
-//    UserService userService;
+
+
+    @Autowired
+    MesaRepository mesaRepository;
 
 
     public List<ProdutoRecordDto> findAll(){
@@ -36,7 +39,23 @@ public class ProdutoService {
                 .collect(Collectors.toList());
 
     }
+    public List<ProdutoRecordDto> findByCategoria(String categoriaNome){
+        Categoria categoria = categoriaRepository.findByNome(categoriaNome);
+
+            List<Produto> produtos = produtoRepository.findByCategoria(categoria);
+
+            return produtos.stream().map(produto -> new ProdutoRecordDto(
+                    produto.getNome(),
+                    produto.getDescricao(),
+                    produto.getImagem(),
+                    produto.getValor(),
+                    produto.getCategoria()
+                    )).collect(Collectors.toList());
+        }
 
 
 
-}
+
+    }
+
+

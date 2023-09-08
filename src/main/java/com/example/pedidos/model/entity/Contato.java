@@ -16,6 +16,10 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+
+    @Version
+    private long version;
+
     @ManyToOne
     @JoinColumn(name = "funcionario")
     private User user;

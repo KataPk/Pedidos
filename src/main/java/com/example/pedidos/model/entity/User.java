@@ -23,6 +23,9 @@ public class User {
     @Column(name = "Id")
     private long id;
 
+    @Version
+    private long version;
+
     @Getter
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;

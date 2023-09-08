@@ -16,6 +16,9 @@ public class Mesa {
     @Column(name = "id")
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name = "num_mesa", nullable = false)
     private Integer numMesa;
 

@@ -18,6 +18,9 @@ public class ItemPedido {
     @Column(name = "id")
     private int id;
 
+    @Version
+    private long version;
+
     @Column(name = "ipStatus", nullable = false)
     private int itemProdutoStatus;
 

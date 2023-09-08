@@ -19,6 +19,9 @@ public class Pedido {
     @Column(name = "id")
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name = "nomeCliente", length = 12, nullable = false)
     private String nomeCliente;
 
