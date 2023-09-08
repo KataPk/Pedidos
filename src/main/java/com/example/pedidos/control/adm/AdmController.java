@@ -67,7 +67,7 @@ public class AdmController {
         this.mesaService = mesaService;
         this.userService = userService;
 
-        this.categoriaService = categoriaServi ce;
+        this.categoriaService = categoriaService;
         this.produtoService = produtoService;
     }
 
