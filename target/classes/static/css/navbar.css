@@ -1,0 +1,119 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); 
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css");
+
+body {
+    font-family: "Lato", sans-serif;
+    background: url("../img/PNG/bg-pages.jpg");
+    background-size: 500px;
+}
+.offcanvas-body{
+    background: url("../img/PNG/bg-pages.jpg");
+    background-size: 500px;
+
+}
+
+.bars {
+    width: 35px;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bar {
+    width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
+}
+
+/* The navigation bar */
+.navbar-top {
+    overflow: hidden;
+    background-color: #D82435;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 110%; /* Full width */
+    margin-left: -5px;
+    z-index: 100;
+    height: 62px;
+}
+
+
+/* Change background on mouse-over */
+.navbar2 a:hover {
+    background: #ddd;
+    color: black;
+}
+
+/* Main content */
+.container {
+    margin-top: 70px; /* Add a top margin to avoid content overlay */
+
+    position: relative;
+}
+
+
+.btn-close {
+    color: #FFF;
+}
+
+.offcanvas-header {
+
+    color: #FFF;
+    background-color: #D82435;
+
+}
+
+.offcanvas-body a {
+
+    display: block;
+    color: #eeeeee;
+    padding: 16px;
+    text-decoration: none;
+    background-color: rgba(21, 199, 240, 0.7);
+;
+}
+
+.offcanvas-body a:hover {
+
+    background-color: #D82435;
+    color: #FFF;
+
+}
+
+.userCollapse {
+
+    position: absolute;
+    top: 8px;
+    left: 80%;
+}
+
+#collapse {
+
+    position: absolute;
+    margin-bottom: 10px;
+    left: 70%;
+}
+
+#Back {
+    margin-left: 25px;
+    margin-top: 5rem;
+    background-color: transparent;
+    color: #000;
+    border: none;
+    font-size: 25px;
+    position: relative;
+}
+
+#Back:hover {
+    color: #D82435;
+}
+
+#logoutBtn {
+    color: #fff;
+}
+
+#collapseAdm a {
+    background-color: rgba(16, 131, 157, 0.7);
+
+}

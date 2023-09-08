@@ -1,0 +1,5 @@
+# Created at 2023-09-08T03:22:45.412
+Boot Manifest-JAR contains absolute paths in classpath 'E:\Projetos\Repositorios\TCC_INF3D_2023\IntelliJ Spring\Pedidos\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
