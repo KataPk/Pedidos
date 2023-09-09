@@ -14,7 +14,8 @@ public interface MesaRepository extends JpaRepository<Mesa, Long> {
     List<Mesa> findByMStatus(String status);
     List<Mesa> findByNumMesaAndMStatusNot(int numMesa, String status);
 
-    @Query("SELECT m.numMesa from Mesa m where m.mStatus <> 'INATIVA' ")
+
+    @Query("SELECT m.numMesa from Mesa m where m.MStatus <> 'INATIVA' ")
     List<Integer> findNumeroMesasAtivas();
 
 }

@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public record PedidoRecordDTO(
+
+        @NotBlank long id,
         @NotBlank String nomeCliente,
 
         @NotBlank LocalDateTime dtRegisto,

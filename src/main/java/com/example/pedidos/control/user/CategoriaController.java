@@ -2,6 +2,7 @@ package com.example.pedidos.control.user;
 
 
 import com.example.pedidos.dtos.CategoriaRecordDto;
+import com.example.pedidos.dtos.PedidoRecordDTO;
 import com.example.pedidos.dtos.ProdutoRecordDto;
 import com.example.pedidos.model.entity.Categoria;
 import com.example.pedidos.model.entity.Pedido;
@@ -54,12 +55,13 @@ public class CategoriaController {
     @GetMapping("/{pedidoId}/categorias")
     public String categorias(@PathVariable long pedidoId ,Model model){
 
+        List<PedidoRecordDTO> clientes = pedidoService.findAll();
+
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
 
         List<CategoriaRecordDto> categorias = categoriaService.findAll();
         model.addAttribute("categorias", categorias);
-       String  pageName = "Mesas";
-        model.addAttribute("pageName", pageName);
+        model.addAttribute("clientes", clientes);
         model.addAttribute("pedido", pedido);
         return "User/Categorias";
     }

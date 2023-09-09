@@ -41,6 +41,7 @@ public class PedidoController {
 
 
 
+
     private final PedidoService pedidoService;
 
 
@@ -78,9 +79,10 @@ public class PedidoController {
         pedidoRepository.save(pedido);
 
 //        muda o status da mesa para ocupada
-        mesa.setmStatus("OCUPADA");
+        mesa.setmMStatus("OCUPADA");
         mesaRepository.save(mesa);
         long pedidoId = pedido.getId();
+
 
         return new RedirectView("/api/user/" + pedidoId + "/categorias");
     }
@@ -110,7 +112,7 @@ public class PedidoController {
 //
 //        pedidoRepository.save(pedido);
 //
-//        mesa.setmStatus("ABERTA");
+//        mesa.setmMStatus("ABERTA");
 
         return new RedirectView("/api/user/mesas");
     }

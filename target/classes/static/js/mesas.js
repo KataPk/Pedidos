@@ -10,6 +10,7 @@ function toast() {
 }
 
 
+
 // ADM
 {
     mesaImg = document.getElementById("mesaAddImage");

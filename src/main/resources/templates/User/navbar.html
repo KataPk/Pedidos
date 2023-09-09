@@ -3,13 +3,19 @@
 
 <div id="navbar">
     <div class="navbar-top ">
-        <div class="bars p-1" data-bs-target="#staticBackdrop" data-bs-toggle="offcanvas" type="button">
+        <div class="d-inline-flex align-items-center ">
+        <div class="bars p-1 col-first" data-bs-target="#staticBackdrop" data-bs-toggle="offcanvas" type="button">
             <div class="bar"></div>
             <div class="bar"></div>
             <div class="bar"></div>
         </div>
-        <h1 th:text ="${pageName}" ></h1>
-
+        <div class="d-inline-flex col-last position-absolute top-0 start-50 translate-middle-x" id="clientSelect">
+            <h1 id="clientLabel" class="col-first me-3">Cliente Atual: </h1>
+            <select id="selectClients" class="form-select form-select-lg mb-3 col-last" aria-label="Cliente Atual: ">
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nomeCliente}">error</option>
+            </select>
+        </div>
+        </div>
 
         <div aria-labelledby="staticBackdropLabel" class="offcanvas offcanvas-start" data-bs-backdrop="static" id="staticBackdrop"
              tabindex="-1">
@@ -17,6 +23,9 @@
                 <h5 class="offcanvas-title" id="staticBackdropLabel">Menu</h5>
                 <button aria-label="Close" class="btn-close btn-danger" data-bs-dismiss="offcanvas"
                         type="button"></button>
+
+
+
             </div>
             <div class="offcanvas-body">
                 <div><a href="/api/user/comandas">Comandas</a>
@@ -40,6 +49,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="logout" tabindex="-1">
@@ -63,8 +73,9 @@
 <div>
     <button id="Back" onclick="history.back()"><i class='fas'>&#xf053;</i> Voltar
     </button>
-</div>
 
+
+</div>
 
 </html>
 

@@ -4,7 +4,6 @@ package com.example.pedidos.service;
 import com.example.pedidos.dtos.MesaRecordDto;
 import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.repository.MesaRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,6 @@ public class MesaService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public void ativarMesaInativa(){
         List<Mesa> mesasInativas = mesaRepository.findByMStatus("INATIVA");
 
@@ -36,11 +34,11 @@ public class MesaService {
             List<Mesa> mesasAtivasComMesmoNumero = mesaRepository.findByNumMesaAndMStatusNot(mesa.getNumMesa(), "INATIVA");
 
             if (mesasAtivasComMesmoNumero.isEmpty()){
-                mesa.setmStatus("ATIVADA");
+                mesa.setmMStatus("ATIVADA");
             } else {
                 Integer novoNum = obterNovNum();
                 mesa.setNumMesa(novoNum);
-                mesa.setmStatus("ATIVADA");
+                mesa.setmMStatus("ATIVADA");
 
             }
             mesaRepository.save(mesa);

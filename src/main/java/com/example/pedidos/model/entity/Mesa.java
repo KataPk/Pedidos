@@ -2,8 +2,6 @@ package com.example.pedidos.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Getter
 @Entity
@@ -23,7 +21,7 @@ public class Mesa {
     private Integer numMesa;
 
     @Column(name = "mstatus", nullable = false)
-    private String mStatus;
+    private String MStatus;
 
     public void setId(long id) {
         this.id = id;
@@ -33,7 +31,7 @@ public class Mesa {
         this.numMesa = numMesa;
     }
 
-    public void setmStatus(String mStatus) {
-        this.mStatus = mStatus;
+    public void setmMStatus(String mStatus) {
+        this.MStatus = mStatus;
     }
 }

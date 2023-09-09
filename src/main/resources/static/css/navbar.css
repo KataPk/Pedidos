@@ -117,3 +117,16 @@ body {
     background-color: rgba(16, 131, 157, 0.7);
 
 }
+
+#selectClients{
+    width: auto ;
+    text-align: center;
+}
+
+#clientLabel {
+    color: #eee;
+}
+#clientSelect{
+    width: auto;
+    margin-top: 10px;
+}
