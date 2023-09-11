@@ -23,7 +23,7 @@
 
     <th:block th:each="mesa : ${mesas}">
 
-        <div th:if="${mesa.mStatus == 'BALCAO'}" class="card">
+        <div th:if="${mesa.mStatus == 'BALCAO'}" class="card text-center">
 
                 <button class="btn imageBtn" data-bs-target="#balcao" data-bs-toggle="modal"
                         type="button">
@@ -38,28 +38,32 @@
                 </div>
 
         </div>
-        <div th:if="${mesa.mStatus == 'ATIVO'}" class="card">
+        <div th:if="${mesa.mStatus == 'ATIVO'}" class="card text-center">
             <button class="btn imageBtn " th:attr="data-bs-target=${'#ModalMesa'+ mesa.numMesa }" data-bs-toggle="modal"
                     th:id="${'mesa' + mesa.numMesa}" type="button">
             <img alt="..." class="card-img-top image" src="/img/PNG/mesa.png">
             </button>
                     <div class="card-body">
                     <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
-                    <button class="btn btn-primary addPedido" th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }" data-bs-toggle="modal"
+                    <button class="btn btn-primary" th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }" data-bs-toggle="modal"
                             th:id="${'addPedido' + mesa.numMesa}" type="button">
                         Adicionar pedido
                     </button>
                 </div>
         </div>
 
-        <div th:if="${mesa.mStatus == 'OCUPADA'}" class="card">
-           <button class="btn imageBtn" type="button"> <!-- IR PARA RESUMO COMANDA -->
+        <div th:if="${mesa.mStatus == 'OCUPADA'}" class="card text-center">
+           <form action="/api/user/pedido/openPedido" method="post">
+            <button class="btn imageBtn" type="submit"> <!-- IR PARA RESUMO COMANDA -->
             <img alt="..." class="card-img-top image" src="/img/PNG/mesa-ocupada.png">
            </button>
                <div class="card-body">
                 <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
-                    <button class="btn btn-primary me-md-2" type="button">Categorias</button>
+                   <input class="form-control" th:id="'mesaNum' + ${mesa.numMesa}" name="mesaNum" th:value="${mesa.numMesa}" type="hidden">
+
+                   <button class="btn btn-primary me-md-2" type="submit">Categorias</button>
             </div>
+           </form>
         </div>
 
     </th:block>
@@ -98,17 +102,18 @@
                                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                                 <span id="error-msg"></span>
                             </div>
-                            <form>
-                                <div class="modal-body vstack">
-                                    <div class="hstack p-1 ">
-                                        <label class="form-label" for="clientNameBalcao">Nome do Cliente:</label>
-                                        <input class="form-control" id="clientNameBalcao" name="clientName" required type="text">
+                                <form action="/api/user/pedido/createPedido" method="POST" th:id="'form' + ${mesa.numMesa}">
+                                    <div class="modal-body vstack">
+                                        <div class="hstack p-1 ">
+                                            <label class="form-label" th:for="'clientNameMesa' + ${mesa.numMesa}">Nome do Cliente:</label>
+                                            <input class="form-control clientNameMesa" th:id="'clientNameMesa' + ${mesa.numMesa}" name="clientName" required type="text">
+                                            <input class="form-control" th:id="'mesaNum' + ${mesa.numMesa}" name="mesaNum" th:value="${mesa.numMesa}" type="hidden">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-primary" id="addBalcao" type="submit">Adicionar e ir para categorias</button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" th:id="'addMesa' + ${mesa.numMesa}" type="submit" onclick="toast(); redirectToCategories()">Adicionar e ir para categorias</button>
+                                    </div>
+                                </form>
                         </div>
                     </div>
                 </div>
@@ -123,7 +128,7 @@
 
                                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                             </div>
-                            <form action="/api/user/pedido/createPedido" method="POST">
+                            <form action="/api/user/pedido/createPedido" method="POST" th:id="'form' + ${mesa.numMesa}">
                                 <div class="modal-body vstack">
                                     <div class="hstack p-1 ">
                                         <label class="form-label" th:for="'clientNameMesa' + ${mesa.numMesa}">Nome do Cliente:</label>
@@ -132,8 +137,9 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-secondary add-btn" type="button">Adicionar</button>
-                                    <button class="btn btn-primary" th:id="'addMesa' + ${mesa.numMesa}" type="submit">Adicionar e ir para categorias</button>
+                                    <button class="btn btn-secondary add-btn" th:data-id="'form'+${mesa.numMesa}" name="button" value="1" type="submit" onclick="toast()">Adicionar</button>
+                                    <button class="btn btn-primary" th:id="'addMesa' + ${mesa.numMesa}" th:data-id="'form'+${mesa.numMesa}" type="submit"  value="2">
+                                        Adicionar e ir para categorias</button>
                                 </div>
                             </form>
                         </div>
@@ -145,4 +151,3 @@
 
 </body>
 </html>
-

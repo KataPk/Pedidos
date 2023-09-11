@@ -1,6 +1,7 @@
 package com.example.pedidos.service;
 
 import com.example.pedidos.dtos.PedidoRecordDTO;
+import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.entity.Pedido;
 import com.example.pedidos.model.repository.MesaRepository;
 import com.example.pedidos.model.repository.PedidoRepository;

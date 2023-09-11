@@ -9,12 +9,14 @@
             <div class="bar"></div>
             <div class="bar"></div>
         </div>
+            <th:block th:if="${clientes} != null ">
         <div class="d-inline-flex col-last position-absolute top-0 start-50 translate-middle-x" id="clientSelect">
             <h1 id="clientLabel" class="col-first me-3">Cliente Atual: </h1>
-            <select id="selectClients" class="form-select form-select-lg mb-3 col-last" aria-label="Cliente Atual: ">
-                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nomeCliente}">error</option>
+            <select id="selectClients" class="form-select form-select-lg mb-3 col-last" aria-label="Cliente Atual: " onchange="select()">
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nomeCliente}" th:id="'pedido-id-' + ${cliente.id}" >error</option>
             </select>
         </div>
+            </th:block>
         </div>
 
         <div aria-labelledby="staticBackdropLabel" class="offcanvas offcanvas-start" data-bs-backdrop="static" id="staticBackdrop"
@@ -76,7 +78,32 @@
 
 
 </div>
+<script>
+    document.getElementById('selectClients').addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const selectedPedidoId = selectedOption.getAttribute('th:id');
 
+        if (selectedPedidoId) {
+
+            // Obtém a URL atual
+            const currentUrl = window.location.href;
+
+            // Verifica se a URL contém '/api/user/' e captura a parte após '/api/user/' como pedidoId
+            const regex = /\/api\/user\/([^/]+)\//;
+            const match = currentUrl.match(regex);
+
+            if (match){
+                const pedidoId = match[1];
+
+                // Substitui o pedidoId na URL
+                // Redireciona para a nova URL
+                window.location.href = currentUrl.replace(pedidoId, selectedPedidoId);
+            }
+
+        }
+    });
+
+</script>
 </html>
 
 

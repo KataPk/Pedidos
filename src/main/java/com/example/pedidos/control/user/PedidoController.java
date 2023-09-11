@@ -12,16 +12,21 @@ import com.example.pedidos.service.PedidoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.http.HttpClient;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -53,40 +58,61 @@ public class PedidoController {
 
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,
-                                     @RequestParam("mesaNum") int mesaNum ,
-                                     @AuthenticationPrincipal UserDetails userDetails){
-
+                                                @RequestParam ("button") int  button,
+                                                @RequestParam("mesaNum") int mesaNum ,
+                                                @AuthenticationPrincipal UserDetails userDetails) throws InterruptedException {
 
 
         PedidoRecordDTO pedidoDTO;
 
+    Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
 
-        Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
+    User funcionario = userRepository.findByUsername(userDetails.getUsername());
 
-       User funcionario = userRepository.findByUsername(userDetails.getUsername());
+    LocalDateTime dtRegistro = LocalDateTime.now();
 
-        LocalDateTime dtRegistro = LocalDateTime.now();
+    Pedido pedido = new Pedido(
+            cliente,
+            dtRegistro,
+            null,
+            funcionario,
+            mesa,
+            "ABERTO"
 
-        Pedido pedido = new Pedido(
-                cliente,
-                dtRegistro,
-                null,
-                funcionario,
-                mesa,
-                "ABERTO"
-
-        );
-        pedidoRepository.save(pedido);
+    );
+    pedidoRepository.save(pedido);
 
 //        muda o status da mesa para ocupada
-        mesa.setmMStatus("OCUPADA");
-        mesaRepository.save(mesa);
-        long pedidoId = pedido.getId();
+    mesa.setmMStatus("OCUPADA");
+    mesaRepository.save(mesa);
+    long pedidoId = pedido.getId();
 
-
-        return new RedirectView("/api/user/" + pedidoId + "/categorias");
+    if (button == 1) {
+        TimeUnit.SECONDS.sleep(1);
+    return new RedirectView("/api/user/mesas");
+    } else if (button == 2) {
+        return new RedirectView("/api/user/" + pedidoId +"/categorias");
+    } else {
+        throw new RuntimeException("Butão inválido: " + button);
     }
 
+
+
+    }
+
+
+    @PostMapping("/openPedido")
+    public String  openPedido(@RequestParam("mesaNum") int mesaNum,
+                                              RedirectAttributes redirectAttributes){
+
+        Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
+        Pedido pedido = pedidoRepository.findByMesa(mesa);
+        long pedidoId = pedido.getId();
+//        redirectAttributes.addAttribute("pedidoId", pedidoId);
+
+
+        return "redirect:/api/user/" + pedidoId +"/categorias";
+    }
 
     @PostMapping("/closePedido")
     public RedirectView closePedido(){

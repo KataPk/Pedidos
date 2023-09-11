@@ -23,7 +23,7 @@
 
 
     <div class="row align-items-start">
-        <div class="card">
+        <div class="card text-center">
             <button class="btn imageBtn" data-bs-target="#criarCategoria" data-bs-toggle="modal" type="button">
                 <img alt="..." class="card-img-top image" id="CategoriaAddImage" src="/img/PNG/mesa-add.png">
             </button>
@@ -38,7 +38,7 @@
 
         <th:block th:each="categoria : ${categorias}">
 
-            <div class="card" th:id="${categoria.nome}">
+            <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
                     <img th:alt="${categoria.nome}" class="card-img-top image" th:src="|data:image;base64, *{categoria.imagem}|"/>
                 </button>
