@@ -94,7 +94,7 @@ public class WebSecurityConfig {
 
             )
             .logout(logout -> logout
-                    .logoutUrl("/logout")
+                    .logoutUrl("/api/logout")
                     .logoutSuccessUrl("/api/v1/index")
             )
 

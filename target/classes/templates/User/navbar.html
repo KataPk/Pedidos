@@ -65,9 +65,10 @@
                 Tem certeza que deseja fazer Logout?
             </div>
             <div class="modal-footer">
-                <form th:action="@{/logout}" method="post"></form>
+                <form action="/api/logout" method="post">
                 <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                <button class="btn btn-primary"  type="submit">Fazer logout</button>
+                <button class="btn btn-primary"  type="submit" value="Logout">Fazer logout</button>
+                </form>
             </div>
         </div>
     </div>
