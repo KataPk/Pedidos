@@ -1,10 +1,13 @@
-const toastLiveExample = document.getElementById('liveToast')
-const lessButtons = document.querySelectorAll('.less');
-const plusButtons = document.querySelectorAll('.plus');
-const quantElements = document.querySelectorAll('.quant');
-const totalElements = document.querySelectorAll('.total');
-const addButtons = document.querySelectorAll('.liveToastBtn')
 
+    const toastLiveExample = document.getElementById('liveToast')
+    const lessButtons = document.querySelectorAll('.less');
+    const plusButtons = document.querySelectorAll('.plus');
+    const quantElements = document.querySelectorAll('.quant');
+    const totalElements = document.querySelectorAll('.total');
+    const addButtons = document.querySelectorAll('.liveToastBtn')
+    const forms = document.querySelectorAll('.forms')
+    const quantInput = document.querySelectorAll('.quantInput');
+    const totalInput = document.querySelectorAll('.totalInput');
 function toast() {
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
     toastBootstrap.show()
@@ -38,6 +41,8 @@ for (let i = 0; i < plusButtons.length; i++) {
         addButtons[i].removeAttribute('disabled')
 
         let total = (price * quant).toFixed(2).toString().replace('.', ',');
+        totalInput[i].value = (price*quant).toFixed(2);
+        quantInput[i].value = quant
         totalElements[i].innerHTML = `Total: R$${total}`;
     });
 
@@ -49,9 +54,11 @@ for (let i = 0; i < plusButtons.length; i++) {
             quant -= 1;
             quantElements[i].innerHTML = quant.toString();
             let total = (price * quant).toFixed(2).toString().replace('.', ',');
+
             totalElements[i].innerHTML = `Total: R$${total}`;
         }
-
+        totalInput[i].value = (price*quant).toFixed(2);
+        quantInput[i].value = quant
     });
 
 
