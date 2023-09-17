@@ -27,7 +27,7 @@ public class Produto {
     private String descricao;
 
     @Column(name = "valor", precision = 5, scale = 2, nullable = false)
-    private BigDecimal valor;
+    private double valor;
 
     @Lob
     @Column(name = "imagem", nullable = false)
@@ -36,7 +36,7 @@ public class Produto {
     @JoinColumn(name = "categoria", nullable = false)
     private Categoria categoria;
 
-    public Produto(String nome, String descricao, BigDecimal valor, String imagem, Categoria categoria) {
+    public Produto(String nome, String descricao, double valor, String imagem, Categoria categoria) {
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
@@ -60,7 +60,7 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 

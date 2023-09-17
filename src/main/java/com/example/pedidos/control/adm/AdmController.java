@@ -153,7 +153,7 @@ public class AdmController {
 
             // converter o valor para BigDecimal
             valor = valor.replace(",", ".");
-            BigDecimal valorBig = new BigDecimal(valor);
+            double valorDouble = Double.parseDouble(valor);
 
             // busca a categoria
             Categoria categoria = categoriaRepository.getReferenceById(Long.valueOf(categoriaId));
@@ -161,7 +161,7 @@ public class AdmController {
             Produto produto = new Produto(
                     nome,
                     descricao,
-                    valorBig,
+                    valorDouble,
                     imageBase64,
                     categoria
             );

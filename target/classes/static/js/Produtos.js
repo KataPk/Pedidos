@@ -7,7 +7,6 @@
     const addButtons = document.querySelectorAll('.liveToastBtn')
     const forms = document.querySelectorAll('.forms')
     const quantInput = document.querySelectorAll('.quantInput');
-    const totalInput = document.querySelectorAll('.totalInput');
 function toast() {
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
     toastBootstrap.show()
@@ -41,7 +40,6 @@ for (let i = 0; i < plusButtons.length; i++) {
         addButtons[i].removeAttribute('disabled')
 
         let total = (price * quant).toFixed(2).toString().replace('.', ',');
-        totalInput[i].value = (price*quant).toFixed(2);
         quantInput[i].value = quant
         totalElements[i].innerHTML = `Total: R$${total}`;
     });
@@ -57,7 +55,6 @@ for (let i = 0; i < plusButtons.length; i++) {
 
             totalElements[i].innerHTML = `Total: R$${total}`;
         }
-        totalInput[i].value = (price*quant).toFixed(2);
         quantInput[i].value = quant
     });
 

@@ -56,7 +56,7 @@
                     <h1 class="modal-title fs-5" th:id="${'label' + produto.nome}" th:text="${produto.nome}">Error</h1>
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
-                <form th:id="${'form' + produto.nome}" class="forms">
+                <form th:id="${'form' + produto.nome}" class="forms" method="post" action="/api/user/pedido/addItem">
                 <div class="modal-body vstack">
                     <div class="hstack p-1 ">
                         <img th:alt="${produto.nome}" class="card-img-top p-2" th:src="|data:image;base64, *{produto.imagem}|" >
@@ -79,9 +79,9 @@
                         </label>
                     </div>
                     <h2 class="total" >Total: R$0,00</h2>
-                    <input type="hidden" class="totalInput">
                 </div>
-
+                    <input type="hidden" name="pedidoId" th:value="${pedidoId}">
+                    <input type="hidden" name="produtoNome" th:value="${produto.nome}">
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
                     <button class="btn btn-primary liveToastBtn" type="submit">Adicionar</button>

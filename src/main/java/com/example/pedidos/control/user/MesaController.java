@@ -30,7 +30,6 @@ public class MesaController {
 
     private final MesaService mesaService;
 
-    private String pageName = null;
 
     public MesaController(MesaService mesaService) {
         this.mesaService = mesaService;
@@ -40,8 +39,6 @@ public class MesaController {
     public String mesas(Model model) {
         List<MesaRecordDto> mesas = mesaService.findAll();
         model.addAttribute("mesas", mesas);
-        pageName = "Mesas";
-        model.addAttribute("pageName", pageName);
         return "User/Mesas";
 
     }

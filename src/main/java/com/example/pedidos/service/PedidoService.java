@@ -32,7 +32,13 @@ public class PedidoService {
                 .collect(Collectors.toList());
 
     }
-
+    public List<PedidoRecordDTO> findAbertos(){
+        List<Pedido> pedidos = pedidoRepository.findByStatusPedido("ABERTO");
+        return pedidos.stream()
+                .map(pedido -> new PedidoRecordDTO(pedido.getId(), pedido.getNomeCliente(), pedido.getDtRegistro(), pedido.getDtFechamento(),
+                        pedido.getUser(), pedido.getMesa(), pedido.getStatusPedido()))
+                .collect(Collectors.toList());
+    }
 
 
 

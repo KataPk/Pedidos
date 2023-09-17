@@ -11,18 +11,13 @@ import org.slf4j.LoggerFactory;
 @Table(name = "ItemPedido")
 public class ItemPedido {
 
-//    public static final Logger log = LoggerFactory.getLogger(ItemPedido.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Version
-    private long version;
 
-    @Column(name = "ipStatus", nullable = false)
-    private int itemProdutoStatus;
 
     @ManyToOne
     @JoinColumn(name = "produto", nullable = false)
@@ -37,6 +32,13 @@ public class ItemPedido {
     @JoinColumn(name = "pedido", nullable = false)
     private Pedido pedido;
 
+
+    public ItemPedido(Produto produto, int quantProduto, String observacao, Pedido pedido) {
+        this.produto = produto;
+        this.quantProduto = quantProduto;
+        this.observacao = observacao;
+        this.pedido = pedido;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -59,7 +61,7 @@ public class ItemPedido {
         this.pedido = pedido;
     }
 
-    public void setItemProdutoStatus(int itemProdutoStatus) {
-        this.itemProdutoStatus = itemProdutoStatus;
+    public ItemPedido() {
+
     }
 }
