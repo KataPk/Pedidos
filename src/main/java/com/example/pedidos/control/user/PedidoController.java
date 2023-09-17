@@ -93,7 +93,7 @@ public class PedidoController {
     } else if (button == 2) {
         return new RedirectView("/api/user/" + pedidoId +"/categorias");
     } else {
-        throw new RuntimeException("Butão inválido: " + button);
+        throw new RuntimeException("Botão inválido: " + button);
     }
 
 

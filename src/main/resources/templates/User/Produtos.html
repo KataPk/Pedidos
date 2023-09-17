@@ -17,18 +17,83 @@
 </head>
 <body>
 
-<div th:insert="~{navbar}"></div>
+<div th:insert="~{User/navbar}"></div>
 
 <div class="container">
     <div class="row align-items-start" id="productContainer">
-        <th:block th:each=""
+        <th:block th:each="produto : ${produtos}">
 
+            <div class="card text-center" th:id="${produto.nome}">
+                <button class="btn">
+                    <img th:alt="${produto.nome}" class="card-img-top image" th:src="|data:image;base64, *{produto.imagem}|"/>
+                </button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <button class="btn btn-primary"
+                                th:id="${'productAdd' + produto.nome}" type="button">
+                            Adicionar
+                        </button>
 
-
-
+                    </div>
+                </div>
+            </div>
+        </th:block>
 
     </div>
+    <nav id="navFinalizar" class="navbar sticky-bottom  navBottom">
+        <div class="container-fluid">
+            <button class="btn btn-danger finalizar" onclick="window.location.href='../Editar'">Finalizar</button>
+        </div>
+    </nav>
+
     </div>
 
+<th:block th:each="produtos : ${produtos}">
+    <div aria-hidden="true" aria-labelledby="labelPizza" class="modal fade" id="pizza" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="labelPizza">Pizza</h1>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body vstack">
+                    <div class="hstack p-1 ">
+                        <img alt="..." class="card-img-top p-2" src="/img/PNG/Lanches/pizza.png">
+                        <p class="p-2">
+                            massa assada com molho de tomate, queijo e diversos outros ingredientes, como presunto,
+                            cogumelos,
+                            azeitonas e calabresa.
+
+
+                        </p>
+
+                    </div>
+                    <div class="hstack p-1">
+                        <h2 class="p-1 preco">Preço: R$39,99</h2>
+                    </div>
+
+
+                    <div class="hstack  p-1">
+                        <p class="p-1 text">Quantidade:</p>
+                        <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
+                        <p class="text p-1 quant" data-price="39.99">0</p>
+                        <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
+                        <p class="text">Observações:</p>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                    <h2 class="total">Total: R$0,00</h2>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                    <button class="btn btn-primary liveToastBtn" type="button">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
 </body>
 </html>

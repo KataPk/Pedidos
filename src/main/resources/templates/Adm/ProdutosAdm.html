@@ -24,7 +24,7 @@
 
 
     <div class="row align-items-start">
-        <div class="card">
+        <div class="card text-center">
             <button class="btn imageBtn" data-bs-target="#criarProduto" data-bs-toggle="modal" type="button">
                 <img alt="..." class="card-img-top image" id="ProdutoAddImage" src="/img/PNG/mesa-add.png">
             </button>
@@ -39,7 +39,7 @@
 
         <th:block th:each="produto : ${produtos}">
 
-            <div class="card" th:id="${produto.nome}">
+            <div class="card text-center" th:id="${produto.nome}">
                 <button class="btn">
                     <img th:alt="${produto.nome}" class="card-img-top image" th:src="|data:image;base64, *{produto.imagem}|"/>
                 </button>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" type="submit">Criar</button>
+                            <button class="btn btn-primary" type="submit">Criar</button>
                         </div>
                     </div>
                 </form>

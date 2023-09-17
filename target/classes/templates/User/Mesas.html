@@ -22,7 +22,19 @@
      <div class="row align-items-start" id="MesaContainer">
 
     <th:block th:each="mesa : ${mesas}">
+        <div th:if="${mesa.mStatus == 'OCUPADA'}" class="card text-center">
+            <form action="/api/user/pedido/openPedido" method="post">
+                <button class="btn imageBtn" type="submit"> <!-- IR PARA RESUMO COMANDA -->
+                    <img alt="..." class="card-img-top image" src="/img/PNG/mesa-ocupada.png">
+                </button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
+                    <input class="form-control" th:id="'mesaNum' + ${mesa.numMesa}" name="mesaNum" th:value="${mesa.numMesa}" type="hidden">
 
+                    <button class="btn btn-primary me-md-2" type="submit">Categorias</button>
+                </div>
+            </form>
+        </div>
         <div th:if="${mesa.mStatus == 'BALCAO'}" class="card text-center">
 
                 <button class="btn imageBtn" data-bs-target="#balcao" data-bs-toggle="modal"
@@ -37,19 +49,6 @@
                     </button>
                 </div>
 
-        </div>
-        <div th:if="${mesa.mStatus == 'OCUPADA'}" class="card text-center">
-            <form action="/api/user/pedido/openPedido" method="post">
-                <button class="btn imageBtn" type="submit"> <!-- IR PARA RESUMO COMANDA -->
-                    <img alt="..." class="card-img-top image" src="/img/PNG/mesa-ocupada.png">
-                </button>
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
-                    <input class="form-control" th:id="'mesaNum' + ${mesa.numMesa}" name="mesaNum" th:value="${mesa.numMesa}" type="hidden">
-
-                    <button class="btn btn-primary me-md-2" type="submit">Categorias</button>
-                </div>
-            </form>
         </div>
         <div th:if="${mesa.mStatus == 'ATIVO'}" class="card text-center">
             <button class="btn imageBtn " th:attr="data-bs-target=${'#ModalMesa'+ mesa.numMesa }" data-bs-toggle="modal"
@@ -67,8 +66,6 @@
 
 
     </th:block>
-
-
 
      </div>
 
