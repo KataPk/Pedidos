@@ -19,12 +19,12 @@ public class ItemPedidoService {
         this.itemPedidoRepository = itemPedidoRepository;
     }
 
-    public List<ItemPedidoRecordDto> findItensByPedido(long pedidoId){
-       List<ItemPedido> itens =  itemPedidoRepository.findAllByPedido(pedidoId);
-        return itens.stream()
-                .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getObservacao(), item.getPedido()))
-                .collect(Collectors.toList());
-    }
+//    public List<ItemPedidoRecordDto> findItensByPedido(long pedidoId){
+//       List<ItemPedido> itens =  itemPedidoRepository.findAllByPedido(pedidoId);
+//        return itens.stream()
+//                .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getObservacao(), item.getPedido()))
+//                .collect(Collectors.toList());
+//    }
 
 
 

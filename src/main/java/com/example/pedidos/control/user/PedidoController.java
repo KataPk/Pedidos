@@ -73,11 +73,11 @@ public class PedidoController {
     @GetMapping("/listPedidos")
     public String pedidos(Model model){
         List<PedidoRecordDTO> pedidos = pedidoService.findAbertos();
-        for (PedidoRecordDTO pedido : pedidos){
-            long pedidoId = pedido.id();
-            double somaItensPedido = calcularSomaItens(pedidoId);
-            pedido.subTotal(somaItensPedido);
-        }
+//        for (PedidoRecordDTO pedido : pedidos){
+//            long pedidoId = pedido.id();
+//            double somaItensPedido = calcularSomaItens(pedidoId);
+//            pedido.subTotal(somaItensPedido);
+//        }
         model.addAttribute("pedidos", pedidos);
 
 
@@ -85,19 +85,19 @@ public class PedidoController {
         return "User/Comandas";
     }
 
-    private double calcularSomaItens(long pedidoId) {
-
-        List<ItemPedidoRecordDto> itensPedido = itemPedidoService.findItensByPedido(pedidoId); // Suponhamos que você tenha um método para buscar os itens de pedido por pedidoId
-
-        double total = 0.0;
-
-        for (ItemPedidoRecordDto item : itensPedido){
-         double valorProduto  = item.produto().getValor();
-         int quant = item.quant();
-         total += (valorProduto*quant);
-        }
-        return  total;
-            }
+//    private double calcularSomaItens(long pedidoId) {
+//
+//        List<ItemPedidoRecordDto> itensPedido = itemPedidoService.findItensByPedido(pedidoId); // Suponhamos que você tenha um método para buscar os itens de pedido por pedidoId
+//
+//        double total = 0.0;
+//
+//        for (ItemPedidoRecordDto item : itensPedido){
+//         double valorProduto  = item.produto().getValor();
+//         int quant = item.quant();
+//         total += (valorProduto*quant);
+//        }
+//        return  total;
+//            }
 
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,

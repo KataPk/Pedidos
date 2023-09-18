@@ -18,7 +18,7 @@ public record PedidoRecordDTO(
         @NotBlank User funcionario,
         @NotBlank Mesa mesa,
 
-        @NotBlank String statusPedido,
+        @NotBlank String statusPedido
 
 
 

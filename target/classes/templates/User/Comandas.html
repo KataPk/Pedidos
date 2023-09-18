@@ -38,7 +38,7 @@
                             <h5 class="card-title" th:text="${'Comanda: ' + pedido.statusPedido()}">error</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Subtotal: R$39,98</li>
+                            <li class="list-group-item" th:text="${'Subtotal: R$' + pedido.}">Subtotal: R$39,98</li>
                         </ul>
                         <div class="btn-group-vertical " role="group">
                             <button class="btn btn-danger finiComan">Finalizar</button>

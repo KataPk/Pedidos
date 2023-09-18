@@ -12,10 +12,10 @@ com\example\pedidos\dtos\ItemPedidoRecordDto.class
 com\example\pedidos\model\entity\ERole.class
 com\example\pedidos\control\user\CategoriaController.class
 com\example\pedidos\dtos\UserRecordDto.class
+com\example\pedidos\service\ItemPedidoService.class
 com\example\pedidos\model\entity\Mesa.class
 com\example\pedidos\model\repository\ContatoRepository.class
 com\example\pedidos\service\MesaService.class
-com\example\pedidos\utils\MoneyConversionStringDouble.class
 com\example\pedidos\dtos\UserDetailsDto.class
 com\example\pedidos\control\adm\ProdutoController.class
 com\example\pedidos\control\adm\AdmController.class
@@ -37,7 +37,6 @@ com\example\pedidos\model\entity\User.class
 com\example\pedidos\service\CategoriaService.class
 com\example\pedidos\service\PedidoService.class
 com\example\pedidos\security\WebSecurityConfig.class
-com\example\pedidos\utils\MoneyFormatDecimal.class
 com\example\pedidos\model\entity\ItemPedido.class
 com\example\pedidos\model\entity\Contato.class
 com\example\pedidos\dtos\PedidoRecordDTO.class

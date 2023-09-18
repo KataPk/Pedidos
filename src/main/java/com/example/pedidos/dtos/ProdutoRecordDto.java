@@ -4,8 +4,6 @@ import com.example.pedidos.model.entity.Categoria;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
-
 
 public record ProdutoRecordDto(
 
@@ -13,7 +11,7 @@ public record ProdutoRecordDto(
         @NotBlank  String descricao,
 
         @NotNull  String imagem,
-        @NotBlank BigDecimal valor,
+        double valor,
         @NotBlank Categoria categoria
         ) {
 
