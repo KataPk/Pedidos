@@ -80,8 +80,6 @@ public class PedidoController {
 //        }
         model.addAttribute("pedidos", pedidos);
 
-
-
         return "User/Comandas";
     }
 
