@@ -20,7 +20,7 @@ public record PedidoSubTotalRecordDTO(
 
         @NotBlank String statusPedido,
 
-        double subTotal
+        String subTotal
 
 
 

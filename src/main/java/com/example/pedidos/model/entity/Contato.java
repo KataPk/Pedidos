@@ -17,8 +17,7 @@ public class Contato {
     @Column(name = "id")
     private long id;
 
-    @Version
-    private long version;
+
 
     @ManyToOne
     @JoinColumn(name = "funcionario")

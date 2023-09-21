@@ -38,13 +38,14 @@
                             <h5 class="card-title" th:text="${'Comanda: ' + pedido.statusPedido()}">error</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Subtotal: R$39,98</li>
+                            <li class="list-group-item" th:text="'Subtotal: R$' + ${pedido.subTotal()}">Error</li>
                         </ul>
                         <div class="btn-group-vertical " role="group">
                             <button class="btn btn-danger finiComan">Finalizar</button>
-                            <button class="btn btn-success addProd" onclick="window.location.href='Categorias'">
+                            <a th:href="'/api/user/'+ ${pedido.id()} + '/categorias'" class="btn btn-success addProd">
+
                                 Adicionar Produtos
-                            </button>
+                            </a>
                             <button class="btn btn-primary editComan" onclick="window.location.href='Editar'">Editar
                             </button>
                             <button class="btn remove">Remover</button>
