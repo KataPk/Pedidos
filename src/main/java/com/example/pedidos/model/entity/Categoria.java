@@ -18,8 +18,7 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Version
-    private long version;
+
 
     @Column(name = "Nome", length = 20, nullable = false)
     private String nome;
