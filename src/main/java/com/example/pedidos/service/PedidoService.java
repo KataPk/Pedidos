@@ -1,6 +1,7 @@
 package com.example.pedidos.service;
 
 import com.example.pedidos.dtos.PedidoRecordDTO;
+import com.example.pedidos.dtos.PedidoSubTotalRecordDTO;
 import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.entity.Pedido;
 import com.example.pedidos.model.repository.MesaRepository;
@@ -23,6 +24,9 @@ public class PedidoService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ItemPedidoService itemPedidoService;
+
 
     public List<PedidoRecordDTO> findAll(){
         List<Pedido> pedidos = pedidoRepository.findAll();
@@ -38,6 +42,19 @@ public class PedidoService {
                 .map(pedido -> new PedidoRecordDTO(pedido.getId(), pedido.getNomeCliente(), pedido.getDtRegistro(), pedido.getDtFechamento(),
                         pedido.getUser(), pedido.getMesa(), pedido.getStatusPedido()))
                 .collect(Collectors.toList());
+    }
+
+    public List<PedidoSubTotalRecordDTO> findPedidosSubtotal(List<PedidoRecordDTO> pedidos){
+
+        for (PedidoRecordDTO pedido: pedidos) {
+            long pedidoId = pedido.id();
+            double subTotal = itemPedidoService.getSubTotal(pedidoId);
+            
+
+        }
+
+
+
     }
 
 

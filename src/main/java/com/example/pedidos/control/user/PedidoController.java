@@ -73,11 +73,8 @@ public class PedidoController {
     @GetMapping("/listPedidos")
     public String pedidos(Model model){
         List<PedidoRecordDTO> pedidos = pedidoService.findAbertos();
-//        for (PedidoRecordDTO pedido : pedidos){
-//            long pedidoId = pedido.id();
-//            double somaItensPedido = calcularSomaItens(pedidoId);
-//            pedido.subTotal(somaItensPedido);
-//        }
+
+
         model.addAttribute("pedidos", pedidos);
 
         return "User/Comandas";
