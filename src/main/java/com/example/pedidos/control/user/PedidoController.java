@@ -3,6 +3,7 @@ package com.example.pedidos.control.user;
 import com.example.pedidos.control.adm.ProdutoController;
 import com.example.pedidos.dtos.ItemPedidoRecordDto;
 import com.example.pedidos.dtos.PedidoRecordDTO;
+import com.example.pedidos.dtos.PedidoSubTotalRecordDTO;
 import com.example.pedidos.model.entity.*;
 import com.example.pedidos.model.repository.*;
 import com.example.pedidos.service.ItemPedidoService;
@@ -72,27 +73,13 @@ public class PedidoController {
 
     @GetMapping("/listPedidos")
     public String pedidos(Model model){
-        List<PedidoRecordDTO> pedidos = pedidoService.findAbertos();
-
+        List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
 
         model.addAttribute("pedidos", pedidos);
 
         return "User/Comandas";
     }
 
-//    private double calcularSomaItens(long pedidoId) {
-//
-//        List<ItemPedidoRecordDto> itensPedido = itemPedidoService.findItensByPedido(pedidoId); // Suponhamos que você tenha um método para buscar os itens de pedido por pedidoId
-//
-//        double total = 0.0;
-//
-//        for (ItemPedidoRecordDto item : itensPedido){
-//         double valorProduto  = item.produto().getValor();
-//         int quant = item.quant();
-//         total += (valorProduto*quant);
-//        }
-//        return  total;
-//            }
 
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,

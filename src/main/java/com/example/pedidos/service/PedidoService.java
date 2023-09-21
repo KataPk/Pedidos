@@ -44,12 +44,17 @@ public class PedidoService {
                 .collect(Collectors.toList());
     }
 
-    public List<PedidoSubTotalRecordDTO> findPedidosSubtotal(List<PedidoRecordDTO> pedidos){
+    public List<PedidoSubTotalRecordDTO> findPedidosAbertosWithSubtotal(){
 
-        for (PedidoRecordDTO pedido: pedidos) {
-            long pedidoId = pedido.id();
-            double subTotal = itemPedidoService.getSubTotal(pedidoId);
-            
+        List<Pedido> pedidos = pedidoRepository.findByStatusPedido("ABERTO");
+
+
+
+        return pedidos.stream().map(pedido -> new PedidoSubTotalRecordDTO(pedido.getId(), pedido.getNomeCliente(),
+                pedido.getDtRegistro(), pedido.getDtFechamento(), pedido.getUser(), pedido.getMesa(),
+                pedido.getStatusPedido(), itemPedidoService.getSubTotal(pedido.getId())))
+                .collect(Collectors.toList());
+
 
         }
 
@@ -59,4 +64,4 @@ public class PedidoService {
 
 
 
-}
+
