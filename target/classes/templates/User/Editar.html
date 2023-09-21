@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="/fontawesome-free-6.4.0-web/js/all.js"> </script>
+    <script src="/js/navbar.js"></script>
     <link href="/css/navbar.css" rel="stylesheet">
     <link href="/css/Editar.css" rel="stylesheet">
 
@@ -14,101 +15,29 @@
     <title>Editar</title>
 </head>
 <body>
-<div id="navbar">
-    <div class="navbar-top ">
-        <div class="bars p-1" data-bs-target="#staticBackdrop" data-bs-toggle="offcanvas" type="button">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
 
+    <div th:insert="~{User/navbar}"></div>
 
-        <div aria-labelledby="staticBackdropLabel" class="offcanvas offcanvas-start" data-bs-backdrop="static" id="staticBackdrop"
-             tabindex="-1">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="staticBackdropLabel">Menu</h5>
-                <button aria-label="Close" class="btn-close btn-danger" data-bs-dismiss="offcanvas"
-                        type="button"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div><a href="Comandas">Comandas</a>
-                    <a href="Categorias">Produtos</a>
-                    <a href="">Administração</a>
-                    <a href="Mesas">Mesas</a>
-                    <a aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary" data-bs-target="#logout"
-                       data-bs-toggle="modal" id="logoutBtn" role="button">
-                        Logout
-                    </a>
+<div class="container text-center">
 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div aria-hidden="true" aria-labelledby="labelLogout" class="modal fade" id="logout" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="labelLogout">Logout</h1>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-            </div>
-            <div class="modal-body">
-                Tem certeza que deseja fazer Logout?
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                <a class="btn btn-primary" href="login" type="button">Fazer logout</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div>
-    <button id="Back" onclick="history.back()"><i class='fas'>&#xf053;</i> Voltar
-    </button>
-</div>
-
-<div class="container">
     <div class="row">
+    <th:block th:each="item : ${itens}">
 
         <div class="card">
             <div class="row g-0">
                 <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Lanches/hamburguer.png">
+                    <img alt="..." class="card-img-top" th:src="|data:image;base64, *{item.produto().getImagem()}|">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">Hambúrguer</h5>
+                        <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
                         <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$25,99</h2>
+                            <h2 class="p-1 preco" th:attr="data-price=${item.produto().getValor()}" th:text="'Preço: R$' + ${item.produto().getValor()}">Error</h2>
                         </div>
                         <div class="hstack  p-1">
                             <p class="p-1 text">Quantidade:</p>
                             <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="25.99" data-quant="2">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Lanches/taco.png">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Taco</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$19,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="19.99" data-quant="1">0</p>
+                            <p class="text p-1 quant"  th:attr="data-quant=${item.quant()}" >0</p>
                             <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
 
                         </div>
@@ -119,158 +48,14 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Porcoes/onion-rings.jpg">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Onion Rings</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$19,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="19.99" data-quant="2">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
+    </th:block>
 
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Porcoes/isca-de-frango.jpg">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Iscas de Frango</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$17,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="17.99" data-quant="1">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Bebidas/refri-cola.jpg">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Refrigerante de Cola</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$9,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="9.99" data-quant="2">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Bebidas/cha-gelado.jpg">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Chá Gelado</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$9,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="9.99" data-quant="2">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Sobremesas/cheesecake-frutas-vermelhas.jpg">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Cheesecake de Frutas Vermelhas</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$15,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="15.99" data-quant="1">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-3 ">
-                    <img alt="..." class="card-img-top" src="/img/PNG/Sobremesas/sorvete-de-pistache.png">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Sorvete de Pistache</h5>
-                        <div class="hstack p-1">
-                            <h2 class="p-1 preco">Preço: R$9,99</h2>
-                        </div>
-                        <div class="hstack  p-1">
-                            <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
-                            <p class="text p-1 quant" data-price="9.99" data-quant="1">0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
-
-                        </div>
-                        <h2 class="total">Total: R$0,00</h2>
-                    </div>
-                    <button class="btn btn-danger remover">Remover</button>
-                </div>
-            </div>
-        </div>
     </div>
 
 
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="carrinho">
-            <h2 id="total">Total: R$0,00</h2>
+            <h2 id="total" th:text="'Total: R$' + ${subtotal}">Total: R$0,00</h2>
             <button class="btn btn-lg btn-primary" id="finish">Finalizar</button>
         </div>
     </nav>
@@ -279,7 +64,76 @@
 
 </body>
 </html>
-<script crossorigin="anonymous"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/Editar.js"></script>
+
+<script >
+    const lessButtons = document.querySelectorAll('.less');
+    const plusButtons = document.querySelectorAll('.plus');
+    const quantElements = document.querySelectorAll('.quant');
+    const totalElements = document.querySelectorAll('.total');
+    const removeButtons = document.querySelectorAll('.remover');
+    let valorTotal = document.querySelector('#total');
+
+    let tempTotal = 0;
+
+    for (let i = 0; i < plusButtons.length; i++) {
+        const price = parseFloat(quantElements[i].getAttribute('data-price'));
+        let quantData = parseInt(quantElements[i].getAttribute('data-quant'))
+
+        quantElements[i].innerHTML = quantData.toString()
+        let total = (price * quantData).toFixed(2).toString().replace('.', ',')
+        console.log(total)
+        totalElements[i].innerHTML = `Total: R$${total}`;
+
+        plusButtons[i].addEventListener('click', function () {
+            let quant = parseInt(quantElements[i].innerHTML);
+            quantData++;
+            quant = quantData
+            quantElements[i].innerHTML = quant.toString();
+            let total = (price * quant).toFixed(2).toString().replace('.', ',');
+            totalElements[i].innerHTML = `Total: R$${total}`;
+            tempTotal += price
+            console.log(tempTotal)
+            valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+
+        });
+
+        lessButtons[i].addEventListener('click', function () {
+            let quant = parseInt(quantElements[i].innerHTML);
+            if (quant > 0) {
+                quantData--;
+                quant = quantData
+                quantElements[i].innerHTML = quant.toString();
+                let total = (price * quant).toFixed(2).toString().replace('.', ',');
+                totalElements[i].innerHTML = `Total: R$${total}`;
+            }
+            tempTotal -= price
+            console.log(tempTotal)
+            valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+        });
+
+        removeButtons[i].addEventListener('click', function () {
+            const cardProduto = this.parentNode.parentNode.parentNode
+            cardProduto.remove();
+            tempTotal -= price * quantData;
+            console.log(tempTotal);
+            if (quantElements.length === 0) {
+                tempTotal = 0;
+                valorTotal.innerHTML = `Total: R$0,00`;
+            } else {
+                valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`;
+            }
+        });
+
+        valorTotal.innerHTML = `R$${(price * quantData).toFixed(2).replace('.', ',')}`
+        tempTotal += price * quantData
+        console.log(tempTotal + 'temp')
+    }
+
+    if (quantElements.length === 0) {
+        tempTotal = 0;
+        valorTotal.innerHTML = `Total: R$0,00`;
+    } else {
+        valorTotal.innerHTML = `Total: R$${tempTotal.toFixed(2).replace('.', ',')}`;
+    }
+
+</script>

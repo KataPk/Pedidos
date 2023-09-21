@@ -11,7 +11,7 @@
     <link href="/css/comandas.css" rel="stylesheet">
     <script crossorigin='anonymous' src=/fontawesome-free-6.4.0-web/js/all.js></script>
 
-    <title>Template</title>
+    <title>Pedidos</title>
 
 </head>
 
@@ -46,8 +46,9 @@
 
                                 Adicionar Produtos
                             </a>
-                            <button class="btn btn-primary editComan" onclick="window.location.href='Editar'">Editar
-                            </button>
+                                <a th:href="'/api/user/pedido/'+ ${pedido.id()} + '/finalizarPedido'" class="btn btn-primary editComan">
+                                    Editar
+                            </a>
                             <button class="btn remove">Remover</button>
                         </div>
 

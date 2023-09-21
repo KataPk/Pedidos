@@ -17,10 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
@@ -71,7 +68,7 @@ public class PedidoController {
 
 
 
-    @GetMapping("/listPedidos")
+    @GetMapping("/Pedidos")
     public String pedidos(Model model){
         List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
 
@@ -135,6 +132,20 @@ public class PedidoController {
 
         return new RedirectView("/api/user/" + pedidoId +"/categorias");
     }
+
+    @GetMapping("/{pedidoId}/finalizarPedido")
+    public String finalizarPedido(@PathVariable long pedidoId, Model model){
+
+        Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+        String subTotal = itemPedidoService.getSubTotal(pedidoId);
+        model.addAttribute("pedido", pedido);
+        model.addAttribute("itens", itens);
+        model.addAttribute("subtotal", subTotal);
+        return "User/Editar";
+
+    }
+
 
     @PostMapping("/closePedido")
     public RedirectView closePedido(){

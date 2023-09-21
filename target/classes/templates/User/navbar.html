@@ -30,7 +30,7 @@
 
             </div>
             <div class="offcanvas-body">
-                <div><a href="/api/user/pedido/listPedidos">Pedidos</a>
+                <div><a href="/api/user/pedido/Pedidos">Pedidos</a>
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="collapsed" data-bs-toggle="collapse" href="#collapseAdm" aria-controls="collapseAdm">Administração</a>
                         <div class="collapse " id="collapseAdm">
@@ -78,32 +78,6 @@
 
 
 </div>
-<script>
-    document.getElementById('selectClients').addEventListener('change', function () {
-        const selectedOption = this.options[this.selectedIndex];
-        const selectedPedidoId = selectedOption.getAttribute('th:id');
-
-        if (selectedPedidoId) {
-
-            // Obtém a URL atual
-            const currentUrl = window.location.href;
-
-            // Verifica se a URL contém '/api/user/' e captura a parte após '/api/user/' como pedidoId
-            const regex = /\/api\/user\/([^/]+)\//;
-            const match = currentUrl.match(regex);
-
-            if (match){
-                const pedidoId = match[1];
-
-                // Substitui o pedidoId na URL
-                // Redireciona para a nova URL
-                window.location.href = currentUrl.replace(pedidoId, selectedPedidoId);
-            }
-
-        }
-    });
-
-</script>
-</html>
+ </html>
 
 
