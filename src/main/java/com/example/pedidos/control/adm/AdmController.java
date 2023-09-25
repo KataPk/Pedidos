@@ -6,6 +6,7 @@ import com.example.pedidos.dtos.MesaRecordDto;
 import com.example.pedidos.dtos.ProdutoRecordDto;
 import com.example.pedidos.dtos.UserRecordDto;
 import com.example.pedidos.model.entity.Categoria;
+import com.example.pedidos.model.entity.ERole;
 import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.entity.Produto;
 import com.example.pedidos.model.repository.CategoriaRepository;
@@ -93,7 +94,14 @@ public class AdmController {
     public String funcionarios(Model model){
        List<UserRecordDto> users = userService.findAll();
 
+      ERole roleUser = ERole.ROLE_USER;
+        ERole roleAdmin = ERole.ROLE_ADMIN;
+
         model.addAttribute("users", users);
+        model.addAttribute("RoleUser", roleUser);
+        model.addAttribute("RoleAdmin", roleAdmin);
+
+
         return "Adm/Funcionarios";
     }
 

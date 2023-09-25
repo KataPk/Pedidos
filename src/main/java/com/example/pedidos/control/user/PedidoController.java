@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +60,7 @@ public class PedidoController {
 
     PedidoRecordDTO pedidoRecordDTO;
 
+    ItemPedidoRecordDto itemPedidoRecordDto;
 
     public PedidoController(ProdutoService produtoService, PedidoService pedidoService, ItemPedidoService itemPedidoService) {
         this.produtoService = produtoService;
@@ -138,10 +140,23 @@ public class PedidoController {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
         List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+
+        String[] itensPedido = new String[itens.size()];
+        int i = 0;
+        for (ItemPedidoRecordDto item: itens
+             ) {
+            String itemString = "[" + item.id() + "," + item.quant() + "]";
+            itensPedido[i] = itemString;
+            i++;
+        }
+        String itensPedidoJson =  String.join(",", itensPedido) ;
         String subTotal = itemPedidoService.getSubTotal(pedidoId);
         model.addAttribute("pedido", pedido);
         model.addAttribute("itens", itens);
         model.addAttribute("subtotal", subTotal);
+
+        model.addAttribute("itemArray", itensPedidoJson);
+
         return "User/Editar";
 
     }
@@ -188,6 +203,7 @@ public class PedidoController {
     Produto produto = produtoRepository.findByNome(produtoNome);
     Categoria categoria = produto.getCategoria();
     String categoriaNome = categoria.getNome();
+
     ItemPedido itemPedido = new ItemPedido(
                 produto,
                 quant,

@@ -1,18 +1,22 @@
 const lessButtons = document.querySelectorAll('.less');
 const plusButtons = document.querySelectorAll('.plus');
 const quantElements = document.querySelectorAll('.quant');
+const precoElements = document.querySelectorAll('.preco');
+
 const totalElements = document.querySelectorAll('.total');
 const removeButtons = document.querySelectorAll('.remover');
 let valorTotal = document.querySelector('#total');
 
+let arrayValue = document.querySelector('#itemArray')
+
 let tempTotal = 0;
 
 for (let i = 0; i < plusButtons.length; i++) {
-    const price = parseFloat(quantElements[i].getAttribute('data-price'));
+    const price = parseFloat(precoElements[i].getAttribute('data-price'));
     let quantData = parseInt(quantElements[i].getAttribute('data-quant'))
-
     quantElements[i].innerHTML = quantData.toString()
     let total = (price * quantData).toFixed(2).toString().replace('.', ',')
+
     totalElements[i].innerHTML = `Total: R$${total}`;
 
     plusButtons[i].addEventListener('click', function () {
@@ -23,7 +27,6 @@ for (let i = 0; i < plusButtons.length; i++) {
         let total = (price * quant).toFixed(2).toString().replace('.', ',');
         totalElements[i].innerHTML = `Total: R$${total}`;
         tempTotal += price
-        console.log(tempTotal)
         valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
     });
@@ -38,7 +41,6 @@ for (let i = 0; i < plusButtons.length; i++) {
             totalElements[i].innerHTML = `Total: R$${total}`;
         }
         tempTotal -= price
-        console.log(tempTotal)
         valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
     });
 
@@ -46,7 +48,6 @@ for (let i = 0; i < plusButtons.length; i++) {
         const cardProduto = this.parentNode.parentNode.parentNode
         cardProduto.remove();
         tempTotal -= price * quantData;
-        console.log(tempTotal);
         if (quantElements.length === 0) {
             tempTotal = 0;
             valorTotal.innerHTML = `Total: R$0,00`;
@@ -57,7 +58,6 @@ for (let i = 0; i < plusButtons.length; i++) {
 
     valorTotal.innerHTML = `R$${(price * quantData).toFixed(2).replace('.', ',')}`
     tempTotal += price * quantData
-    console.log(tempTotal + 'temp')
 }
 
 if (quantElements.length === 0) {

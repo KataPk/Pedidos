@@ -23,7 +23,6 @@ import java.util.Optional;
 @RequestMapping("/api/admin/user")
 public class UserController {
 
-//    public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserRepository userRepository;
@@ -33,13 +32,8 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    private String serverMessage = null;
-//    @GetMapping("/login")
-//    public String login(ModelMap model) {
-//        model.addAttribute("funcionario", new Funcionario());
-//        model.addAttribute("serverMessage", serverMessage);
-//        return "/login";
-//    }
+
+
 
 
 
@@ -93,20 +87,6 @@ public class UserController {
 
 
 
-//    @PostMapping("/login")
-//    public String autenticarLogin(@RequestParam String username, @RequestParam String senha) {
-//        FuncionarioRecordDto funcionario = new FuncionarioRecordDto();
-//        funcionario.set(username);
-//        funcionario.setSenha(senha);
-//
-//        boolean autenticado = funcionarioService.autenticarLogin(funcionario);
-//
-//        if (autenticado) {
-//            return "redirect:/mesas";
-//        } else {
-//            return "redirect:/login?error";
-//        }
-//    }
 }
 
 

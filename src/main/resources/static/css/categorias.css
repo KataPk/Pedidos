@@ -18,25 +18,25 @@
     justify-self: center;
 }
 
-.card a:link {
+.imgLink a:link {
     color: #000;
     background-color: transparent;
     text-decoration: none;
 }
 
-.card a:visited {
+.imgLink a:visited {
     color: #000;
     background-color: transparent;
     text-decoration: none;
 }
 
-.card a:hover {
+.imgLink a:hover {
     color: #000;
     background-color: transparent;
     text-decoration: none;
 }
 
-.card a:active {
+.imgLink a:active {
     color: #000;
     background-color: transparent;
     text-decoration: none;

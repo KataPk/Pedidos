@@ -27,22 +27,20 @@
 
             <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
-                    <a th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.nome}" >
+                    <a class="imgLink" th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.nome}" >
                     <img th:alt="${categoria.nome}" class="card-img-top image" th:src="|data:image;base64, *{categoria.imagem}|"/>
                     </a>
                 </button>
             <div class="card-body">
                 <h5 class="card-title" th:text="${categoria.nome}">Teste</h5>
-                <button class="btn btn-primary">
-
-                <a style="color: #FFF" th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.nome}" th:text="'Ir para '  + ${categoria.nome}" ></a>
-                </button>
+                <a class="btn btn-primary"  th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.nome}"
+                   role="button"  th:text="'Ir para '  + ${categoria.nome}" >
+                Error
+                </a>
             </div>
             </div>
 
         </th:block>
-
-
 
     </div>
 

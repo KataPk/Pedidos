@@ -19,10 +19,10 @@
     <div th:insert="~{User/navbar}"></div>
 
 <div class="container text-center">
-
+    <input id="itemArray" th:value="${itemArray}">
     <div class="row">
-    <th:block th:each="item : ${itens}">
-
+        <form>
+        <th:block th:each="item : ${itens}">
         <div class="card">
             <div class="row g-0">
                 <div class="col-md-3 ">
@@ -32,24 +32,28 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
                         <div class="hstack p-1">
-                            <h2 class="p-1 preco" th:attr="data-price=${item.produto().getValor()}" th:text="'Preço: R$' + ${item.produto().getValor()}">Error</h2>
+                            <h2 class="p-1 preco"  th:attr="data-price=${item.produto.getValor}"  th:text="'Preço: R$' + ${#numbers.formatCurrency(item.produto().getValor())}">Error</h2>
+
                         </div>
                         <div class="hstack  p-1">
                             <p class="p-1 text">Quantidade:</p>
-                            <button class="less p-1"><i class="fas fa-minus-circle"></i></button>
+                            <button  type="button" class="less p-1"><i class="fas fa-minus-circle"></i></button>
                             <p class="text p-1 quant"  th:attr="data-quant=${item.quant()}" >0</p>
-                            <button class="plus p-1"><i class="fas fa-plus-circle"></i></button>
+
+                            <button type="button" class="plus p-1"><i class="fas fa-plus-circle"></i></button>
 
                         </div>
                         <h2 class="total">Total: R$0,00</h2>
                     </div>
-                    <button class="btn btn-danger remover">Remover</button>
+                    <button class="btn btn-danger remover" type="button">Remover</button>
                 </div>
             </div>
         </div>
 
     </th:block>
 
+
+        </form>
     </div>
 
 
@@ -65,75 +69,6 @@
 </body>
 </html>
 
-<script >
-    const lessButtons = document.querySelectorAll('.less');
-    const plusButtons = document.querySelectorAll('.plus');
-    const quantElements = document.querySelectorAll('.quant');
-    const totalElements = document.querySelectorAll('.total');
-    const removeButtons = document.querySelectorAll('.remover');
-    let valorTotal = document.querySelector('#total');
+<script src="/js/Editar.js"></script>
 
-    let tempTotal = 0;
 
-    for (let i = 0; i < plusButtons.length; i++) {
-        const price = parseFloat(quantElements[i].getAttribute('data-price'));
-        let quantData = parseInt(quantElements[i].getAttribute('data-quant'))
-
-        quantElements[i].innerHTML = quantData.toString()
-        let total = (price * quantData).toFixed(2).toString().replace('.', ',')
-        console.log(total)
-        totalElements[i].innerHTML = `Total: R$${total}`;
-
-        plusButtons[i].addEventListener('click', function () {
-            let quant = parseInt(quantElements[i].innerHTML);
-            quantData++;
-            quant = quantData
-            quantElements[i].innerHTML = quant.toString();
-            let total = (price * quant).toFixed(2).toString().replace('.', ',');
-            totalElements[i].innerHTML = `Total: R$${total}`;
-            tempTotal += price
-            console.log(tempTotal)
-            valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
-
-        });
-
-        lessButtons[i].addEventListener('click', function () {
-            let quant = parseInt(quantElements[i].innerHTML);
-            if (quant > 0) {
-                quantData--;
-                quant = quantData
-                quantElements[i].innerHTML = quant.toString();
-                let total = (price * quant).toFixed(2).toString().replace('.', ',');
-                totalElements[i].innerHTML = `Total: R$${total}`;
-            }
-            tempTotal -= price
-            console.log(tempTotal)
-            valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
-        });
-
-        removeButtons[i].addEventListener('click', function () {
-            const cardProduto = this.parentNode.parentNode.parentNode
-            cardProduto.remove();
-            tempTotal -= price * quantData;
-            console.log(tempTotal);
-            if (quantElements.length === 0) {
-                tempTotal = 0;
-                valorTotal.innerHTML = `Total: R$0,00`;
-            } else {
-                valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`;
-            }
-        });
-
-        valorTotal.innerHTML = `R$${(price * quantData).toFixed(2).replace('.', ',')}`
-        tempTotal += price * quantData
-        console.log(tempTotal + 'temp')
-    }
-
-    if (quantElements.length === 0) {
-        tempTotal = 0;
-        valorTotal.innerHTML = `Total: R$0,00`;
-    } else {
-        valorTotal.innerHTML = `Total: R$${tempTotal.toFixed(2).replace('.', ',')}`;
-    }
-
-</script>
