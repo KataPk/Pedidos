@@ -91,3 +91,96 @@
         }
     }
 }
+
+//      Validar RG
+    {
+        function validarRG(inputElement) {
+            var rgValue = inputElement.value;
+            var siblingP = inputElement.parentElement.nextElementSibling.querySelector(".text-danger");
+
+            // Expressão regular para verificar o formato do RG (00.000.000-0)
+            var regex = /^\d{2}\.\d{3}\.\d{3}-\d{1}$/;
+
+            // Testa o RG em relação à expressão regular
+            if (!regex.test(rgValue)) {
+                // Define o estilo para exibir o elemento <p> abaixo do campo de RG
+                siblingP.style.display = "block";
+                siblingP.textContent = "RG inválido. Por favor, insira um RG válido.";
+
+                // Desabilita o botão de envio do formulário
+                document.getElementById("enviarBotao").disabled = true;
+            } else {
+                // Limpa o texto e esconde o elemento <p> se o RG for válido
+                siblingP.style.display = "none";
+                siblingP.textContent = "";
+
+                // Habilita o botão de envio do formulário
+                document.getElementById("enviarBotao").disabled = false;
+            }
+        }
+
+    }
+
+//      Validar CPF
+    {
+        function validarCPF(cpfElement) {
+            let cpf = cpfElement.value.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+
+            if (cpf.length !== 11 || cpf === "00000000000" || cpf === "11111111111" || cpf === "22222222222" ||
+                cpf === "33333333333" || cpf === "44444444444" || cpf === "55555555555" ||
+                cpf === "66666666666" || cpf === "77777777777" || cpf === "88888888888" || cpf === "99999999999") {
+                // CPF com tamanho inválido ou composto por números repetidos é considerado inválido
+                exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
+                alert("cpf")
+            } else {
+                // Calcula o primeiro dígito verificador
+                let soma = 0;
+                for (let i = 0; i < 9; i++) {
+                    soma += parseInt(cpf.charAt(i)) * (10 - i);
+                }
+                let primeiroDigito = 11 - (soma % 11);
+
+                if (primeiroDigito === 10 || primeiroDigito === 11) {
+                    primeiroDigito = 0;
+                }
+
+                if (primeiroDigito === parseInt(cpf.charAt(9))) {
+                    // Calcula o segundo dígito verificador
+                    soma = 0;
+                    for (let j = 0; j < 10; j++) {
+                        soma += parseInt(cpf.charAt(j)) * (11 - j);
+                    }
+                    let segundoDigito = 11 - (soma % 11);
+
+                    if (segundoDigito === 10 || segundoDigito === 11) {
+                        segundoDigito = 0;
+                    }
+
+                    if (segundoDigito === parseInt(cpf.charAt(10))) {
+                        // CPF válido
+                        exibirSucesso(cpfElement);
+                    } else {
+                        // Segundo dígito verificador incorreto
+                        exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
+                    }
+                } else {
+                    // Primeiro dígito verificador incorreto
+                    exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
+                }
+            }
+        }
+
+        function exibirErro(element, mensagem) {
+            let siblingP = element.parentElement.nextElementSibling.querySelector(".text-danger");
+            siblingP.style.display = "block";
+            siblingP.textContent = mensagem;
+            document.getElementById("enviarBotao").disabled = true;
+        }
+
+        function exibirSucesso(element) {
+            let siblingP = element.parentElement.nextElementSibling.querySelector(".text-danger");
+            siblingP.style.display = "none";
+            siblingP.textContent = "";
+            document.getElementById("enviarBotao").disabled = false;
+        }
+    }

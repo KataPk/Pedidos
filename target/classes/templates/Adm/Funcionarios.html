@@ -74,14 +74,24 @@
                                     <input class="form-control nomeUser" id="nomeUsuario" name="nome" required type="text">
                                 </div>
                                 <div class="hstack p-1">
+                                <div class="vstack p-1">
+                                 <div class="hstack p-1">
                                     <label class="form-label" for="rgUsuario">RG:</label>
                                     <input class="form-control rgUser" id="rgUsuario" name="rg" required type="text"
-
-                                           pattern="\d{2}\.\d{3}\.\d{3}-\d{1}" placeholder="00.000.000-0">
+                                           pattern="\d{2}\.\d{3}\.\d{3}-\d{1}" placeholder="00.000.000-0"
+                                    onchange="validarRG(this)">
+                                 </div>
+                                    <p class="text-danger hstack p-1" style="display: none;"></p>
+                                </div>
+                                    <div class="vstack p-1">
+                                    <div class="hstack p-1">
                                     <label class="form-label" for="cpfUsuario">CPF:</label>
                                     <input class="form-control cpfUser" id="cpfUsuario" name="cpf" required type="text"
-
-                                           pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
+                                           pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00"
+                                    onchange="validarCPF(this)">
+                                    </div>
+                                    <p class="text-danger hstack p-1" style="display: none;"></p>
+                                    </div>
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="dataNascUsuario">Data de Nascimento: </label>
