@@ -6,12 +6,15 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <script src="/fontawesome-free-6.4.0-web/js/all.js"> </script>
 
     <link href="/css/navbar.css" rel="stylesheet">
     <link href="/css/funcionario.css" rel="stylesheet">
     <script src="/js/navbar.js"></script>
-
+    <script src="/js/funcionario.js"></script>
     <title>Funcionários</title>
 </head>
 <body>
@@ -22,8 +25,8 @@
     <div class="row align-items-start text-center" id="FuncionarioContainer">
 <!-- criar card para criação de usuário-->
         <div class="card text-center">
-            <button class="btn imageBtn addMesa" data-bs-target="#criarUsuario" data-bs-toggle="modal" type="button">
-                <img alt="..." class="card-img-top image" id="mesaAddImage" src="/img/PNG/add_button.png">
+            <button id="addButton" class="btn imageBtn addMesa" data-bs-target="#criarUsuario" data-bs-toggle="modal"  type="button">
+                <img alt="..." class="card-img-top image" id="AddImage" src="/img/PNG/add_button.png">
             </button>
             <div class="card-body">
                 <button class="btn btn-primary createMesa" data-bs-target="#criarUsuario" data-bs-toggle="modal"
@@ -49,8 +52,7 @@
                 <div class="align-items-start">
 
                 <button  class="btn btn-primary">Editar Funcionário</button>
-                <button sec:authorize="principal.getUsername() != user.username()"  class="btn btn-danger">Excluir Funcionário</button>
-                </div>
+                    <button th:if="${user.username() != currentUser}" class="btn btn-danger">Excluir Funcionário</button>                </div>
             </div>
         </div>
     </th:block>
@@ -66,54 +68,83 @@
                             <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                         </div>
                         <form action="/api/admin/createUsuario" method="POST">
-                            <div class="modal-body vstack">
+                            <div class="modal-body vstack text-center">
                                 <div class="hstack p-1">
                                     <label class="form-label" for="nomeUsuario">Nome:</label>
-                                    <input class="form-control" id="nomeUsuario" name="nome" required type="text">
-                                </div>
-                                <div class="hstack p-1">
-                                    <label class="form-label" for="cpfUsuario">CPF:</label>
-                                    <input class="form-control" id="cpfUsuario" name="cpf" required type="text">
+                                    <input class="form-control nomeUser" id="nomeUsuario" name="nome" required type="text">
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="rgUsuario">RG:</label>
-                                    <input class="form-control" id="rgUsuario" name="rg" required type="text">
+                                    <input class="form-control rgUser" id="rgUsuario" name="rg" required type="text"
+
+                                           pattern="\d{2}\.\d{3}\.\d{3}-\d{1}" placeholder="00.000.000-0">
+                                    <label class="form-label" for="cpfUsuario">CPF:</label>
+                                    <input class="form-control cpfUser" id="cpfUsuario" name="cpf" required type="text"
+
+                                           pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="dataNascUsuario">Data de Nascimento: </label>
-                                    <input class="form-control" id="dataNascUsuario" name="dataNasc" required type="date">
+                                    <input class="form-control dataNascUser" id="dataNascUsuario" name="dataNasc" required type="date">
+
+                                    <label class="form-label" for="cep">CEP: </label>
+                                    <input class="form-control cepUser" id="cep" name="cep" required type="text"
+                                           placeholder="00000-000"
+                                           onchange="buscarEndereco()"
+                                    >
                                 </div>
+
                                 <div class="hstack p-1">
                                     <label class="form-label" for="enderecoUsuario">Endereço: </label>
-                                    <input class="form-control" id="enderecoUsuario" name="endereco" required type="text">
+                                    <input class="form-control enderecoUser" id="enderecoUsuario" name="endereco" required type="text">
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="numResidUsuario">Número: </label>
-                                    <input class="form-control" id="numResidUsuario" name="numResid" required type="number">
+                                    <input class="form-control numResidUser" id="numResidUsuario" name="numResid" required type="number" min="1" max="999"
+                                           placeholder="000">
+                                    <label class="form-label" for="complementoUsuario">Complemento: </label>
+                                    <input class="form-control complementoUser" id="complementoUsuario" name="complemento"  type="text">
                                 </div>
+
                                 <div class="hstack p-1">
-                                    <label class="form-label" for="complementoUsuario">Endereço: </label>
-                                    <input class="form-control" id="complementoUsuario" name="complemento" required type="text">
+                                    <label class="form-label" for="BairroUsuario">Bairro: </label>
+                                    <input class="form-control bairroUser" id="BairroUsuario" name="bairro" required type="text">
+
+                                    <label class="form-label" for="cidade">Cidade: </label>
+                                    <input class="form-control cidadeUser" id="cidade" name="cidade" required type="text">
+
+                                    <label class="form-label" for="uf">UF: </label>
+                                    <input class="form-control ufUser" id="uf" name="uf" required type="text" maxlength="2" minlength="2"
+                                           pattern="[A-Z]">
+
                                 </div>
+
                                 <div class="hstack p-1">
-                                    <label class="form-label" for="complementoUsuario">Endereço: </label>
-                                    <input class="form-control" id="complementoUsuario" name="complemento" required type="text">
+                                    <label class="form-label" for="telefone1">Telefone: </label>
+                                    <input class="form-control" id="telefone1" name="telefone1" required type="tel" placeholder="(00) 00000-0000">
+                                    <label class="form-label" for="telefone2">Telefone: </label>
+                                    <input class="form-control" id="telefone2" name="telefone2"  type="tel"
+                                           placeholder="(00) 00000-0000">
                                 </div>
-                                <div class="hstack p-1">
-                                    <label class="form-label" for="complementoUsuario">Endereço: </label>
-                                    <input class="form-control" id="complementoUsuario" name="complemento" required type="text">
-                                </div>
-                                <div class="hstack p-1">
+
+                                <div  class="vstack p-1">
+                                   <div  class="hstack p-1">
                                     <label class="form-label" for="emailUsuario">Email: </label>
-                                    <input class="form-control" id="emailUsuario" name="email" required type="email">
+                                    <input class="form-control emailUser" id="emailUsuario" name="email" required type="email" onchange="validarEmail(this)">
+                                    </div>
+                                <p class="text-danger hstack p-1" style="display: none"></p>
+                                </div>
+                                <div class="hstack p-1">
+                                    <label class="form-label" for="username">Username: </label>
+                                    <input class="form-control" id="username" name="username" required type="text">
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="senhaUsuario">Senha: </label>
-                                    <input class="form-control" id="senhaUsuario" name="senha" required type="password">
+                                    <input class="form-control" id="senhaUsuario" name="senha" required type="password" minlength="8">
                                 </div>
-                                <!-- Outros campos de usuário, se necessário -->
+
                                 <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="submit">Criar</button>
+                                    <button id="criarUser" class="btn btn-secondary" type="submit">Criar</button>
                                 </div>
                             </div>
                         </form>
@@ -122,5 +153,49 @@
             </div>
 
         </div>
+
+<!--<script>-->
+<!--    $(document).ready(function(){-->
+<!--        // Máscara para CEP-->
+<!--        $('#cep').mask('00000-000');-->
+
+<!--        // Máscara para CPF-->
+<!--        $('#cpfUsuario').mask('000.000.000-00', {reverse: true});-->
+
+<!--        // Máscara para RG-->
+<!--        $('#rgUsuario').mask('00.000.000-0', {reverse: true});-->
+
+<!--        // Máscara para telefone-->
+<!--        $('#telefone1').mask('(00) 0000-0000');-->
+<!--        $('#telefone2').mask('(00) 0000-0000');-->
+
+<!--        // Máscara para Número de residencia-->
+<!--        $('#numResidUsuario').mask('000')-->
+
+<!--        // Máscara para UF-->
+<!--        let ufInput = $('#uf');-->
+
+<!--        // Configura um evento de entrada para o campo UF-->
+<!--        ufInput.on('change', function() {-->
+<!--            // Obtém o valor atual do campo em letras maiúsculas-->
+<!--            let ufValue = ufInput.val().toUpperCase();-->
+
+<!--            // Remove qualquer caractere que não seja uma letra-->
+<!--            ufValue = ufValue.replace(/[^A-Z]/g, '');-->
+
+<!--            // Limita o valor a 2 caracteres-->
+<!--            ufValue = ufValue.substring(0, 2);-->
+
+<!--            // Define o valor do campo com as modificações-->
+<!--            ufInput.val(ufValue);-->
+
+
+
+<!--    });-->
+<!--    })-->
+<!--</script>-->
+
 </body>
+
 </html>
+

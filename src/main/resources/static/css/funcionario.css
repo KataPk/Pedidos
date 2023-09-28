@@ -13,3 +13,36 @@
     justify-self: center
 
 }
+
+label{
+    margin: 9px;
+    font-size: medium;
+}
+
+.ufUser{
+    width: 45px;
+}
+
+.rgUser{
+    width: 125px;
+}
+
+.cpfUser{
+    width: 145px;
+}
+.dataNascUser{
+    width: 150px;
+
+}
+
+.cepUser{
+    width: 110px;
+}
+
+.hstack{
+    margin-top: 5px;
+}
+
+.emailUser{
+    white-space: pre-line ;
+}
