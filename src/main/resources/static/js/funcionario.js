@@ -5,39 +5,37 @@
 {
     $(document).ready(function () {
         // Máscara para CEP
-        $('#cep').mask('00000-000');
+        $('.cepUser').mask('00000-000');
 
         // Máscara para CPF
-        $('#cpfUsuario').mask('000.000.000-00', {reverse: true});
+        $('.cpfUser').mask('000.000.000-00', {reverse: true});
 
         // Máscara para RG
-        $('#rgUsuario').mask('00.000.000-0', {reverse: true});
+        $('.rgUser').mask('00.000.000-0', {reverse: true});
 
         // Máscara para telefone
-        $('#telefone1').mask('(00) 0000-0000');
-        $('#telefone2').mask('(00) 0000-0000');
+        $('.telUser').mask('(00) 00000-0000');
 
         // Máscara para Número de residência
-        $('#numResidUsuario').mask('000')
+        $('.numResidUser').mask('000')
 
-        // Máscara para UF
-        let ufInput = $('#uf');
 
-        // Configura um evento de entrada para o campo UF
-        ufInput.on('change', function () {
-            // Obtém o valor atual do campo em letras maiúsculas
-            let ufValue = ufInput.val().toUpperCase();
-
-            // Remove qualquer caractere que não seja uma letra
-            ufValue = ufValue.replace(/[^A-Z]/g, '');
-
-            // Limita o valor a 2 caracteres
-            ufValue = ufValue.substring(0, 2);
-
-            // Define o valor do campo com as modificações
-            ufInput.val(ufValue);
-        });
     });
+    // Máscara para UF
+    function maskUf(ufInput) {
+        // Obtém o valor atual do campo em letras maiúsculas
+        let ufValue = ufInput.value.toUpperCase();
+
+        // Remove qualquer caractere que não seja uma letra
+        ufValue = ufValue.replace(/[^A-Z]/g, '');
+
+        // Limita o valor a 2 caracteres
+        ufValue = ufValue.substring(0, 2);
+
+        // Define o valor do campo com as modificações
+        ufInput.value = ufValue;
+
+    }
 }
 
 
@@ -65,9 +63,23 @@
     }
 }
 
+//  Validar Nome
+    {
+        function validarNome(nomeElement, buttonElement) {
+            let nome = nomeElement.value.trim(); // Remove espaços em branco no início e no final
+
+            if (nome === "") {
+                exibirErro(nomeElement, "Nome é obrigatório.", buttonElement);
+            } else {
+                exibirSucesso(nomeElement, buttonElement);
+            }
+        }
+
+    }
+
 //     Validar email
 {
-    function validarEmail(inputElement) {
+    function validarEmail(inputElement, buttonElement) {
         // Encontra o elemento <p> irmão do <input> dentro do mesmo elemento pai
         let siblingP = inputElement.parentElement.nextElementSibling;
 
@@ -76,40 +88,31 @@
 
         // Testa o email em relação à expressão regular
         if (!regex.test(inputElement.value)) {
-            // Define o estilo para exibir o elemento <p> abaixo do campo de entrada
-            siblingP.style.display = "block";
-            siblingP.textContent = "Email inválido. Por favor, insira um email válido.";
-            siblingP.class = "text-danger"
-            document.getElementById("criarUser").disabled = true
+            exibirErro(inputElement, "Email inválido. Por favor, insira um email válido.", buttonElement )
+
         } else {
-            // Limpa o texto e esconde o elemento <p> se o email for válido
-            siblingP.style.display = "none";
-            siblingP.textContent = "";
-
-            document.getElementById("criarUser").disabled = false
-
+            exibirSucesso(inputElement, buttonElement)
         }
     }
 }
 
 //      Validar RG
     {
-        function validarRG(inputElement) {
-            var rgValue = inputElement.value;
-            var siblingP = inputElement.parentElement.nextElementSibling.querySelector(".text-danger");
+        function validarRG(inputElement, buttonElement) {
+            let rgValue = inputElement.value;
 
             // Expressão regular para verificar o formato do RG (00.000.000-0)
-            var regex = /^\d{2}\.\d{3}\.\d{3}-\d{1}$/;
+            let regex = /^\d{2}\.\d{3}\.\d{3}-\d$/;
 
             // Testa o RG em relação à expressão regular
             if (!regex.test(rgValue)) {
-                // Define o estilo para exibir o elemento <p> abaixo do campo de RG
-                siblingP.style.display = "block";
-                siblingP.textContent = "RG inválido. Por favor, insira um RG válido.";
+               exibirErro(inputElement, "RG inválido. Por favor, insira um RG válido.", buttonElement )
+
 
                 // Desabilita o botão de envio do formulário
                 document.getElementById("enviarBotao").disabled = true;
             } else {
+
                 // Limpa o texto e esconde o elemento <p> se o RG for válido
                 siblingP.style.display = "none";
                 siblingP.textContent = "";
@@ -124,14 +127,13 @@
 //      Validar CPF
     {
         function validarCPF(cpfElement) {
-            let cpf = cpfElement.value.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+            let cpf = cpfElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
             if (cpf.length !== 11 || cpf === "00000000000" || cpf === "11111111111" || cpf === "22222222222" ||
                 cpf === "33333333333" || cpf === "44444444444" || cpf === "55555555555" ||
                 cpf === "66666666666" || cpf === "77777777777" || cpf === "88888888888" || cpf === "99999999999") {
                 // CPF com tamanho inválido ou composto por números repetidos é considerado inválido
                 exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
-                alert("cpf")
             } else {
                 // Calcula o primeiro dígito verificador
                 let soma = 0;
@@ -167,20 +169,71 @@
                     // Primeiro dígito verificador incorreto
                     exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
                 }
+
+
+                if (TestaCPF(cpf) === false){
+                    exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
+                } else {
+                    exibirSucesso(cpfElement);
+                }
             }
         }
 
-        function exibirErro(element, mensagem) {
-            let siblingP = element.parentElement.nextElementSibling.querySelector(".text-danger");
+        function exibirErro(element, mensagem, botao) {
+            let siblingP = element.parentElement.nextElementSibling;
             siblingP.style.display = "block";
             siblingP.textContent = mensagem;
-            document.getElementById("enviarBotao").disabled = true;
+            botao.disabled = true;
         }
 
-        function exibirSucesso(element) {
-            let siblingP = element.parentElement.nextElementSibling.querySelector(".text-danger");
+        function exibirSucesso(element, botao) {
+            let siblingP = element.parentElement.nextElementSibling;
             siblingP.style.display = "none";
             siblingP.textContent = "";
-            document.getElementById("enviarBotao").disabled = false;
+            botao.disabled = false;
         }
+
+        function TestaCPF(strCPF) {
+            let Soma;
+            let Resto;
+            Soma = 0;
+            if (strCPF === "00000000000") return false;
+
+            for (let i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11))  Resto = 0;
+            if (Resto !== parseInt(strCPF.substring(9, 10)) ) return false;
+
+            Soma = 0;
+            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto === 10) || (Resto === 11))  Resto = 0;
+            return Resto === parseInt(strCPF.substring(10, 11));
+
+        }
+    }
+
+    // Validar Idade
+    {
+        function validarIdade(dataNascElement) {
+            let dataNascimento = new Date(dataNascElement.value);
+            let hoje = new Date();
+
+            // Calcula a diferença de idade em anos
+            let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+
+            // Verifica se o aniversário ainda não ocorreu neste ano
+            if (hoje.getMonth() < dataNascimento.getMonth() || (hoje.getMonth() === dataNascimento.getMonth() && hoje.getDate() < dataNascimento.getDate())) {
+                idade--;
+            }
+
+            if (idade < 18) {
+                exibirErro(dataNascElement, "Você deve ter pelo menos 18 anos.");
+            } else {
+                exibirSucesso(dataNascElement);
+            }
+        }
+
     }

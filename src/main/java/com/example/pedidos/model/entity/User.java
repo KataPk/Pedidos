@@ -48,6 +48,8 @@ public class User {
     @Column(name = "cep", length = 8, nullable = false)
     private String cep;
 
+    @Column(name = "bairro", length = 50, nullable = false)
+    private String bairro;
     @Column(name = "cidade", length = 50, nullable = false)
     private String cidade;
 
@@ -85,7 +87,7 @@ public class User {
 
     public User(
             String nome, String cpf, String rg, LocalDate dataNasc, String logradouro, String numResid,
-            String cep, String cidade, String uf, String complemento,
+            String cep, String bairro, String cidade, String uf, String complemento,
                 String email, String username,
                        String senha,
                 String statusUsuario
@@ -99,6 +101,7 @@ public class User {
         this.logradouro = logradouro;
         this.numResid = numResid;
         this.cep = cep;
+        this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
         this.complemento = complemento;

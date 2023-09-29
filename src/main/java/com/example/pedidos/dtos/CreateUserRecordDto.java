@@ -8,9 +8,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 
-public record UserRecordDto(
+public record CreateUserRecordDto(
 
-        @NotBlank long id,
         @NotBlank  String nome,
         @NotBlank  String cpf,
         @NotBlank String rg,
@@ -27,11 +26,11 @@ public record UserRecordDto(
         @NotBlank String email,
         @NotBlank String senha,
 
-        Set<ERole> roles,
+       Set<ERole> roles,
 
         @NotBlank String statusUsuario
 ) {
 
-    public UserRecordDto {
+    public CreateUserRecordDto {
     }
 }

@@ -17,10 +17,12 @@
 label{
     margin: 9px;
     font-size: medium;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .ufUser{
-    width: 45px;
+    width: 50px;
 }
 
 .rgUser{
@@ -31,7 +33,7 @@ label{
     width: 145px;
 }
 .dataNascUser{
-    width: 150px;
+    width: 170px;
 
 }
 
@@ -46,3 +48,5 @@ label{
 .emailUser{
     white-space: pre-line ;
 }
+
+

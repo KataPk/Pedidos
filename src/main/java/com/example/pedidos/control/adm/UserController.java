@@ -1,13 +1,11 @@
 package com.example.pedidos.control.adm;
 
 
-import com.example.pedidos.dtos.UserRecordDto;
+import com.example.pedidos.dtos.CreateUserRecordDto;
 import com.example.pedidos.model.entity.User;
 import com.example.pedidos.model.repository.UserRepository;
 import com.example.pedidos.service.UserService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +37,9 @@ public class UserController {
 
 
     @PostMapping("/funcionario")
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserRecordDto userRecordDto) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
         var user = new User();
-        BeanUtils.copyProperties(userRecordDto, user);
+        BeanUtils.copyProperties(createUserRecordDto, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(user));
     }
 
@@ -60,14 +58,14 @@ public class UserController {
 
     @PutMapping("/funcionario/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") long id,
-                                                    @RequestBody @Valid UserRecordDto userRecordDto) {
+                                                    @RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
 
         Optional<User> user0 = userRepository.findById(id);
         if (user0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não encontrado");
         }
         var userModel = user0.get();
-        BeanUtils.copyProperties(userRecordDto, userModel);
+        BeanUtils.copyProperties(createUserRecordDto, userModel);
         return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(userModel));
     }
 

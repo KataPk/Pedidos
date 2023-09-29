@@ -1,10 +1,7 @@
 package com.example.pedidos.control.adm;
 
 
-import com.example.pedidos.dtos.CategoriaRecordDto;
-import com.example.pedidos.dtos.MesaRecordDto;
-import com.example.pedidos.dtos.ProdutoRecordDto;
-import com.example.pedidos.dtos.UserRecordDto;
+import com.example.pedidos.dtos.*;
 import com.example.pedidos.model.entity.Categoria;
 import com.example.pedidos.model.entity.ERole;
 import com.example.pedidos.model.entity.Mesa;
@@ -34,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Base64;
 import java.util.List;
 
@@ -97,7 +93,7 @@ public class AdmController {
                                @AuthenticationPrincipal UserDetails userDetails){
        List<UserRecordDto> users = userService.findAll();
 
-      ERole roleUser = ERole.ROLE_USER;
+        ERole roleUser = ERole.ROLE_USER;
         ERole roleAdmin = ERole.ROLE_ADMIN;
 
         String currentUsername = userDetails.getUsername();
