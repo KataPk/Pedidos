@@ -1,4 +1,20 @@
 
+const nomeUsers = document.querySelectorAll('.nomeUser');
+const rgUsers = document.querySelectorAll('.rgUser');
+const cpfUsers = document.querySelectorAll('.cpfUser');
+const dataNascUsers = document.querySelectorAll('.dataNascUser');
+const cepUsers = document.querySelectorAll('.cepUser');
+const enderecoUsers = document.querySelectorAll('.enderecoUser');
+const numResidUsers = document.querySelectorAll('.numResidUser');
+const bairroUsers = document.querySelectorAll('.bairroUser');
+const cidadeUsers = document.querySelectorAll('.cidadeUser');
+const ufUsers = document.querySelectorAll('.ufUser');
+const emailUsers = document.querySelectorAll('.emailUser');
+const email2Users = document.querySelectorAll('.emailUser2');
+
+const btnSubmits = document.querySelectorAll('.btnSubmit');
+
+const loaders = document.querySelectorAll('.loader');
 
 
     // Máscaras para o add
@@ -39,201 +55,214 @@
 }
 
 
-    // busca cep para o add
+    // Validações
 {
-    function buscarEndereco() {
-        let cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    for ( let i = 0; i < nomeUsers.length; i++){
+    console.log(i)
+        const button = btnSubmits[i];
+
+        cepUsers[i].addEventListener('change', function () {
+        let cep = cepUsers[i].value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        console.log(cep)
+
         if (cep.length === 8) {
             let url = 'https://viacep.com.br/ws/' + cep + '/json/';
-
+            console.log(url)
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (!data.erro) {
-                        document.getElementById('enderecoUsuario').value = data.logradouro;
-                        document.getElementById('BairroUsuario').value = data.bairro;
-                        document.getElementById('cidade').value = data.localidade;
-                        document.getElementById('uf').value = data.uf;
+                        enderecoUsers[i].value = data.logradouro;
+                        bairroUsers[i].value = data.bairro;
+                        cidadeUsers[i].value = data.localidade;
+                        ufUsers[i].value = data.uf;
+
+
                     }
                 })
                 .catch(error => {
                     console.error('Erro ao buscar CEP:', error);
-                });
+
+                })
+
+
+
         }
-    }
-}
 
-//  Validar Nome
-    {
-        function validarNome(nomeElement, buttonElement) {
-            let nome = nomeElement.value.trim(); // Remove espaços em branco no início e no final
+    })
 
-            if (nome === "") {
-                exibirErro(nomeElement, "Nome é obrigatório.", buttonElement);
+    nomeUsers[i].addEventListener('blur', function (){
+        const nomeUser = nomeUsers[i];
+
+        let nome = nomeUser.value.trim(); // Remove espaços em branco no início e no final
+
+        if (nome === "") {
+            exibirErro(nomeUser, "Nome é obrigatório.");
+        } else {
+            exibirSucesso(nomeUser, button);
+        }
+
+
+    })
+
+    email2Users[i].addEventListener('change', function () {
+            const emailUser = email2Users[i];
+            const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            if (!regex.test(emailUser.value)) {
+                exibirErro(emailUser, "Email inválido. Por favor, insira um email válido.");
             } else {
-                exibirSucesso(nomeElement, buttonElement);
+                exibirSucesso(emailUser);
             }
-        }
+        });
 
-    }
+        email2Users[i].addEventListener('blur', function () {
+            const emailUser = email2Users[i];
+            if (emailUser.value === "") {
+                exibirSucesso(emailUser);
+            }
+        });
 
-//     Validar email
-{
-    function validarEmail(inputElement, buttonElement) {
-        // Encontra o elemento <p> irmão do <input> dentro do mesmo elemento pai
-        let siblingP = inputElement.parentElement.nextElementSibling;
+    rgUsers[i].addEventListener('change', function (){
 
-        // Expressão regular para verificar o formato do email
-        let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const rgUser = rgUsers[i];
 
-        // Testa o email em relação à expressão regular
-        if (!regex.test(inputElement.value)) {
-            exibirErro(inputElement, "Email inválido. Por favor, insira um email válido.", buttonElement )
+
+        // Expressão regular para verificar o formato do RG (00.000.000-0)
+        let regex = /^\d{2}\.\d{3}\.\d{3}-\d$/;
+
+        // Testa o RG em relação à expressão regular
+        if (!regex.test(rgUser.value)) {
+            exibirErro(rgUser, "RG inválido. Por favor, insira um RG válido.")
 
         } else {
-            exibirSucesso(inputElement, buttonElement)
+            exibirSucesso(rgUser)
+
         }
-    }
-}
+    })
 
-//      Validar RG
-    {
-        function validarRG(inputElement, buttonElement) {
-            let rgValue = inputElement.value;
+    cpfUsers[i].addEventListener('change', function (){
 
-            // Expressão regular para verificar o formato do RG (00.000.000-0)
-            let regex = /^\d{2}\.\d{3}\.\d{3}-\d$/;
+        const cpfUser = cpfUsers[i];
 
-            // Testa o RG em relação à expressão regular
-            if (!regex.test(rgValue)) {
-               exibirErro(inputElement, "RG inválido. Por favor, insira um RG válido.", buttonElement )
+        let cpf = cpfUser.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
+        if (cpf.length !== 11 || cpf === "00000000000" || cpf === "11111111111" || cpf === "22222222222" ||
+            cpf === "33333333333" || cpf === "44444444444" || cpf === "55555555555" ||
+            cpf === "66666666666" || cpf === "77777777777" || cpf === "88888888888" || cpf === "99999999999") {
+            // CPF com tamanho inválido ou composto por números repetidos é considerado inválido
+            exibirErro(cpfUser, "CPF inválido. Por favor, insira um CPF válido.");
+        } else {
+            // Calcula o primeiro dígito verificador
+            let soma = 0;
+            for (let i = 0; i < 9; i++) {
+                soma += parseInt(cpf.charAt(i)) * (10 - i);
+            }
+            let primeiroDigito = 11 - (soma % 11);
 
-                // Desabilita o botão de envio do formulário
-                document.getElementById("enviarBotao").disabled = true;
+            if (primeiroDigito === 10 || primeiroDigito === 11) {
+                primeiroDigito = 0;
+            }
+
+            if (primeiroDigito === parseInt(cpf.charAt(9))) {
+                // Calcula o segundo dígito verificador
+                soma = 0;
+                for (let j = 0; j < 10; j++) {
+                    soma += parseInt(cpf.charAt(j)) * (11 - j);
+                }
+                let segundoDigito = 11 - (soma % 11);
+
+                if (segundoDigito === 10 || segundoDigito === 11) {
+                    segundoDigito = 0;
+                }
+
+                if (segundoDigito === parseInt(cpf.charAt(10))) {
+                    // CPF válido
+                    exibirSucesso(cpfUser);
+                } else {
+                    // Segundo dígito verificador incorreto
+                    exibirErro(cpfUser, "CPF inválido. Por favor, insira um CPF válido.");
+                }
             } else {
+                // Primeiro dígito verificador incorreto
+                exibirErro(cpfUser, "CPF inválido. Por favor, insira um CPF válido.");
+            }
 
-                // Limpa o texto e esconde o elemento <p> se o RG for válido
-                siblingP.style.display = "none";
-                siblingP.textContent = "";
 
-                // Habilita o botão de envio do formulário
-                document.getElementById("enviarBotao").disabled = false;
+            if (TestaCPF(cpf) === false){
+                exibirErro(cpfUser, "CPF inválido. Por favor, insira um CPF válido.");
+            } else {
+                exibirSucesso(cpfUser);
             }
         }
+    })
 
-    }
+    dataNascUsers[i].addEventListener('change', function (){
 
-//      Validar CPF
-    {
-        function validarCPF(cpfElement) {
-            let cpf = cpfElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-            if (cpf.length !== 11 || cpf === "00000000000" || cpf === "11111111111" || cpf === "22222222222" ||
-                cpf === "33333333333" || cpf === "44444444444" || cpf === "55555555555" ||
-                cpf === "66666666666" || cpf === "77777777777" || cpf === "88888888888" || cpf === "99999999999") {
-                // CPF com tamanho inválido ou composto por números repetidos é considerado inválido
-                exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
-            } else {
-                // Calcula o primeiro dígito verificador
-                let soma = 0;
-                for (let i = 0; i < 9; i++) {
-                    soma += parseInt(cpf.charAt(i)) * (10 - i);
-                }
-                let primeiroDigito = 11 - (soma % 11);
-
-                if (primeiroDigito === 10 || primeiroDigito === 11) {
-                    primeiroDigito = 0;
-                }
-
-                if (primeiroDigito === parseInt(cpf.charAt(9))) {
-                    // Calcula o segundo dígito verificador
-                    soma = 0;
-                    for (let j = 0; j < 10; j++) {
-                        soma += parseInt(cpf.charAt(j)) * (11 - j);
-                    }
-                    let segundoDigito = 11 - (soma % 11);
-
-                    if (segundoDigito === 10 || segundoDigito === 11) {
-                        segundoDigito = 0;
-                    }
-
-                    if (segundoDigito === parseInt(cpf.charAt(10))) {
-                        // CPF válido
-                        exibirSucesso(cpfElement);
-                    } else {
-                        // Segundo dígito verificador incorreto
-                        exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
-                    }
-                } else {
-                    // Primeiro dígito verificador incorreto
-                    exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
-                }
-
-
-                if (TestaCPF(cpf) === false){
-                    exibirErro(cpfElement, "CPF inválido. Por favor, insira um CPF válido.");
-                } else {
-                    exibirSucesso(cpfElement);
-                }
-            }
-        }
-
-        function exibirErro(element, mensagem, botao) {
-            let siblingP = element.parentElement.nextElementSibling;
-            siblingP.style.display = "block";
-            siblingP.textContent = mensagem;
-            botao.disabled = true;
-        }
-
-        function exibirSucesso(element, botao) {
-            let siblingP = element.parentElement.nextElementSibling;
-            siblingP.style.display = "none";
-            siblingP.textContent = "";
-            botao.disabled = false;
-        }
-
-        function TestaCPF(strCPF) {
-            let Soma;
-            let Resto;
-            Soma = 0;
-            if (strCPF === "00000000000") return false;
-
-            for (let i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11;
-
-            if ((Resto === 10) || (Resto === 11))  Resto = 0;
-            if (Resto !== parseInt(strCPF.substring(9, 10)) ) return false;
-
-            Soma = 0;
-            for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11;
-
-            if ((Resto === 10) || (Resto === 11))  Resto = 0;
-            return Resto === parseInt(strCPF.substring(10, 11));
-
-        }
-    }
-
-    // Validar Idade
-    {
-        function validarIdade(dataNascElement) {
-            let dataNascimento = new Date(dataNascElement.value);
+        const dataNascUser = dataNascUsers[i];
+            let dataNascimento = new Date(dataNascUser.value);
             let hoje = new Date();
 
             // Calcula a diferença de idade em anos
             let idade = hoje.getFullYear() - dataNascimento.getFullYear();
 
+        // Verifique se o ano de nascimento é maior que o ano atual
+        if (dataNascimento > hoje) {
+            // Defina o ano de nascimento como o ano atual
+            dataNascimento.setFullYear(hoje.getFullYear());
+
+            // Atualize o valor do campo de entrada com o ano ajustado
+            dataNascUser.valueAsDate = dataNascimento;
+        }
+
+
             // Verifica se o aniversário ainda não ocorreu neste ano
             if (hoje.getMonth() < dataNascimento.getMonth() || (hoje.getMonth() === dataNascimento.getMonth() && hoje.getDate() < dataNascimento.getDate())) {
                 idade--;
             }
-
+            console.log(idade)
             if (idade < 18) {
-                exibirErro(dataNascElement, "Você deve ter pelo menos 18 anos.");
+                exibirErro(dataNascUser, "Você deve ter pelo menos 18 anos.");
             } else {
-                exibirSucesso(dataNascElement);
+                exibirSucesso(dataNascUser);
             }
+
+
+    })
+
+
+        function exibirErro(element, mensagem) {
+            let siblingP = element.parentElement.nextElementSibling;
+            siblingP.style.display = "block";
+            siblingP.textContent = mensagem;
+            button.disabled = true;
         }
 
+        function exibirSucesso(element) {
+            let siblingP = element.parentElement.nextElementSibling;
+            siblingP.style.display = "none";
+            siblingP.textContent = "";
+            button.disabled = false;
+        }
+
+
     }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

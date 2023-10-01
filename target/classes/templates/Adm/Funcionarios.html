@@ -14,7 +14,6 @@
     <link href="/css/navbar.css" rel="stylesheet">
     <link href="/css/funcionario.css" rel="stylesheet">
     <script src="/js/navbar.js"></script>
-    <script src="/js/funcionario.js"></script>
     <title>Funcionários</title>
 </head>
 <body>
@@ -71,7 +70,7 @@
                             <div class="modal-body vstack text-center">
                                 <div class="hstack p-1">
                                     <label class="form-label" for="nomeUsuario">Nome:</label>
-                                    <input class="form-control nomeUser" id="nomeUsuario" name="nome" required type="text" onblur="validarNome(this)">
+                                    <input class="form-control nomeUser " id="nomeUsuario" name="nome" required type="text" onblur="validarNome(this)">
                                 </div>
                                 <p class="text-danger hstack p-1" style="display: none;"></p>
 
@@ -81,7 +80,7 @@
                                     <label class="form-label" for="rgUsuario">RG:</label>
                                     <input class="form-control rgUser" id="rgUsuario" name="rg" required type="text"
                                            pattern="\d{2}\.\d{3}\.\d{3}-\d{1}" placeholder="00.000.000-0"
-                                    onchange="validarRG(this)">
+                                    >
                                  </div>
                                     <p class="text-danger hstack p-1" style="display: none;"></p>
                                 </div>
@@ -90,7 +89,7 @@
                                     <label class="form-label" for="cpfUsuario">CPF:</label>
                                     <input class="form-control cpfUser" id="cpfUsuario" name="cpf" required type="text"
                                            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00"
-                                    onchange="validarCPF(this)">
+                                    >
                                     </div>
                                     <p class="text-danger hstack p-1" style="display: none;"></p>
                                     </div>
@@ -99,16 +98,18 @@
                                    <div class="vstack p-1">
                                        <div class="hstack p-1">
                                     <label class="form-label" for="dataNascUsuario">Nascimento: </label>
-                                    <input class="form-control dataNascUser" id="dataNascUsuario" name="dataNasc" required type="date" onchange="validarIdade(this)">
+                                    <input class="form-control dataNascUser" id="dataNascUsuario" name="dataNasc" required type="date" >
                                    </div>
+                                       <p class="text-danger hstack p-1" style="display: none;"></p>
+
                                    </div>
                                     <p class="text-danger vstack p-1" style="display: none;"></p>
                                     <div class="vstack p-1">
                                         <div class="hstack p-1">
                                     <label class="form-label" for="cep">CEP: </label>
-                                    <input class="form-control cepUser" id="cep" name="cep" required type="text"
+                                    <input class="form-control input-with-loader cepUser" id="cep" name="cep" required type="text"
                                            placeholder="00000-000"
-                                           onchange="buscarEndereco()"
+
                                     >
                                     </div>
                                         <p class="text-danger vstack p-1" style="display: none;"></p>
@@ -117,7 +118,7 @@
 
                                 <div class="hstack p-1">
                                     <label class="form-label" for="enderecoUsuario">Endereço: </label>
-                                    <input class="form-control enderecoUser" id="enderecoUsuario" name="endereco" required type="text">
+                                    <input class="form-control input-with-loader enderecoUser" id="enderecoUsuario" name="endereco" required type="text">
                                 </div>
                                 <div class="hstack p-1">
                                     <label class="form-label" for="numResidUsuario">Número: </label>
@@ -129,36 +130,35 @@
 
                                 <div class="hstack p-1">
                                     <label class="form-label" for="BairroUsuario">Bairro: </label>
-                                    <input class="form-control bairroUser" id="BairroUsuario" name="bairro" required type="text">
-
+                                    <input class="form-control bairroUser input-with-loader" id="BairroUsuario" name="bairro" required type="text">
                                     <label class="form-label" for="cidade">Cidade: </label>
-                                    <input class="form-control cidadeUser" id="cidade" name="cidade" required type="text">
-
+                                    <input class="form-control cidadeUser input-with-loader" id="cidade" name="cidade" required type="text">
                                     <label class="form-label" for="uf">UF: </label>
-                                    <input class="form-control ufUser" id="uf" name="uf" required type="text" maxlength="2" minlength="2"
+                                    <input class="form-control ufUser input-with-loader" id="uf" name="uf" required type="text" maxlength="2" minlength="2"
                                            pattern="[A-Z]{2}" onchange="maskUf(this)" >
-
                                 </div>
 
                                 <div class="hstack p-1">
                                     <label class="form-label" for="telefone1">Telefone: </label>
-                                    <input class="form-control" id="telefone1" name="telefone1" required type="tel" placeholder="(00) 00000-0000">
+                                    <input class="form-control telUser" id="telefone1" name="telefone1" required type="tel" placeholder="(00) 00000-0000">
                                     <label class="form-label" for="telefone2">Telefone: </label>
-                                    <input class="form-control" id="telefone2" name="telefone2"  type="tel"
+                                    <input class="form-control telUser" id="telefone2" name="telefone2"  type="tel"
                                            placeholder="(00) 00000-0000">
                                 </div>
 
                                 <div  class="vstack p-1">
                                    <div  class="hstack p-1">
-                                    <label class="form-label" for="emailUsuario">Email de Recuperação: </label>
-                                    <input class="form-control emailUser" id="emaiRecuperacaolUsuario" name="emailRecup" required type="email" onchange="validarEmail(this)">
+                                    <label class="form-label" for="emaiRecuperacaolUsuario">Email de Recuperação: </label>
+                                    <input class="form-control emailUser" id="emaiRecuperacaolUsuario" name="emailRecup" required type="email">
                                     </div>
                                 <p class="text-danger hstack p-1" style="display: none"></p>
                                 </div>
                                 <div  class="hstack p-1">
-                                    <label class="form-label" for="emailUsuario">Email de Recuperação: </label>
-                                    <input class="form-control emailUser" id="emailUsuario" name="email" type="email" onchange="validarEmail(this)">
+                                    <label class="form-label" for="emailUsuario">Email: </label>
+                                    <input class="form-control emailUser2" id="emailUsuario" name="email" type="email" >
                                 </div>
+                                <p class="text-danger hstack p-1" style="display: none"></p>
+
                                 <div class="hstack p-1">
                                     <label class="form-label" for="username">Username: </label>
                                     <input class="form-control" id="username" name="username" required type="text">
@@ -167,11 +167,22 @@
                                     <label class="form-label" for="senhaUsuario">Senha: </label>
                                     <input class="form-control" id="senhaUsuario" name="senha" required type="password" minlength="8">
                                 </div>
+                                    <div class="hstack p-1">
+                                   <label for="acesso" class="text-xxl-center">Acesso:</label>
+                                  <div id="acesso">
+                                    <input class=""  id="Role1"  name="Role" checked required type="radio">
+                                    <label class="form-label acesso" for="Role1" >Usuário </label>
 
-                                <div class="modal-footer">
-                                    <button id="criarUser" class="btn btn-secondary" type="submit">Criar</button>
+                                    <input class=""  id="Role2" name="Role" required type="radio">
+                                    <label class="form-label acesso" for="Role2">Administrador </label>
+                                   </div>
+
                                 </div>
-                            </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="criarUser" class="btn btn-secondary btnSubmit" type="submit">Criar</button>
+                                </div>
+
                         </form>
                     </div>
                 </div>
@@ -200,7 +211,7 @@
                                     <label class="form-label" th:for="${'rgUsuario' + user.id()}">RG:</label>
                                     <input class="form-control rgUser" th:value="${user.rg()}" th:id="${'rgUsuario' + user.id()}" name="rg" required type="text"
                                            pattern="\d{2}\.\d{3}\.\d{3}-\d{1}" placeholder="00.000.000-0"
-                                           onchange="validarRG(this)">
+                                           >
                                 </div>
                                 <p class="text-danger hstack p-1" style="display: none;"></p>
                             </div>
@@ -227,7 +238,7 @@
                                     <label class="form-label" th:for="${'cep' + user.id()}">CEP: </label>
                                     <input class="form-control cepUser" th:value="${user.cep()}" th:id="${'cep' + user.id()}" name="cep" required type="text"
                                            placeholder="00000-000"
-                                           onchange="buscarEndereco()"
+
                                     >
                                 </div>
                                 <p class="text-danger vstack p-1" style="display: none;"></p>
@@ -261,31 +272,44 @@
 
                         <div class="hstack p-1">
                             <label class="form-label" th:for="${'telefone-1-' + user.id() }">Telefone: </label>
-                            <input class="form-control" th:id="${'telefone-1-' + user.id() }" name="telefone1" required type="tel" placeholder="(00) 00000-0000">
+                            <input class="form-control telUser" th:id="${'telefone-1-' + user.id() }" name="telefone1" required type="tel" placeholder="(00) 00000-0000">
                             <label class="form-label" th:for="${'telefone-2-' + user.id() }">Telefone: </label>
-                            <input class="form-control" th:id="${'telefone-2-' + user.id() }" name="telefone2"  type="tel"
+                            <input class="form-control telUser" th:id="${'telefone-2-' + user.id() }" name="telefone2"  type="tel"
                                    placeholder="(00) 00000-0000">
                         </div>
 
                         <div  class="vstack p-1">
                             <div  class="hstack p-1">
                                 <label class="form-label" th:for="${'emailRecuperacaoUsuario' + user.id()}">Email de recuperação: </label>
-                                <input class="form-control emailUser" th:value="${user.email()}" th:id="${'emailRecuperacaoUsuario' + user.id()}" name="emailRecup" required type="email" onchange="validarEmail(this)">
+                                <input class="form-control emailUser" th:value="${user.email()}" th:id="${'emailRecuperacaoUsuario' + user.id()}" name="emailRecup" required type="email" >
                             </div>
                             <p class="text-danger hstack p-1" style="display: none"></p>
                         </div>
                         <div  class="hstack p-1">
                             <label class="form-label" th:for="${'emailUsuario' + user.id()}">Email: </label>
-                            <input class="form-control emailUser" th:id="${'emailUsuario' + user.id()}" name="email"  type="email" onchange="validarEmail(this)">
+                            <input class="form-control emailUser2" th:id="${'emailUsuario' + user.id()}" name="email"  type="email">
                         </div>
+                        <p class="text-danger hstack p-1" style="display: none"></p>
+
                         <div class="hstack p-1">
                             <label class="form-label" th:for="${'username' + user.id()}">Username: </label>
                             <input class="form-control" th:value="${user.username()}" th:id="${'username' + user.id()}" name="username" required type="text" disabled>
                         </div>
+                        <p class="text-danger hstack p-1" style="display: none"></p>
+                        <div class="hstack p-1">
+                            <label th:for="${'acesso' + user.id}" class="text-xxl-center">Acesso:</label>
+                            <div th:id="${'acesso' + user.id}">
+                                <input class=""  th:id="${'Role1' + user.id()}"  name="Role"  th:checked="${user.roles().contains(RoleUser)}"  type="radio">
+                                <label class="form-label acesso" th:for="${'Role1' + user.id()}"  >Usuário </label>
 
+                                <input class=""  th:id="${'Role2' + user.id()}" name="Role" th:checked="${user.roles().contains(RoleAdmin)}" type="radio">
+                                <label class="form-label acesso" th:for="${'Role2' + user.id()}" >Administrador </label>
+                            </div>
+
+                        </div>
 
                         <div class="modal-footer">
-                            <button th:id="${'criarUser' + user.id()}" class="btn btn-secondary" type="submit">Criar</button>
+                            <button th:id="${'criarUser' + user.id()}" class="btn btn-secondary btnSubmit" type="submit">Salvar alterações</button>
                         </div>
                     </div>
                 </form>
@@ -301,4 +325,5 @@
 </body>
 
 </html>
+<script src="/js/funcionario.js"></script>
 
