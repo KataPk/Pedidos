@@ -3,10 +3,12 @@ package com.example.pedidos.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "Categoria")
 public class Categoria {
@@ -27,23 +29,17 @@ public class Categoria {
     @Column(name = "Imagem", nullable = false)
     private String imagem;
 
-    public Categoria(String nome, String imagem) {
+    @Column(name = "statusCategoria", nullable = true )
+    private String statusCategoria;
+
+    public Categoria(String nome, String imagem, String statusCategoria) {
         this.nome = nome;
         this.imagem = imagem;
+        this.statusCategoria = statusCategoria;
     }
 
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
 
     public Categoria() {
     }

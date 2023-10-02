@@ -1,10 +1,12 @@
 package com.example.pedidos.dtos;
 
+import com.example.pedidos.model.entity.Contato;
 import com.example.pedidos.model.entity.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,7 +31,10 @@ public record UserRecordDto(
 
         Set<ERole> roles,
 
-        @NotBlank String statusUsuario
+        @NotBlank String statusUsuario,
+
+        List<Contato> contatos
+
 ) {
 
     public UserRecordDto {

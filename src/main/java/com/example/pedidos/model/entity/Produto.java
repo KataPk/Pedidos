@@ -2,10 +2,12 @@ package com.example.pedidos.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "Produto")
 public class Produto {
@@ -28,6 +30,10 @@ public class Produto {
     @Column(name = "valor", precision = 5, scale = 2, nullable = false)
     private double valor;
 
+    @Column(name = "statusProduto", length = 20, nullable = false)
+    private String statusProduto;
+
+
     @Lob
     @Column(name = "imagem", nullable = false)
     private String imagem;
@@ -47,29 +53,7 @@ public class Produto {
 
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
 
 }

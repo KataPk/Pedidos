@@ -115,27 +115,5 @@ public class User {
 
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public void setEmail(String funLogin) {
-        this.email = funLogin;
-    }
-
-    public void setPassword(String senha) {
-        this.password = senha;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setStatusUsuario(String statusUsuario) {
-        this.statusUsuario = statusUsuario;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

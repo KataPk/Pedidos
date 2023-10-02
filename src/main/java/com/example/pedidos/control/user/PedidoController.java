@@ -106,7 +106,7 @@ public class PedidoController {
     pedidoRepository.save(pedido);
 
 //        muda o status da mesa para ocupada
-    mesa.setmMStatus("OCUPADA");
+    mesa.setMStatus("OCUPADA");
     mesaRepository.save(mesa);
     long pedidoId = pedido.getId();
 

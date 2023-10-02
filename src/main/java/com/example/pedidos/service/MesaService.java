@@ -34,11 +34,11 @@ public class MesaService {
             List<Mesa> mesasAtivasComMesmoNumero = mesaRepository.findByNumMesaAndMStatusNot(mesa.getNumMesa(), "INATIVA");
 
             if (mesasAtivasComMesmoNumero.isEmpty()){
-                mesa.setmMStatus("ATIVADA");
+                mesa.setMStatus("ATIVADA");
             } else {
                 Integer novoNum = obterNovNum();
                 mesa.setNumMesa(novoNum);
-                mesa.setmMStatus("ATIVADA");
+                mesa.setMStatus("ATIVADA");
 
             }
             mesaRepository.save(mesa);

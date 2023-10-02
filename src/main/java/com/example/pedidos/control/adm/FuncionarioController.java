@@ -1,29 +1,28 @@
 package com.example.pedidos.control.adm;
 
+import com.example.pedidos.model.entity.Contato;
 import com.example.pedidos.model.entity.ERole;
 import com.example.pedidos.model.entity.Role;
 import com.example.pedidos.model.entity.User;
+import com.example.pedidos.model.repository.ContatoRepository;
 import com.example.pedidos.model.repository.RoleRepository;
 import com.example.pedidos.model.repository.UserRepository;
 import com.example.pedidos.payload.response.MessageResponse;
 import com.example.pedidos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "false")
 @RequestMapping("/api/admin/")
 public class FuncionarioController {
@@ -33,10 +32,13 @@ public class FuncionarioController {
 
     @Autowired
     RoleRepository roleRepository;
-    private final UserService userService;
+
+    @Autowired
+    ContatoRepository contatoRepository;
 
     @Autowired
     PasswordEncoder encoder;
+    private final UserService userService;
 
     public FuncionarioController(UserService userService) {
         this.userService = userService;
@@ -58,28 +60,42 @@ public class FuncionarioController {
             @RequestParam ("uf")            String uf,
             @Param ("complemento")          String complemento,
             @RequestParam ("telefone1")     String tel1,
-            @Param ("telefone2")            String tel2,
+            @Param ("telefoneUser2")            String tel2,
             @RequestParam ("emailRecup")    String emailRecup,
-            @RequestParam ("emailUsuario")  String emailUser,
+            @Param ("emailUser")         String emailUser,
             @RequestParam ("username")      String username,
             @RequestParam ("senha")         String password,
             @RequestParam ("Role")          String strRole
 
             ) {
+        Map<String, Object> responseData = new HashMap<>();
+
         try {
-            if (userRepository.existsByUsername(username)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+
+            String cpfValue = cpf.replace(".", "").replace("-", "");
+            String rgValue = rg.replace(".", "").replace("-", "");
+            String cepValue = cep.replace("-", "");
+            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
+            String tel2Value = "";
+            String emailUserValue = "";
+
+            if (emailUser != null){
+                emailUserValue = emailUser;
+            }
+            if (tel2 != null) {
+                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
             }
 
-            if (userRepository.existsByEmail(email)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            if (userRepository.existsByUsername(username)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
             }
-            if (userRepository.existsByCpf(cpf) || userRepository.existsByRg(rg)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: User is already in system!"));
+
+            if (userRepository.existsByEmail(emailRecup)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Email já cadastrado no sistema!"));
             }
-        String cpfValue = cpf.replace(".", "").replace("-", "");
-        String rgValue = rg.replace(".", "").replace("-", "");
-        String cepValue = cep.replace("-", "");
+            if (userRepository.existsByCpf(cpfValue) || userRepository.existsByRg(rgValue)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Usuário já cadastrado no sistema!"));
+            }
 
 
         User user = new User(
@@ -94,11 +110,12 @@ public class FuncionarioController {
                 cidade,
                 uf,
                 complemento,
-                username,
                 emailRecup,
+                username,
                 encoder.encode(password),
                 "ATIVO"
         );
+            userRepository.save(user);
 
             Set<Role> roles = new HashSet<>();
 
@@ -113,25 +130,205 @@ public class FuncionarioController {
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     roles.add(userRole);
                 }
-
             user.setRoles(roles);
 
 
+            Contato contato1 = new Contato(
+                    user,
+                    tel1Value,
+                    emailRecup
+            );
+                contatoRepository.save(contato1);
+
+
+            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")){
+
+                Contato contato2 = new Contato(
+                        user,
+                        tel2Value,
+                        emailUser
+                );
+
+                contatoRepository.save(contato2);
+
+            } else if (!Objects.equals(tel2Value, "")) {
+                Contato contato2 = new Contato(
+                        user,
+                        tel2Value,
+                        null
+                );
+
+                contatoRepository.save(contato2);
 
 
 
-            userRepository.save(user);
 
+            } else if (!Objects.equals(emailUserValue, "")) {
+                Contato contato2 = new Contato(
+                        user,
+                        null,
+                        emailUser
+                );
+                contatoRepository.save(contato2);
 
+            }
+            responseData.put("success", true);
+            responseData.put("message", "Usuário registrado com sucesso.");
 
-
+            return ResponseEntity.ok(responseData);
 
             } catch (Exception e){
-            return ResponseEntity.badRequest().build();
+
+            responseData.put("success", false);
+            responseData.put("message", "Erro ao processar a solicitação.");
+
+
+            return ResponseEntity.badRequest().body(responseData);
         }
 
-        return new ResponseEntity.badRequest().build() ;
     }
+
+
+    @PostMapping("/EditUsuario")
+    public ResponseEntity<?> editUsuario(
+            @RequestParam ("id")            long userId,
+            @RequestParam ("nome")          String nome,
+            @RequestParam ("rg")            String rg,
+            @RequestParam ("cpf")           String cpf,
+            @RequestParam ("dataNasc")      String dataNasc,
+            @RequestParam ("endereco")      String logradouro,
+            @RequestParam ("numResid")      String numResid,
+            @RequestParam ("cep")           String cep,
+            @RequestParam ("cidade")        String cidade,
+            @RequestParam ("bairro")        String bairro,
+            @RequestParam ("uf")            String uf,
+            @Param ("complemento")          String complemento,
+            @RequestParam ("telefone1")     String tel1,
+            @Param ("telefoneUser2")            String tel2,
+            @RequestParam ("emailRecup")    String emailRecup,
+            @Param ("emailUser")         String emailUser,
+            @RequestParam ("username")      String username,
+            @RequestParam ("Role")          String strRole
+    ) {
+        // UserForm é uma classe que você deve criar para representar os campos do formulário
+        Map<String, Object> responseData = new HashMap<>();
+
+        try {
+            String cpfValue = cpf.replace(".", "").replace("-", "");
+            String rgValue = rg.replace(".", "").replace("-", "");
+            String cepValue = cep.replace("-", "");
+            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
+            String tel2Value = "";
+            String emailUserValue = "";
+
+            User editUser = userRepository.findById(userId).orElse(null);
+            if (editUser == null) {
+                // Trate o caso em que o usuário não existe
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuário não encontrado."));
+            }
+
+            if (emailUser != null) {
+                emailUserValue = emailUser;
+            }
+            if (tel2 != null) {
+                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
+            }
+
+            if (!emailRecup.equals(editUser.getEmail()) && userRepository.existsByUsername(username)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
+            }
+
+            if (!cpfValue.equals(editUser.getCpf()) && userRepository.existsByEmail(emailRecup)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Email já cadastrado por outro usuário!"));
+            }
+            if (!rgValue.equals(editUser.getRg()) && userRepository.existsByCpf(cpfValue) || userRepository.existsByRg(rgValue)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Estes dados são de outro usuário!"));
+            }
+
+            editUser.setNome(nome);
+            editUser.setCpf(cpfValue);
+            editUser.setRg(rgValue);
+            editUser.setDataNasc(LocalDate.parse(dataNasc));
+            editUser.setLogradouro(logradouro);
+            editUser.setNumResid(numResid);
+            editUser.setCep(cepValue);
+            editUser.setBairro(bairro);
+            editUser.setCidade(cidade);
+            editUser.setUf(uf);
+            editUser.setComplemento(complemento);
+            editUser.setEmail(emailRecup);
+            editUser.setUsername(username);
+
+
+            userRepository.save(editUser);
+
+
+            editUser.getRoles().clear();
+            Set<Role> roles = new HashSet<>();
+            if ("admin".equals(strRole)) {
+                Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
+            } else {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            }
+            editUser.setRoles(roles);
+
+            contatoRepository.deleteByUser(editUser);
+
+
+            Contato contato1 = new Contato(
+                    editUser,
+                    tel1Value,
+                    emailRecup
+            );
+            contatoRepository.save(contato1);
+
+
+            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")) {
+
+                Contato contato2 = new Contato(
+                        editUser,
+                        tel2Value,
+                        emailUser
+                );
+
+                contatoRepository.save(contato2);
+
+            } else if (!Objects.equals(tel2Value, "")) {
+                Contato contato2 = new Contato(
+                        editUser,
+                        tel2Value,
+                        null
+                );
+
+                contatoRepository.save(contato2);
+            }
+
+            responseData.put("success", true);
+            responseData.put("message", "Usuário atualizado com sucesso.");
+
+            return ResponseEntity.ok(responseData);
+
+        } catch (Exception e) {
+            responseData.put("success", false);
+            responseData.put("message", "Erro ao processar a solicitação.");
+
+            return ResponseEntity.badRequest().body(responseData);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
 }
 
 

@@ -2,14 +2,8 @@ package com.example.pedidos.control.adm;
 
 
 import com.example.pedidos.dtos.*;
-import com.example.pedidos.model.entity.Categoria;
-import com.example.pedidos.model.entity.ERole;
-import com.example.pedidos.model.entity.Mesa;
-import com.example.pedidos.model.entity.Produto;
-import com.example.pedidos.model.repository.CategoriaRepository;
-import com.example.pedidos.model.repository.MesaRepository;
-import com.example.pedidos.model.repository.ProdutoRepository;
-import com.example.pedidos.model.repository.UserRepository;
+import com.example.pedidos.model.entity.*;
+import com.example.pedidos.model.repository.*;
 import com.example.pedidos.service.CategoriaService;
 import com.example.pedidos.service.MesaService;
 import com.example.pedidos.service.ProdutoService;
@@ -31,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -54,7 +49,8 @@ public class AdmController {
     @Autowired
     ProdutoRepository produtoRepository;
 
-
+    @Autowired
+    ContatoRepository contatoRepository;
     private final MesaService mesaService;
 
     private final UserService userService;
@@ -98,10 +94,12 @@ public class AdmController {
 
         String currentUsername = userDetails.getUsername();
 
+
         model.addAttribute("currentUser", currentUsername);
         model.addAttribute("users", users);
         model.addAttribute("RoleUser", roleUser);
         model.addAttribute("RoleAdmin", roleAdmin);
+
 
 
         return "Adm/Funcionarios";
@@ -128,7 +126,8 @@ public class AdmController {
             // criação da Categoria
             Categoria categoria = new Categoria(
                     nome,
-                    imageBase64
+                    imageBase64,
+                    "ATIVA"
             );
             categoriaRepository.save(categoria);
 
