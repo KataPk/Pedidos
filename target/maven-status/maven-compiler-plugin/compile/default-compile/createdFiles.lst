@@ -1,5 +1,6 @@
 com\example\pedidos\model\repository\UserRepository.class
 com\example\pedidos\model\repository\ItemPedidoRepository.class
+com\example\pedidos\control\adm\AdmMesaController.class
 com\example\pedidos\dtos\MesaRecordDto.class
 com\example\pedidos\control\IndexController.class
 com\example\pedidos\control\adm\TestController.class
@@ -11,12 +12,10 @@ com\example\pedidos\dtos\PedidoSubTotalRecordDTO.class
 com\example\pedidos\model\repository\ContatoRepository.class
 com\example\pedidos\service\MesaService.class
 com\example\pedidos\dtos\UserDetailsDto.class
-com\example\pedidos\control\adm\AdmController.class
 com\example\pedidos\model\entity\Categoria.class
 com\example\pedidos\model\repository\PedidoRepository.class
 com\example\pedidos\model\repository\CategoriaRepository.class
 com\example\pedidos\PedidosApplication.class
-static\fontawesome-free-6.4.0-web\svgs\solid\gem.svg
 com\example\pedidos\dtos\CategoriaRecordDto.class
 com\example\pedidos\model\entity\Produto.class
 com\example\pedidos\service\UserService.class
@@ -28,11 +27,13 @@ com\example\pedidos\model\entity\Pedido.class
 com\example\pedidos\dtos\ItemPedidoRecordDto.class
 com\example\pedidos\model\entity\ERole.class
 com\example\pedidos\control\user\CategoriaController.class
+com\example\pedidos\control\adm\AdmProdutoController.class
 com\example\pedidos\dtos\ItemSubTotalRecordDto.class
 com\example\pedidos\model\entity\Mesa.class
 com\example\pedidos\control\adm\ProdutoController.class
 com\example\pedidos\security\AuthEntryPoint.class
 com\example\pedidos\control\AuthController.class
+com\example\pedidos\control\adm\AdmCategoriaController.class
 com\example\pedidos\model\repository\ProdutoRepository.class
 com\example\pedidos\control\adm\FuncionarioController.class
 com\example\pedidos\control\ErrorController.class

@@ -1,5 +1,6 @@
 package com.example.pedidos.control.adm;
 
+import com.example.pedidos.dtos.UserRecordDto;
 import com.example.pedidos.model.entity.Contato;
 import com.example.pedidos.model.entity.ERole;
 import com.example.pedidos.model.entity.Role;
@@ -13,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -44,6 +48,24 @@ public class FuncionarioController {
         this.userService = userService;
     }
 
+    @GetMapping("/funcionarios")
+    public String funcionarios(Model model,
+                               @AuthenticationPrincipal UserDetails userDetails){
+        List<UserRecordDto> users = userService.findAll();
+
+        ERole roleUser = ERole.ROLE_USER;
+        ERole roleAdmin = ERole.ROLE_ADMIN;
+
+        String currentUsername = userDetails.getUsername();
+
+
+        model.addAttribute("currentUser", currentUsername);
+        model.addAttribute("users", users);
+        model.addAttribute("RoleUser", roleUser);
+        model.addAttribute("RoleAdmin", roleAdmin);
+
+        return "Adm/Funcionarios";
+    }
 
 
     @PostMapping("/funcionarios/createFuncionario")
@@ -311,7 +333,36 @@ public class FuncionarioController {
 
     }
 
+    @PostMapping("/deleteFuncionario")
+    public ResponseEntity<?> deleteUser(@RequestParam ("id") long id) {
+        Map<String, Object> responseData = new HashMap<>();
+        try {
+            User user = userRepository.findById(id).orElse(null);
+
+            if (user == null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuário não encontrado."));
+            }
+
+            userRepository.delete(user);
+
+
+            responseData.put("success", true);
+            responseData.put("message", "Usuário registrado com sucesso.");
+
+            return ResponseEntity.ok(responseData);
+        } catch (Exception e) {
+
+            responseData.put("success", false);
+            responseData.put("message", "Erro ao processar a solicitação.");
+
+
+            return ResponseEntity.badRequest().body(responseData);
+        }
+
+    }
+
 }
+
 
 
 

@@ -12,6 +12,7 @@ C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\repository\U
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\service\ProdutoService.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\service\ContatoService.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\repository\RoleRepository.java
+C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\adm\AdmCategoriaController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\dtos\PedidoSubTotalRecordDTO.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\repository\ContatoRepository.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\security\CustomAccessDeniedHandler.java
@@ -26,7 +27,6 @@ C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\dtos\MesaRecordDto
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\user\PedidoController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\entity\Mesa.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\service\CategoriaService.java
-C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\adm\AdmController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\adm\UserController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\user\CategoriaController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\dtos\PedidoRecordDTO.java
@@ -48,5 +48,7 @@ C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\entity\ItemP
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\entity\Contato.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\model\entity\ERole.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\service\UserService.java
+C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\adm\AdmProdutoController.java
+C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\adm\AdmMesaController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\control\AuthController.java
 C:\Users\Sk\Desktop\Pedidos\src\main\java\com\example\pedidos\security\services\CustomUserDetailService.java
