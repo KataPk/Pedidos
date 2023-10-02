@@ -193,9 +193,6 @@ public class FuncionarioController {
     public ResponseEntity<?> editUsuario(
             @RequestParam ("id")            long userId,
             @RequestParam ("nome")          String nome,
-            @RequestParam ("rg")            String rg,
-            @RequestParam ("cpf")           String cpf,
-            @RequestParam ("dataNasc")      String dataNasc,
             @RequestParam ("endereco")      String logradouro,
             @RequestParam ("numResid")      String numResid,
             @RequestParam ("cep")           String cep,
@@ -214,10 +211,10 @@ public class FuncionarioController {
         Map<String, Object> responseData = new HashMap<>();
 
         try {
-            String cpfValue = cpf.replace(".", "").replace("-", "");
-            String rgValue = rg.replace(".", "").replace("-", "");
+
             String cepValue = cep.replace("-", "");
-            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
+            String tel1Value = "";
+            tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
             String tel2Value = "";
             String emailUserValue = "";
 
@@ -238,17 +235,9 @@ public class FuncionarioController {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
             }
 
-            if (!cpfValue.equals(editUser.getCpf()) && userRepository.existsByEmail(emailRecup)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Email já cadastrado por outro usuário!"));
-            }
-            if (!rgValue.equals(editUser.getRg()) && userRepository.existsByCpf(cpfValue) || userRepository.existsByRg(rgValue)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Estes dados são de outro usuário!"));
-            }
+
 
             editUser.setNome(nome);
-            editUser.setCpf(cpfValue);
-            editUser.setRg(rgValue);
-            editUser.setDataNasc(LocalDate.parse(dataNasc));
             editUser.setLogradouro(logradouro);
             editUser.setNumResid(numResid);
             editUser.setCep(cepValue);
@@ -321,13 +310,6 @@ public class FuncionarioController {
 
 
     }
-
-
-
-
-
-
-
 
 }
 

@@ -419,7 +419,7 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
                         }
                     })
                     .catch(error => {
-                        console.error('Erro na requisição:', error);
+                        exibirErrorCreate('Erro na requisição:' + error);
                     });
             });
 

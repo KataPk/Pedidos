@@ -100,8 +100,6 @@ public class AdmController {
         model.addAttribute("RoleUser", roleUser);
         model.addAttribute("RoleAdmin", roleAdmin);
 
-
-
         return "Adm/Funcionarios";
     }
 

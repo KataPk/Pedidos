@@ -2,8 +2,8 @@ POST http://localhost:8083/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
 nome = John+Doe &
-cpf = 12345678901 &
-rg = 1234567 &
+cpf = 55831155056 &
+rg = 123456789 &
 dataNasc = 1990-01-01 &
 logradouro = 123+Main+St &
 numResid = 456 &
