@@ -24,7 +24,7 @@
     <div class="row align-items-start" id="productContainer">
         <th:block th:each="produto : ${produtos}">
 
-            <div class="card text-center" th:id="${produto.nome}">
+            <div class="card text-center" th:id="${produto.id}">
                 <button class="btn" th:attr="data-bs-target=${'#ModalProduto' + produto.nome}" data-bs-toggle="modal" >
                     <img th:alt="${produto.nome}" class="card-img-top image" th:src="|data:image;base64, *{produto.imagem}|"/>
                 </button>

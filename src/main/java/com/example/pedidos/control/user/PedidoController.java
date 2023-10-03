@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -139,23 +140,18 @@ public class PedidoController {
     public String finalizarPedido(@PathVariable long pedidoId, Model model){
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+
+
         List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
 
-        String[] itensPedido = new String[itens.size()];
-        int i = 0;
-        for (ItemPedidoRecordDto item: itens
-             ) {
-            String itemString = "[" + item.id() + "," + item.quant() + "]";
-            itensPedido[i] = itemString;
-            i++;
-        }
-        String itensPedidoJson =  String.join(",", itensPedido) ;
+
+
+
         String subTotal = itemPedidoService.getSubTotal(pedidoId);
         model.addAttribute("pedido", pedido);
         model.addAttribute("itens", itens);
         model.addAttribute("subtotal", subTotal);
 
-        model.addAttribute("itemArray", itensPedidoJson);
 
         return "User/Editar";
 
@@ -197,21 +193,40 @@ public class PedidoController {
     public RedirectView addItem(@RequestParam("quant") int quant,
                                 @RequestParam("observacoes") String observacoes,
                                 @RequestParam("pedidoId") long pedidoId,
-                                @RequestParam("produtoNome") String produtoNome) throws InterruptedException {
+                                @RequestParam("produtoId") long produtoId) throws InterruptedException {
 
     Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-    Produto produto = produtoRepository.findByNome(produtoNome);
-    Categoria categoria = produto.getCategoria();
-    String categoriaNome = categoria.getNome();
+        Produto produto = produtoRepository.getReferenceById(produtoId);
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
 
-    ItemPedido itemPedido = new ItemPedido(
+    int controle = 0;
+    for (ItemPedidoRecordDto it : itens ) {
+        if (it.produto().getId() == produto.getId()){
+            ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+            item.setQuantProduto(it.quant() + quant);
+            itemPedidoRepository.save(item);
+            controle = 1;
+            break;
+        }
+    }
+        Categoria categoria = produto.getCategoria();
+        String categoriaNome = categoria.getNome();
+        
+    if (controle == 0) {
+
+
+
+        ItemPedido itemPedido = new ItemPedido(
                 produto,
                 quant,
                 observacoes,
                 pedido
-    );
-    itemPedidoRepository.save(itemPedido);
+        );
+
+
+        itemPedidoRepository.save(itemPedido);
         TimeUnit.SECONDS.sleep(1);
+    }
         return new RedirectView("/api/user/" + pedidoId + "/categoria/" + categoriaNome);
 
 

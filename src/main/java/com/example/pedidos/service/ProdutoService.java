@@ -34,7 +34,7 @@ public class ProdutoService {
     public List<ProdutoRecordDto> findAll(){
         List<Produto> produtos = produtoRepository.findAll();
         return produtos.stream()
-                .map(produto -> new ProdutoRecordDto(produto.getNome(), produto.getDescricao(), produto.getImagem(),
+                .map(produto -> new ProdutoRecordDto(produto.getId(),produto.getNome(), produto.getDescricao(), produto.getImagem(),
                         produto.getValor(), produto.getCategoria()))
                 .collect(Collectors.toList());
 
@@ -45,6 +45,7 @@ public class ProdutoService {
             List<Produto> produtos = produtoRepository.findByCategoria(categoria);
 
             return produtos.stream().map(produto -> new ProdutoRecordDto(
+                    produto.getId(),
                     produto.getNome(),
                     produto.getDescricao(),
                     produto.getImagem(),

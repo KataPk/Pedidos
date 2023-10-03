@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record ProdutoRecordDto(
 
+        @NotBlank long id,
         @NotBlank  String nome,
         @NotBlank  String descricao,
 
