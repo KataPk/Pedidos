@@ -12,6 +12,7 @@ import com.example.pedidos.service.ProdutoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -158,6 +159,42 @@ public class PedidoController {
     }
 
 
+    @PostMapping("{pedidoId}/alterarQuant/{id}/{acao}")
+    public ResponseEntity<?> alterarQaunt(
+                                       @PathVariable("pedidoId") long pedidoId,
+                                       @PathVariable ("acao") int acao,
+                                       @PathVariable("id") long produtoId
+
+    ) throws InterruptedException {
+
+        Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+
+        for (ItemPedidoRecordDto it : itens ) {
+            if (it.produto().getId() == produtoId){
+                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+                if (acao == 0) {
+                    item.setQuantProduto(it.quant() - 1);
+                    itemPedidoRepository.save(item);
+                }  else if (acao == 1){
+                    item.setQuantProduto(it.quant() + 1);
+                    itemPedidoRepository.save(item);
+                } else if (acao == 2) {
+                    itemPedidoRepository.delete(item);
+                }
+                break;
+
+            }
+
+        }
+        return ResponseEntity.ok().body("preencher");
+
+
+
+    }
+
+
+
     @PostMapping("/closePedido")
     public RedirectView closePedido(){
 
@@ -211,7 +248,7 @@ public class PedidoController {
     }
         Categoria categoria = produto.getCategoria();
         String categoriaNome = categoria.getNome();
-        
+
     if (controle == 0) {
 
 

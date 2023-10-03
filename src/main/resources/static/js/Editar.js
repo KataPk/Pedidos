@@ -2,7 +2,7 @@ const lessButtons = document.querySelectorAll('.less');
 const plusButtons = document.querySelectorAll('.plus');
 const quantElements = document.querySelectorAll('.quant');
 const precoElements = document.querySelectorAll('.preco');
-
+const idElements = document.querySelectorAll('.id');
 const totalElements = document.querySelectorAll('.total');
 const removeButtons = document.querySelectorAll('.remover');
 let valorTotal = document.querySelector('#total');
@@ -13,7 +13,9 @@ let tempTotal = 0;
 
 for (let i = 0; i < plusButtons.length; i++) {
     const price = parseFloat(precoElements[i].getAttribute('data-price'));
-    let quantData = parseInt(quantElements[i].getAttribute('data-quant'))
+    let quantData = parseInt(quantElements[i].getAttribute('data-quant'));
+    const pedidoId = parseInt(idElements[i].getAttribute('data-id'));
+
     quantElements[i].innerHTML = quantData.toString()
     let total = (price * quantData).toFixed(2).toString().replace('.', ',')
 
