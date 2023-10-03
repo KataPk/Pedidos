@@ -31,6 +31,8 @@ for (let i = 0; i < plusButtons.length; i++) {
         tempTotal += price
         valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
+        const url
+
     });
 
     lessButtons[i].addEventListener('click', function () {
