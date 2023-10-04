@@ -37,7 +37,7 @@ public class MesaController {
 
     @GetMapping("/mesas")
     public String mesas(Model model) {
-        List<MesaRecordDto> mesas = mesaService.findAll();
+        List<MesaRecordDto> mesas = mesaService.findAllAtivos();
         model.addAttribute("mesas", mesas);
         return "User/Mesas";
 

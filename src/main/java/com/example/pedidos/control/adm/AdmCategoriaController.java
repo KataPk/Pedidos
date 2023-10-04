@@ -2,9 +2,13 @@ package com.example.pedidos.control.adm;
 
 
 import com.example.pedidos.dtos.CategoriaRecordDto;
+import com.example.pedidos.dtos.ProdutoRecordDto;
 import com.example.pedidos.model.entity.Categoria;
+import com.example.pedidos.model.entity.Produto;
 import com.example.pedidos.model.repository.CategoriaRepository;
+import com.example.pedidos.model.repository.ProdutoRepository;
 import com.example.pedidos.service.CategoriaService;
+import com.example.pedidos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,13 +31,19 @@ public class AdmCategoriaController {
     @Autowired
     CategoriaRepository categoriaRepository;
 
+    @Autowired
+    ProdutoRepository produtoRepository;
 
 
 
     private final CategoriaService categoriaService;
 
-    public AdmCategoriaController(CategoriaService categoriaService) {
+    private final ProdutoService produtoService;
+
+
+    public AdmCategoriaController(CategoriaService categoriaService, ProdutoService produtoService) {
         this.categoriaService = categoriaService;
+        this.produtoService = produtoService;
     }
 
 
@@ -57,7 +67,7 @@ public class AdmCategoriaController {
             Categoria categoria = new Categoria(
                     nome,
                     imageBase64,
-                    "ATIVA"
+                    "ACTIVE"
             );
             categoriaRepository.save(categoria);
 
@@ -68,7 +78,25 @@ public class AdmCategoriaController {
         return new RedirectView("/api/admin/categorias");
     }
 
+    @PostMapping("/disableCategoria")
+    public RedirectView desativarCategoria(@RequestParam("id") long categoriaId){
 
+    Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
+    List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
+
+        for (ProdutoRecordDto produto: produtos) {
+            Produto produto1 = produtoRepository.getReferenceById(produto.id());
+            produto1.setStatusProduto("INACTIVE");
+            produtoRepository.save(produto1);
+        }
+
+
+
+
+
+        return new RedirectView("/api/admin/categorias");
+
+    }
 
 
 

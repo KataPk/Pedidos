@@ -1,14 +1,11 @@
 package com.example.pedidos.service;
 
 
-import com.example.pedidos.dtos.PedidoRecordDTO;
 import com.example.pedidos.dtos.ProdutoRecordDto;
 import com.example.pedidos.model.entity.Categoria;
-import com.example.pedidos.model.entity.Pedido;
 import com.example.pedidos.model.entity.Produto;
 import com.example.pedidos.model.repository.CategoriaRepository;
 import com.example.pedidos.model.repository.MesaRepository;
-import com.example.pedidos.model.repository.PedidoRepository;
 import com.example.pedidos.model.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +36,7 @@ public class ProdutoService {
                 .collect(Collectors.toList());
 
     }
-    public List<ProdutoRecordDto> findByCategoria(String categoriaNome){
-        Categoria categoria = categoriaRepository.findByNome(categoriaNome);
+    public List<ProdutoRecordDto> findByCategoria(Categoria categoria){
 
             List<Produto> produtos = produtoRepository.findByCategoria(categoria);
 

@@ -26,4 +26,11 @@ public class CategoriaService {
                 .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))
                 .collect(Collectors.toList());
     }
+
+    public List<CategoriaRecordDto> findAllAtivos(){
+        List<Categoria> categorias = categoriaRepository.findAllByStatusCategoria("ACTIVE");
+        return categorias.stream()
+                .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))
+                .collect(Collectors.toList());
+    }
 }

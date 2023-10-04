@@ -2,7 +2,6 @@ package com.example.pedidos.model.repository;
 
 import com.example.pedidos.model.entity.Mesa;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,8 +13,9 @@ public interface MesaRepository extends JpaRepository<Mesa, Long> {
     List<Mesa> findByMStatus(String status);
     List<Mesa> findByNumMesaAndMStatusNot(int numMesa, String status);
 
+    List<Mesa> findAllByMStatusIsNot(String status);
 
-    @Query("SELECT m.numMesa from Mesa m where m.MStatus <> 'INATIVA' ")
-    List<Integer> findNumeroMesasAtivas();
+
+//    List<Integer> findNumeroMesasAtivas();
 
 }

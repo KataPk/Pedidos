@@ -19,11 +19,10 @@
     <div th:insert="~{User/navbar}"></div>
 
 <div class="container text-center">
-    <input id="itemArray" th:value="${itemArray}">
     <div class="row">
         <form>
         <th:block th:each="item : ${itens}">
-        <div class="card">
+        <div class="card id" th:attr="data-id=${item.pedido().getId()}">
             <div class="row g-0">
                 <div class="col-md-3 ">
                     <img alt="..." class="card-img-top" th:src="|data:image;base64, *{item.produto().getImagem()}|">

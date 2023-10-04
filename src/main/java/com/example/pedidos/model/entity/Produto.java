@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @Entity
@@ -41,12 +39,13 @@ public class Produto {
     @JoinColumn(name = "categoria", nullable = false)
     private Categoria categoria;
 
-    public Produto(String nome, String descricao, double valor, String imagem, Categoria categoria) {
+    public Produto(String nome, String descricao, double valor, String imagem, Categoria categoria, String statusProduto) {
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
         this.imagem = imagem;
         this.categoria = categoria;
+        this.statusProduto = statusProduto;
     }
 
     public Produto() {

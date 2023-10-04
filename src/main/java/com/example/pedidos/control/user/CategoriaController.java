@@ -59,23 +59,23 @@ public class CategoriaController {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
 
-        List<CategoriaRecordDto> categorias = categoriaService.findAll();
+        List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
         model.addAttribute("categorias", categorias);
         model.addAttribute("clientes", clientes);
         model.addAttribute("pedido", pedido);
         return "User/Categorias";
     }
 
-    @GetMapping("/{pedidoId}/categoria/{categoriaNome}")
-    public String produtoCategoria(@PathVariable String categoriaNome,
+    @GetMapping("/{pedidoId}/categoria/{categoriaId}")
+    public String produtoCategoria(@PathVariable long categoriaId,
                                    @PathVariable long pedidoId,
                                    Model model){
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-        Categoria categoria = categoriaRepository.findByNome(categoriaNome);
+        Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
 
 
-            List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria.getNome());
+            List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
 
             model.addAttribute("categoria", categoria);
             model.addAttribute("produtos", produtos);

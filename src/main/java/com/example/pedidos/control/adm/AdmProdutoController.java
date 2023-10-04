@@ -78,7 +78,8 @@ public class AdmProdutoController {
                     descricao,
                     valorDouble,
                     imageBase64,
-                    categoria
+                    categoria,
+                    "ACTIVE"
             );
             produtoRepository.save(produto);
 

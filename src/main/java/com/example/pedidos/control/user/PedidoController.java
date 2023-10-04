@@ -1,6 +1,5 @@
 package com.example.pedidos.control.user;
 
-import com.example.pedidos.control.adm.ProdutoController;
 import com.example.pedidos.dtos.ItemPedidoRecordDto;
 import com.example.pedidos.dtos.PedidoRecordDTO;
 import com.example.pedidos.dtos.PedidoSubTotalRecordDTO;
@@ -9,8 +8,6 @@ import com.example.pedidos.model.repository.*;
 import com.example.pedidos.service.ItemPedidoService;
 import com.example.pedidos.service.PedidoService;
 import com.example.pedidos.service.ProdutoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,11 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -33,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/user/pedido")
 public class PedidoController {
 
-    public static final Logger log = LoggerFactory.getLogger(ProdutoController.class);
 
     @Autowired
     PedidoRepository pedidoRepository;
