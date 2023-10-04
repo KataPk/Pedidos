@@ -52,7 +52,7 @@ public class MesaService {
 
 
     public List<MesaRecordDto> findAllAtivos() {
-        List<Mesa> mesas = mesaRepository.findAllByMStatusIsNot("INACTIVE");
+        List<Mesa> mesas = mesaRepository.findAllByMStatusNot("INACTIVE");
          return mesas.stream()
                 .map(mesa -> new MesaRecordDto(mesa.getNumMesa(), mesa.getMStatus()))
                 .collect(Collectors.toList());
