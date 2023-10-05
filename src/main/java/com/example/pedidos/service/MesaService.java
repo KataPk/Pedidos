@@ -22,7 +22,7 @@ public class MesaService {
     public List<MesaRecordDto> findAll(){
         List<Mesa> mesas = mesaRepository.findAll();
     return mesas.stream()
-            .map(mesa -> new MesaRecordDto(mesa.getNumMesa(), mesa.getMStatus()))
+            .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
             .collect(Collectors.toList());
     }
 
@@ -52,12 +52,17 @@ public class MesaService {
 
 
     public List<MesaRecordDto> findAllAtivos() {
-        List<Mesa> mesas = mesaRepository.findAllByMStatusNot("INACTIVE");
+        List<Mesa> mesas = mesaRepository.findAllByMStatusNotOrderByNumMesa("INACTIVE");
          return mesas.stream()
-                .map(mesa -> new MesaRecordDto(mesa.getNumMesa(), mesa.getMStatus()))
+                .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
                 .collect(Collectors.toList());
     }
-
+    public List<MesaRecordDto> findAllInativos() {
+        List<Mesa> mesas = mesaRepository.findAllByMStatusOrderByNumMesa("INACTIVE");
+        return mesas.stream()
+                .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
+                .collect(Collectors.toList());
+    }
 //private Integer obterNovNum(){
 //
 //        List<Integer> numeroMesas = mesaRepository.findNumeroMesasAtivas();

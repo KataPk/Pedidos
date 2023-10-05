@@ -9,6 +9,8 @@ import com.example.pedidos.service.ItemPedidoService;
 import com.example.pedidos.service.PedidoService;
 import com.example.pedidos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -77,47 +81,57 @@ public class PedidoController {
 
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,
-                                                @RequestParam ("button") int  button,
-                                                @RequestParam("mesaNum") int mesaNum ,
-                                                @AuthenticationPrincipal UserDetails userDetails) throws InterruptedException {
+                                                @RequestParam("mesaId") long mesaId,
+                                                @RequestParam ("button") String  button,
+                                                @AuthenticationPrincipal UserDetails userDetails) throws Exception {
 
 
+        try {
 
-    Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
+            Mesa mesa = mesaRepository.getReferenceById(mesaId);
 
-    User funcionario = userRepository.findByUsername(userDetails.getUsername());
+            User user = userRepository.findByUsername(userDetails.getUsername());
 
-    LocalDateTime dtRegistro = LocalDateTime.now();
+            LocalDateTime dtRegistro = LocalDateTime.now();
 
-    Pedido pedido = new Pedido(
-            cliente,
-            dtRegistro,
-            null,
-            funcionario,
-            mesa,
-            "ABERTO"
+            if (mesa.getMStatus().equals("OCUPADA")){
+                throw new RuntimeException("Mesa Ocupada, recarregue a página e tente novamente");
+            }
 
-    );
-    pedidoRepository.save(pedido);
+            Pedido pedido = new Pedido(
+                    cliente,
+                    dtRegistro,
+                    null,
+                    user,
+                    mesa,
+                    "ABERTO"
+
+            );
+            pedidoRepository.save(pedido);
 
 //        muda o status da mesa para ocupada
-    mesa.setMStatus("OCUPADA");
-    mesaRepository.save(mesa);
-    long pedidoId = pedido.getId();
+            if (mesa.getMStatus().equals("ACTIVE")) {
+                mesa.setMStatus("OCUPADA");
+                mesaRepository.save(mesa);
+            }
+                long pedidoId = pedido.getId();
+            int buttonValue = Integer.parseInt(button);
+            if (buttonValue == 1) {
+                return new RedirectView("/api/user/mesas");
+            }
+            if (buttonValue == 2) {
+                return new RedirectView("/api/user/" + pedidoId +"/categorias");
 
-    if (button == 1) {
-        TimeUnit.SECONDS.sleep(1);
-    return new RedirectView("/api/user/mesas");
-    } else if (button == 2) {
-        return new RedirectView("/api/user/" + pedidoId +"/categorias");
-    } else {
-        throw new RuntimeException("Botão inválido: " + button);
+            } else {
+                throw new RuntimeException("Botão inválido: " + button);
+            }
+
+
+        } catch (Exception e) {
+
+            throw new Exception("Error:", e);
+        }
     }
-
-
-
-    }
-
 
     @PostMapping("/openPedido")
     public RedirectView  openPedido(@RequestParam("mesaNum") int mesaNum){

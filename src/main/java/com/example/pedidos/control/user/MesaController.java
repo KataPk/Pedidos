@@ -2,11 +2,13 @@ package com.example.pedidos.control.user;
 
 
 import com.example.pedidos.dtos.MesaRecordDto;
+import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.repository.MesaRepository;
 import com.example.pedidos.service.MesaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,4 +44,6 @@ public class MesaController {
         return "User/Mesas";
 
     }
+
+
 }

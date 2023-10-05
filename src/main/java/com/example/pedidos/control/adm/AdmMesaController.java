@@ -3,6 +3,7 @@ package com.example.pedidos.control.adm;
 import com.example.pedidos.dtos.MesaRecordDto;
 import com.example.pedidos.model.entity.Mesa;
 import com.example.pedidos.model.repository.MesaRepository;
+import com.example.pedidos.payload.response.MessageResponse;
 import com.example.pedidos.service.MesaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "false")
@@ -33,17 +36,55 @@ public class AdmMesaController {
 
     @GetMapping("/mesas")
     public String Mesas(Model model){
-        List<MesaRecordDto> mesas = mesaService.findAll();
+        List<MesaRecordDto> mesas = mesaService.findAllAtivos();
+        List<MesaRecordDto> mesasInativas = mesaService.findAllInativos();
         model.addAttribute("mesas", mesas);
+        model.addAttribute("mesasInativas", mesasInativas);
         return "Adm/MesasAdm";
     }
 
-    @PostMapping("/Mesa")
-    public ResponseEntity<Mesa> createMesa(@RequestBody @Valid MesaRecordDto MesaRecordDto) {
-        var Mesa = new Mesa();
-        BeanUtils.copyProperties(MesaRecordDto, Mesa);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mesaRepository.save(Mesa));
+
+    @PostMapping("/createMesa")
+    public ResponseEntity<?> createMesa(
+            @RequestParam ("numMesa") int numMesa
+    ){
+        Map<String, Object> responseData = new HashMap<>();
+
+        try {
+
+        if (mesaRepository.existsByNumMesa(numMesa)){
+
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Número já registrado!"));
+        }
+
+        Mesa mesa = new Mesa(
+                numMesa,
+                "ACTIVE"
+        );
+
+        mesaRepository.save(mesa);
+
+
+            responseData.put("success", true);
+            responseData.put("message", "Mesa registrada com sucesso.");
+
+            return ResponseEntity.ok(responseData);
+        }catch (Exception e){
+
+
+            responseData.put("success", false);
+            responseData.put("message", "Erro ao processar a solicitação.");
+
+
+            return ResponseEntity.badRequest().body(responseData);
+        }
+
+
     }
+
+
+
+
 
 
 }

@@ -24,5 +24,11 @@ public class Mesa {
     @Column(name = "mstatus", nullable = false)
     private String MStatus;
 
+    public Mesa(Integer numMesa, String MStatus) {
+        this.numMesa = numMesa;
+        this.MStatus = MStatus;
+    }
 
+    public Mesa() {
+    }
 }

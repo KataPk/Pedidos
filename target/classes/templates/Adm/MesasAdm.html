@@ -20,10 +20,10 @@
     <!--    Mesas-->
 
 <!--Card para adicionar mesas-->
-    <div class="row align-items-start" id="MesaContainer">
+    <div class="row align-items-start text-center" id="MesaContainer">
         <div class="card">
             <button class="btn imageBtn addMesa" type="button">
-                <img alt="..." class="card-img-top image" id="mesaAddImage" src="/img/PNG/mesa-add.png">
+                <img alt="..." class="card-img-top image" id="mesaAddImage" src="/img/PNG/add_button.png">
             </button>
             <div class="card-body">
                 <h5 class="card-title" >Criar Mesa</h5>
@@ -36,7 +36,7 @@
 
         <th:block th:each="mesa : ${mesas}">
 
-            <div th:if="${mesa.mStatus == 'ATIVO'}" class="card">
+            <div th:if="${mesa.mStatus == 'ACTIVE'}" class="card">
                 <button class="btn imageBtn" th:id="${'addPedido' + mesa.numMesa}" type="button">
                     <img alt="..." class="card-img-top image" src="/img/PNG/mesa.png">
                 </button>
@@ -64,7 +64,8 @@
                             Editar
                         </button>
                         <button class="btn btn-danger disabled" th:id="${'exclude' + mesa.numMesa}" type="button">Excluir</button>
-                    </div>                </div>
+                    </div>
+                </div>
             </div>
 
         </th:block>
@@ -76,7 +77,7 @@
 <!--    Modals-->
     <div id="modals">
         <th:block th:each="mesa : ${mesas}">
-            <div th:if="${mesa.mStatus == 'ATIVO'}">
+            <div th:if="${mesa.mStatus == 'ACTIVE'}">
                 <div aria-hidden="true" th:attr="aria-labelledby='labelMesa' + ${mesa.numMesa}"  class="modal fade" th:id="'ModalMesa' + ${mesa.numMesa}"  aria-labelledby="staticBackdropLabel">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -104,6 +105,36 @@
                 </div>
             </div>
         </th:block>
+        <th:block th:each="mesa : ${mesasInativas}">
+            <div th:if="${mesa.mStatus == 'ACTIVE'}">
+                <div aria-hidden="true" th:attr="aria-labelledby='labelMesa' + ${mesa.numMesa}"  class="modal fade" th:id="'ModalMesa' + ${mesa.numMesa}"  aria-labelledby="staticBackdropLabel">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:text="${'Mesa ' + mesa.numMesa}" th:id="'labelMesa' + ${mesa.numMesa}"></h1>
+
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                            </div>
+                            <form action="" method="POST">
+                                <div class="modal-body vstack">
+                                    <div class="hstack p-1 ">
+                                        <label class="form-label" th:for="'clientNameMesa' + ${mesa.numMesa}">Nome do Cliente:</label>
+                                        <input class="form-control clientNameMesa" th:id="'clientNameMesa' + ${mesa.numMesa}" name="clientName" required type="text">
+                                        <input class="form-control" th:id="'mesaNum' + ${mesa.numMesa}" name="mesaNum" th:value="${mesa.numMesa}" type="hidden">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary add-btn" type="button">Adicionar</button>
+                                    <button class="btn btn-primary" th:id="'addMesa' + ${mesa.numMesa}" type="submit">Adicionar e ir para categorias</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
     </div>
 
 
