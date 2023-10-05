@@ -12,7 +12,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 
 
-    List<Categoria> findAllByStatusCategoria(String status);
+    List<Categoria> findAllByStatusCategoriaIs(String status);
 
 
 

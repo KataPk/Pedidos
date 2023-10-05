@@ -21,7 +21,7 @@ statusUsuario = ATIVO
 ###
 
 
-POST http://localhost:8083/api/auth/signup
+POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
 nome=Jane+Doe &
@@ -37,22 +37,22 @@ uf=CA &
 complemento=Unit+101 &
 email=jdoe2 &
 username=janedoe &
-senha=secretpassword &
-roles=user &
+senha=SecretPassword123@ &
+roles=admin &
 statusUsuario=ATIVO
 
 ###
 
-POST http://localhost:8083/api/auth/signup
+POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Michael+Smith&cpf=45678912301&rg=9876543&dataNasc=1985-08-20&logradouro=789+Oak+St&numResid=321&cep=87654321&cidade=Village&bairro=testeBairro&uf=NY&complemento=Suite+202&email=msmith&username=mikesmith&senha=secretpassword&roles=user&statusUsuario=ATIVO
+nome=Michael+Smith&cpf=45678912301&rg=9876543&dataNasc=1985-08-20&logradouro=789+Oak+St&numResid=321&cep=87654321&cidade=Village&bairro=testeBairro&uf=NY&complemento=Suite+202&email=msmith&username=mikesmith&senha=SecretPassword123@&roles=user&statusUsuario=ATIVO
 
 ###
-POST http://localhost:8083/api/auth/signup
+POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Emily+Johnson&cpf=78912345601&rg=5432167&dataNasc=1998-05-10&logradouro=567+Pine+Rd&numResid=987&cep=23456789&cidade=Hill&uf=TX&bairro=testeBairro&complemento=Apartment+303&email=emily@example.com&username=emilyj&senha=secretpassword&roles=admin&statusUsuario=ATIVO
+nome=Emily+Johnson&cpf=78912345601&rg=5432167&dataNasc=1998-05-10&logradouro=567+Pine+Rd&numResid=987&cep=23456789&cidade=Hill&uf=TX&bairro=testeBairro&complemento=Apartment+303&email=emily@example.com&username=emilyj&senha=SecretPassword123@&roles=admin&statusUsuario=ATIVO
 
 ###
 POST http://localhost:8083/api/auth/signup
