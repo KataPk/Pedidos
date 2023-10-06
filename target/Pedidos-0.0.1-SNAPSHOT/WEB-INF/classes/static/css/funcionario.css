@@ -1,0 +1,60 @@
+.card {
+    padding: 10px;
+    margin: 1.5%;
+    align-items: center;
+    width: 12.5rem;
+    background-color: lightsalmon;
+
+}
+
+.card-title {
+    text-align: center;
+    font-size: 2em;
+    justify-self: center
+
+}
+
+label{
+    margin: 9px;
+    font-size: medium;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ufUser{
+    width: 50px;
+}
+
+.rgUser{
+    width: 125px;
+}
+
+.cpfUser{
+    width: 145px;
+}
+.dataNascUser{
+    width: 170px;
+
+}
+
+.cepUser{
+    width: 110px;
+}
+
+.hstack{
+    margin-top: 5px;
+}
+
+.emailUser{
+    white-space: pre-line ;
+}
+
+.acesso{
+    margin-left: 4px;
+    margin-right: 30px;
+}
+
+.eye{
+    margin: 9px;
+
+}

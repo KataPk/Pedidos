@@ -1,0 +1,54 @@
+.w3-bar-block .w3-bar-item {
+    padding: 20px
+}
+
+
+.card {
+    padding: 10px;
+    margin: 1.5%;
+    align-items: center;
+    width: 15rem;
+    background-color: lightsalmon;
+
+}
+
+.card-title {
+    text-align: center;
+    font-size: 2.21em;
+    justify-self: center;
+}
+
+.imgLink a:link {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.imgLink a:visited {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.imgLink a:hover {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.imgLink a:active {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+
+.offcanvas-backdrop {
+
+    z-index: 10;
+}
+
+.imageBtn {
+    border-width: 0;
+    border-style: none;
+}
