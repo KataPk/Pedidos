@@ -31,7 +31,6 @@ public record UserRecordDto(
 
         Set<ERole> roles,
 
-        @NotBlank String statusUsuario,
 
         List<Contato> contatos
 

@@ -77,8 +77,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "Acesso", referencedColumnName = "Id"))
     private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "statusUsuario", length = 20, nullable = false )
-    private String statusUsuario;
 
 
 
@@ -89,8 +87,7 @@ public class User {
             String nome, String cpf, String rg, LocalDate dataNasc, String logradouro, String numResid,
             String cep, String bairro, String cidade, String uf, String complemento,
                 String email, String username,
-                       String senha,
-                String statusUsuario
+                       String senha
     ) {
 
 
@@ -108,7 +105,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = senha;
-        this.statusUsuario = statusUsuario;
     }
 
     public User() {

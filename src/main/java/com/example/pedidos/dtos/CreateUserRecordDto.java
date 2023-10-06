@@ -26,9 +26,8 @@ public record CreateUserRecordDto(
         @NotBlank String email,
         @NotBlank String senha,
 
-       Set<ERole> roles,
+       Set<ERole> roles
 
-        @NotBlank String statusUsuario
 ) {
 
     public CreateUserRecordDto {

@@ -42,9 +42,7 @@ public class UserService {
                             user.getUf(),user.getComplemento(),
                             user.getUsername(),
                             user.getEmail(),user.getPassword(),
-                    user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()),
-                            user.getStatusUsuario()
-                    ))
+                    user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())))
                     .collect(Collectors.toList());
         }
 
@@ -70,7 +68,6 @@ new UserRecordDto(
                             user.getEmail(),
                             user.getPassword(),
                             user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()),
-                            user.getStatusUsuario(),
                             contatoRepository.findByUser(user)
                             )
 

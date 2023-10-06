@@ -109,8 +109,7 @@ AuthenticationManager authenticationManager;
                    complemento,
                   email,
                   username,
-                  encoder.encode(password),
-                  "ATIVO");
+                  encoder.encode(password));
 
           Set<Role> roles = new HashSet<>();
 

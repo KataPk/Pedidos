@@ -40,7 +40,7 @@
 
     <th:block th:each="user : ${users}">
 
-        <div th:if="${user.statusUsuario == 'ATIVO'}" class="card text-center" style="width: 18rem;">
+        <div class="card text-center" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title" th:text="${user.nome}">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-body-secondary" th:if="${user.roles.contains(RoleAdmin)}"  >Nível de acesso: Administrador</h6>
@@ -206,7 +206,7 @@
 
 
             <th:block th:each="user : ${users}" >
-    <div th:if="${user.statusUsuario() == 'ATIVO'}" class="modal fade" th:id="${'editUsuario' + user.id()}" aria-labelledby="staticBackdropLabel">
+    <div  class="modal fade" th:id="${'editUsuario' + user.id()}" aria-labelledby="staticBackdropLabel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
