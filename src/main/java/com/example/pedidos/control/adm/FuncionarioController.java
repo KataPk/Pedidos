@@ -26,7 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@RestController
+@Controller
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "false")
 @RequestMapping("/api/admin/")
 public class FuncionarioController {
@@ -49,7 +49,7 @@ public class FuncionarioController {
     }
 
     @GetMapping("/funcionarios")
-    public String funcionarios(Model model,
+    public String Funcionarios(Model model,
                                @AuthenticationPrincipal UserDetails userDetails){
         List<UserRecordDto> users = userService.findAll();
 
@@ -134,8 +134,7 @@ public class FuncionarioController {
                 complemento,
                 emailRecup,
                 username,
-                encoder.encode(password),
-                "ATIVO"
+                encoder.encode(password)
         );
             userRepository.save(user);
 

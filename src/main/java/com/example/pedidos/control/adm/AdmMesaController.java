@@ -35,7 +35,7 @@ public class AdmMesaController {
 
 
     @GetMapping("/mesas")
-    public String Mesas(Model model){
+    public String mesas(Model model){
         List<MesaRecordDto> mesas = mesaService.findAllAtivos();
         List<MesaRecordDto> mesasInativas = mesaService.findAllInativos();
         model.addAttribute("mesas", mesas);
