@@ -96,9 +96,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <finalName>Pedidos</finalName>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <finalName>Pedidos</finalName>-->
+<!--                </configuration>-->
             </plugin>
 
             <plugin>
