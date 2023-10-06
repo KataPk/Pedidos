@@ -5,11 +5,13 @@ import com.example.pedidos.model.entity.Categoria;
 import com.example.pedidos.model.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CategoriaService {
 
 
@@ -28,7 +30,7 @@ public class CategoriaService {
     }
 
     public List<CategoriaRecordDto> findAllAtivos(){
-        List<Categoria> categorias = categoriaRepository.findAllByStatusCategoria("ACTIVE");
+        List<Categoria> categorias = categoriaRepository.findAllByStatusCategoriaIs("ACTIVE");
         return categorias.stream()
                 .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))
                 .collect(Collectors.toList());
