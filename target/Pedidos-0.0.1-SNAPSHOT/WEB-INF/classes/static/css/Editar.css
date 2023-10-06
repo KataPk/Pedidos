@@ -1,0 +1,85 @@
+.card {
+    padding: 1px;
+    margin: 1.5%;
+    align-items: center;
+    max-width: 440px
+
+}
+
+.card-title {
+
+    font-size: 2.21em;
+    margin-bottom: 0;
+}
+
+.preco {
+    margin: 0;
+}
+
+
+.card a:hover {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.card a:active {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+img {
+
+    height: fit-content;
+    margin-top: 50%;
+    margin-bottom: 50%;
+}
+
+.hstack button {
+    font-size: large;
+    width: fit-content;
+    background-color: transparent;
+    border: none;
+}
+
+.less {
+    margin: 5px;
+    color: #D82435;
+}
+
+.plus {
+    margin: 5px;
+    color: #4CAF50;
+}
+
+.text, .quant {
+    font-size: large;
+    margin-top: 15px;
+}
+
+.form-control {
+    margin-top: 2.24em;
+    margin-left: 5px;
+}
+
+h2 {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+
+.remover {
+
+
+    margin-left: 60%;
+    margin-bottom: 10px;
+    margin-right: 10%;
+}
+
+#carrinho {
+
+    position: fixed;
+    margin-bottom: 7rem;
+    margin-left: 80%;
+}

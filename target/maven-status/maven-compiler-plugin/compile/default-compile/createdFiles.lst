@@ -30,7 +30,6 @@ com\example\pedidos\control\user\CategoriaController.class
 com\example\pedidos\control\adm\AdmProdutoController.class
 com\example\pedidos\dtos\ItemSubTotalRecordDto.class
 com\example\pedidos\model\entity\Mesa.class
-com\example\pedidos\control\adm\ProdutoController.class
 com\example\pedidos\security\AuthEntryPoint.class
 com\example\pedidos\control\AuthController.class
 com\example\pedidos\control\adm\AdmCategoriaController.class
