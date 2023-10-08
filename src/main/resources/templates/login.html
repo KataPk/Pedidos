@@ -11,7 +11,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet"/>
 
     <link href="/css/login.css" rel="stylesheet">
     <title>Login</title>
@@ -19,33 +19,30 @@
 
 <body>
 
-    <div class="login-container position-absolute top-50 start-50 translate-middle">
-        <h1>Login</h1>
-        <h2>Faça login para acessar o sistema</h2>
-        <form id="login-form" th:action="@{/login}" method="post">
+<div class="login-container position-absolute top-50 start-50 translate-middle">
+    <h1>Login</h1>
+    <h2>Faça login para acessar o sistema</h2>
+    <form id="login-form" method="post" th:action="@{/login}">
 
-           <label for="username" class="form-label">Username:</label>
-               <input id="username" name="username"
-                      placeholder="username" required type="text" autofocus="autofocus">
+        <label class="form-label" for="username">Username:</label>
+        <input autofocus="autofocus" id="username"
+               name="username" placeholder="username" required type="text">
 
-                <label for="password" class="form-label">Senha:</label>
-            <div class="hstack p-1">
+        <label class="form-label" for="password">Senha:</label>
+        <div class="hstack p-1">
             <input id="password" name="password" placeholder="Senha" required type="password">
-                 <i class="bi bi-eye-slash eye" id="togglePassword"></i>
-            </div>
+            <i class="bi bi-eye-slash eye" id="togglePassword"></i>
+        </div>
 
-            <button id="SendForm" type="submit">Entrar</button>
-            <p th:if="${loginError}" class="error">Usuario ou senha incorreto!</p>
-            <a data-bs-target="#forgotModal" data-bs-toggle="modal" href="">Esqueceu a senha?</a> <br/>
+        <button id="SendForm" type="submit">Entrar</button>
+        <p class="error" th:if="${loginError}">Usuario ou senha incorreto!</p>
+        <a data-bs-target="#forgotModal" data-bs-toggle="modal" href="">Esqueceu a senha?</a> <br/>
 
-        </form>
-    </div>
-
-
+    </form>
+</div>
 
 
-
-<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="forgotModal" tabindex="-1" >
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="forgotModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -104,8 +101,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 </body>

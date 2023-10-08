@@ -7,7 +7,7 @@ public record MesaRecordDto(
 
         @NotNull long id,
         @NotNull Integer numMesa,
-        @NotNull  String mStatus
+        @NotNull String mStatus
 
 ) {
 

@@ -28,18 +28,12 @@ import java.util.List;
 public class AdmCategoriaController {
 
 
-
+    private final CategoriaService categoriaService;
+    private final ProdutoService produtoService;
     @Autowired
     CategoriaRepository categoriaRepository;
-
     @Autowired
     ProdutoRepository produtoRepository;
-
-
-
-    private final CategoriaService categoriaService;
-
-    private final ProdutoService produtoService;
 
 
     public AdmCategoriaController(CategoriaService categoriaService, ProdutoService produtoService) {
@@ -49,7 +43,7 @@ public class AdmCategoriaController {
 
 
     @GetMapping("/categorias")
-    public String categorias(Model model){
+    public String categorias(Model model) {
         List<CategoriaRecordDto> categorias = categoriaService.findAll();
         model.addAttribute("categorias", categorias);
         return "Adm/CategoriasAdm";
@@ -57,7 +51,7 @@ public class AdmCategoriaController {
 
     @PostMapping("/createCategoria")
     public RedirectView createCategoria(@RequestParam("nome") String nome,
-                                        @RequestParam("file") MultipartFile file){
+                                        @RequestParam("file") MultipartFile file) {
 
         try {
             // tratativa da imagem
@@ -80,29 +74,21 @@ public class AdmCategoriaController {
     }
 
     @PostMapping("/disableCategoria")
-    public RedirectView desativarCategoria(@RequestParam("id") long categoriaId){
+    public RedirectView desativarCategoria(@RequestParam("id") long categoriaId) {
 
         Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
         List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
 
-        for (ProdutoRecordDto produto: produtos) {
+        for (ProdutoRecordDto produto : produtos) {
             Produto produto1 = produtoRepository.getReferenceById(produto.id());
             produto1.setStatusProduto("INACTIVE");
             produtoRepository.save(produto1);
         }
 
 
-
-
-
         return new RedirectView("/api/admin/categorias");
 
     }
-
-
-
-
-
 
 
 }

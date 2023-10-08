@@ -12,7 +12,7 @@ bairro = testeBairro &
 cidade = City &
 uf = CA &
 complemento = Apartment+789 &
-email =  johndoe &
+email = johndoe &
 username = jdoe &
 senha = Secretpassword124@ &
 roles = admin
@@ -23,39 +23,81 @@ roles = admin
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Jane+Doe &
-cpf=98765432101 &
-rg=7654321 &
-dataNasc=1995-03-15 &
-logradouro=456+Maple+Ave &
-numResid=789 &
-cep=54321098 &
+nome = Jane+Doe &
+cpf = 98765432101 &
+rg = 7654321 &
+dataNasc = 1995-03-15 &
+logradouro = 456+Maple+Ave &
+numResid = 789 &
+cep = 54321098 &
 bairro = testeBairro &
-cidade=Town &
-uf=CA &
-complemento=Unit+101 &
-email=jdoe2 &
-username=janedoe &
-senha=Secretpassword124@ &
-roles=user
+cidade = Town &
+uf = CA &
+complemento = Unit+101 &
+email = jdoe2 &
+username = janedoe &
+senha = Secretpassword124@ &
+roles = user
 
 ###
 
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Michael+Smith&cpf=45678912301&rg=9876543&dataNasc=1985-08-20&logradouro=789+Oak+St&numResid=321&cep=87654321&cidade=Village&bairro=testeBairro&uf=NY&complemento=Suite+202&email=msmith&username=mikesmith&senha=Secretpassword124@&roles=user
+nome = Michael+Smith &
+cpf = 45678912301 &
+rg = 9876543 &
+dataNasc = 1985-08-20 &
+logradouro = 789+Oak+St &
+numResid = 321 &
+cep = 87654321 &
+cidade = Village &
+bairro = testeBairro &
+uf = NY &
+complemento = Suite+202 &
+email = msmith &
+username = mikesmith &
+senha = Secretpassword124@ &
+roles = user
 
 ###
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Emily+Johnson&cpf=78912345601&rg=5432167&dataNasc=1998-05-10&logradouro=567+Pine+Rd&numResid=987&cep=23456789&cidade=Hill&uf=TX&bairro=testeBairro&complemento=Apartment+303&email=emily@example.com&username=emilyj&senha=Secretpassword124@&roles=admin
+nome = Emily+Johnson &
+cpf = 78912345601 &
+rg = 5432167 &
+dataNasc = 1998-05-10 &
+logradouro = 567+Pine+Rd &
+numResid = 987 &
+cep = 23456789 &
+cidade = Hill &
+uf = TX &
+bairro = testeBairro &
+complemento = Apartment+303 &
+email = emily@example.com &
+username = emilyj &
+senha = Secretpassword124@ &
+roles = admin
 
 ###
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-nome=Daniel+Williams&cpf=45678912302&rg=9876544&dataNasc=1992-12-08&logradouro=789+Elm+Rd&numResid=456&cep=76543210&cidade=Valley&bairro=testeBairro&uf=CA&complemento=Unit+404&email=daniel@example.com&username=danielw&senha=Secretpassword124@&roles=user
+nome = Daniel+Williams &
+cpf = 45678912302 &
+rg = 9876544 &
+dataNasc = 1992-12-08 &
+logradouro = 789+Elm+Rd &
+numResid = 456 &
+cep = 76543210 &
+cidade = Valley &
+bairro = testeBairro &
+uf = CA &
+complemento = Unit+404 &
+email = daniel@example.com &
+username = danielw &
+senha = Secretpassword124@ &
+roles = user
 
 ###

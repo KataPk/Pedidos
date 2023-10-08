@@ -17,12 +17,11 @@ import java.util.Set;
 @Setter
 public class User {
 
-//    public static final Logger log = LoggerFactory.getLogger(User.class);
+    //    public static final Logger log = LoggerFactory.getLogger(User.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long id;
-
 
 
     @Column(name = "nome", length = 100, nullable = false)
@@ -65,7 +64,6 @@ public class User {
     private String email;
 
 
-
     @Column(name = "senha", length = 100, nullable = false)
     private String password;
 
@@ -76,16 +74,11 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
-
-
-
-
-
     public User(
             String nome, String cpf, String rg, LocalDate dataNasc, String logradouro, String numResid,
             String cep, String bairro, String cidade, String uf, String complemento,
-                String email, String username,
-                       String senha
+            String email, String username,
+            String senha
     ) {
 
 

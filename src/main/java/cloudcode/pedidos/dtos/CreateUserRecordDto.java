@@ -11,10 +11,10 @@ import java.util.Set;
 
 public record CreateUserRecordDto(
 
-        @NotBlank  String nome,
-        @NotBlank  String cpf,
+        @NotBlank String nome,
+        @NotBlank String cpf,
         @NotBlank String rg,
-        @NotBlank  @JsonFormat(pattern = "dd/MM/yyyy") LocalDate dataNasc,
+        @NotBlank @JsonFormat(pattern = "dd/MM/yyyy") LocalDate dataNasc,
         @NotBlank String logradouro,
         @NotBlank String numResid,
         @NotBlank String cep,
@@ -27,7 +27,7 @@ public record CreateUserRecordDto(
         @NotBlank String email,
         @NotBlank String senha,
 
-       Set<ERole> roles
+        Set<ERole> roles
 
 ) {
 

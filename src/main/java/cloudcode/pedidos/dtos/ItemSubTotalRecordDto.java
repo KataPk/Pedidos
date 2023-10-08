@@ -16,9 +16,7 @@ public record ItemSubTotalRecordDto(
 
         double subTotal
 
-        ) {
-
-
+) {
 
 
 }

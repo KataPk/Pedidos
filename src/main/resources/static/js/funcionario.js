@@ -1,24 +1,22 @@
-
 const nomeUsers = document.querySelectorAll('.nomeUser');
-const rgUsers = document.querySelectorAll('.rgUser');
-const cpfUsers = document.querySelectorAll('.cpfUser');
-const dataNascUsers = document.querySelectorAll('.dataNascUser');
+const rgUser = document.querySelector('#rgUsuario');
+const cpfUser = document.querySelector('#cpfUsuario');
+const dataNascUser = document.querySelector('#dataNascUsuario');
 const cepUsers = document.querySelectorAll('.cepUser');
 const enderecoUsers = document.querySelectorAll('.enderecoUser');
 const bairroUsers = document.querySelectorAll('.bairroUser');
 const cidadeUsers = document.querySelectorAll('.cidadeUser');
 const ufUsers = document.querySelectorAll('.ufUser');
-const tel1Users = document.querySelectorAll('.tel1User');
-const tel2Users = document.querySelectorAll('.tel2User');
+// const tel1Users = document.querySelectorAll('.tel1User');
+// const tel2Users = document.querySelectorAll('.tel2User');
 const emailUsers = document.querySelectorAll('.emailUser');
 const formsEdit = document.querySelectorAll('.formEdit')
-const email2Users = document.querySelectorAll('.emailUser2');
+// const email2Users = document.querySelectorAll('.emailUser2');
 
 const btnSubmits = document.querySelectorAll('.btnSubmit');
 
 
-
-    // Máscaras para o add
+// Máscaras para o add
 {
     $(document).ready(function () {
         // Máscara para CEP
@@ -31,13 +29,14 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
         $('.rgUser').mask('00.000.000-0', {reverse: true});
 
         // Máscara para telefone
-        $('.telUser').mask('(00) 00000-0000');
+        // $('.telUser').mask('(00) 00000-0000');
 
         // Máscara para Número de residência
         $('.numResidUser').mask('000')
 
 
     });
+
     // Máscara para UF
     function maskUf(ufInput) {
         // Obtém o valor atual do campo em letras maiúsculas
@@ -56,7 +55,7 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
 }
 
 
-    // Validações
+// Validações
 {
     // Validações gerais
     for (let i = 0; i < nomeUsers.length; i++) {
@@ -104,57 +103,56 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
 
 
         })
-
-            tel1Users[i].addEventListener('change', function () {
-                const telUser = tel1Users[i];
-                const regex = /^(\([0-9]{2}\)\s*|[0-9]{2}-)[0-9]{4,5}-[0-9]{4}$/;
-
-                if (!regex.test(telUser.value)) {
-                    exibirErro(telUser, "Telefone inválido. Por favor, insira um email válido.");
-                } else {
-                    exibirSucesso(telUser);
-                }
-            });
-
-
         {
-            tel2Users[i].addEventListener('change', function () {
-                const telUser = tel2Users[i];
-                const regex = /^(\([0-9]{2}\)\s*|[0-9]{2}-)[0-9]{4,5}-[0-9]{4}$/;
-
-                if (!regex.test(telUser.value)) {
-                    exibirErro(telUser, "Telefone inválido. Por favor, insira um email válido.");
-                } else {
-                    exibirSucesso(telUser);
-                }
-            });
-
-            tel2Users[i].addEventListener('blur', function () {
-                const telUser = tel2Users[i];
-                if (telUser.value === "") {
-                    exibirSucesso(telUser);
-                }
-            });
+            // tel1Users[i].addEventListener('change', function () {
+            //     const telUser = tel1Users[i];
+            //     const regex = /^(\([0-9]{2}\)\s*|[0-9]{2}-)[0-9]{4,5}-[0-9]{4}$/;
+            //
+            //     if (!regex.test(telUser.value)) {
+            //         exibirErro(telUser, "Telefone inválido. Por favor, insira um email válido.");
+            //     } else {
+            //         exibirSucesso(telUser);
+            //     }
+            // });
+            //
+            //     tel2Users[i].addEventListener('change', function () {
+            //         const telUser = tel2Users[i];
+            //         const regex = /^(\([0-9]{2}\)\s*|[0-9]{2}-)[0-9]{4,5}-[0-9]{4}$/;
+            //
+            //         if (!regex.test(telUser.value)) {
+            //             exibirErro(telUser, "Telefone inválido. Por favor, insira um email válido.");
+            //         } else {
+            //             exibirSucesso(telUser);
+            //         }
+            //     });
+            //
+            //     tel2Users[i].addEventListener('blur', function () {
+            //         const telUser = tel2Users[i];
+            //         if (telUser.value === "") {
+            //             exibirSucesso(telUser);
+            //         }
+            //     });
+            //
+            //
+            //     email2Users[i].addEventListener('change', function () {
+            //         const emailUser = email2Users[i];
+            //         const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            //
+            //         if (!regex.test(emailUser.value)) {
+            //             exibirErro(emailUser, "Email inválido. Por favor, insira um email válido.");
+            //         } else {
+            //             exibirSucesso(emailUser);
+            //         }
+            //     });
+            //
+            //     email2Users[i].addEventListener('blur', function () {
+            //         const emailUser = email2Users[i];
+            //         if (emailUser.value === "") {
+            //             exibirSucesso(emailUser);
+            //         }
+            //     });
         }
-        {
-            email2Users[i].addEventListener('change', function () {
-                const emailUser = email2Users[i];
-                const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-                if (!regex.test(emailUser.value)) {
-                    exibirErro(emailUser, "Email inválido. Por favor, insira um email válido.");
-                } else {
-                    exibirSucesso(emailUser);
-                }
-            });
-
-            email2Users[i].addEventListener('blur', function () {
-                const emailUser = email2Users[i];
-                if (emailUser.value === "") {
-                    exibirSucesso(emailUser);
-                }
-            });
-        }
         emailUsers[i].addEventListener('change', function () {
             const emailUser = emailUsers[i];
             const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -166,9 +164,25 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
             }
         });
 
-        rgUsers[i].addEventListener('change', function () {
 
-            const rgUser = rgUsers[i];
+        function exibirErro(element, mensagem) {
+            let siblingP = element.parentElement.nextElementSibling;
+            siblingP.style.display = "block";
+            siblingP.textContent = mensagem;
+            button.disabled = true;
+        }
+
+        function exibirSucesso(element) {
+            let siblingP = element.parentElement.nextElementSibling;
+            siblingP.style.display = "none";
+            siblingP.textContent = "";
+            button.disabled = false;
+        }
+
+
+    }
+    {
+        rgUser.addEventListener('change', function () {
 
 
             // Expressão regular para verificar o formato do RG (00.000.000-0)
@@ -184,9 +198,8 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
             }
         })
 
-        cpfUsers[i].addEventListener('change', function () {
+        cpfUser.addEventListener('change', function () {
 
-            const cpfUser = cpfUsers[i];
 
             let cpf = cpfUser.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
@@ -240,9 +253,8 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
             }
         })
 
-        dataNascUsers[i].addEventListener('change', function () {
+        dataNascUser.addEventListener('change', function () {
 
-            const dataNascUser = dataNascUsers[i];
             let dataNascimento = new Date(dataNascUser.value);
             let hoje = new Date();
 
@@ -273,26 +285,11 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
 
         })
 
-
-        function exibirErro(element, mensagem) {
-            let siblingP = element.parentElement.nextElementSibling;
-            siblingP.style.display = "block";
-            siblingP.textContent = mensagem;
-            button.disabled = true;
-        }
-
-        function exibirSucesso(element) {
-            let siblingP = element.parentElement.nextElementSibling;
-            siblingP.style.display = "none";
-            siblingP.textContent = "";
-            button.disabled = false;
-        }
-
-
     }
 
     //  Validação da senha
-    {const pass = document.getElementById('senhaUsuario');
+    {
+        const pass = document.getElementById('senhaUsuario');
         const regex = /^(?=.*[!@#$%^&*()_+])(?=.*[A-Z])(?=.*\d.*\d.*\d)[A-Za-z0-9!@#$%^&*()_+]{8,}$/;
 
         pass.addEventListener('input', function () {
@@ -362,8 +359,6 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
         }
 
 
-
-
     }
 
 
@@ -400,8 +395,8 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
     }
 
     {
-        for (let i = 0; i < formsEdit.length; i++){
-        const formEdit = formsEdit[i]
+        for (let i = 0; i < formsEdit.length; i++) {
+            const formEdit = formsEdit[i]
 
             formEdit.addEventListener('submit', function (event) {
                 event.preventDefault();
@@ -434,17 +429,17 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
         Soma = 0;
         if (strCPF === "00000000000") return false;
 
-        for (let i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+        for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
         Resto = (Soma * 10) % 11;
 
-        if ((Resto === 10) || (Resto === 11))  Resto = 0;
-        if (Resto !== parseInt(strCPF.substring(9, 10)) ) return false;
+        if ((Resto === 10) || (Resto === 11)) Resto = 0;
+        if (Resto !== parseInt(strCPF.substring(9, 10))) return false;
 
         Soma = 0;
-        for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+        for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
         Resto = (Soma * 10) % 11;
 
-        if ((Resto === 10) || (Resto === 11))  Resto = 0;
+        if ((Resto === 10) || (Resto === 11)) Resto = 0;
         return Resto === parseInt(strCPF.substring(10, 11));
 
     }
@@ -461,5 +456,6 @@ const btnSubmits = document.querySelectorAll('.btnSubmit');
 
         // toggle the icon
         this.classList.toggle("bi-eye");
+
     });
 }

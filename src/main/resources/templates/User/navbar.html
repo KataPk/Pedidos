@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="pt-br"  xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="pt-br" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 
 <div id="navbar">
     <div class="navbar-top ">
         <div class="d-inline-flex align-items-center ">
-        <div class="bars p-1 col-first" data-bs-target="#staticBackdrop" data-bs-toggle="offcanvas" type="button">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
+            <div class="bars p-1 col-first" data-bs-target="#staticBackdrop" data-bs-toggle="offcanvas" type="button">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
             <th:block th:if="${clientes} != null ">
-        <div class="d-inline-flex col-last position-absolute top-0 start-50 translate-middle-x" id="clientSelect">
-            <h1 id="clientLabel" class="col-first me-3">Cliente Atual: </h1>
-            <select id="selectClients" class="form-select form-select-lg mb-3 col-last" aria-label="Cliente Atual: " onchange="select()">
-                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nomeCliente}" th:id="'pedido-id-' + ${cliente.id}"  th:selected="${cliente.id == pedido.id}">error</option>
-            </select>
-        </div>
+                <div class="d-inline-flex col-last position-absolute top-0 start-50 translate-middle-x"
+                     id="clientSelect">
+                    <h1 class="col-first me-3" id="clientLabel">Cliente Atual: </h1>
+                    <select aria-label="Cliente Atual: " class="form-select form-select-lg mb-3 col-last"
+                            id="selectClients" onchange="select()">
+                        <option th:each="cliente : ${clientes}" th:id="'pedido-id-' + ${cliente.id}"
+                                th:selected="${cliente.id == pedido.id}" th:text="${cliente.nomeCliente}"
+                                th:value="${cliente.id}">error
+                        </option>
+                    </select>
+                </div>
             </th:block>
         </div>
 
-        <div aria-labelledby="staticBackdropLabel" class="offcanvas offcanvas-start" data-bs-backdrop="static" id="staticBackdrop"
+        <div aria-labelledby="staticBackdropLabel" class="offcanvas offcanvas-start" data-bs-backdrop="static"
+             id="staticBackdrop"
              tabindex="-1">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="staticBackdropLabel">Menu</h5>
@@ -28,29 +34,29 @@
                         type="button"></button>
 
 
-
             </div>
             <div class="offcanvas-body">
 
-                    <h2  th:text="${'Olá ' + #authentication.principal.username}">Olá teste </h2>
+                <h2 th:text="${'Olá, ' + #authentication.principal.username}">Olá teste </h2>
 
-                    <a href="/api/user/pedido/Pedidos">Pedidos</a>
+                <a href="/api/user/pedido/Pedidos">Pedidos</a>
 
-                    <div sec:authorize="hasAnyRole('ADMIN')" >
-                        <a class="collapsed" data-bs-toggle="collapse" href="#collapseAdm" aria-controls="collapseAdm">Administração</a>
-                        <div class="collapse " id="collapseAdm">
-                            <a href="/api/admin/funcionarios">Funcionários</a>
-                            <a href="/api/admin/mesas">Mesas</a>
-                            <a href="/api/admin/produtos">Produtos</a>
-                            <a href="/api/admin/categorias">Categorias</a>
-                        </div>
-
+                <div sec:authorize="hasAnyRole('ADMIN')">
+                    <a aria-controls="collapseAdm" class="collapsed" data-bs-toggle="collapse" href="#collapseAdm">Administração</a>
+                    <div class="collapse " id="collapseAdm">
+                        <a href="/api/admin/funcionarios">Funcionários</a>
+                        <a href="/api/admin/mesas">Mesas</a>
+                        <a href="/api/admin/produtos">Produtos</a>
+                        <a href="/api/admin/categorias">Categorias</a>
                     </div>
-                    <a href="/api/user/mesas">Mesas</a>
-                    <a aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary" data-bs-target="#logout"
-                       data-bs-toggle="modal" id="logoutBtn" role="button">
-                        Logout
-                    </a>
+
+                </div>
+                <a href="/api/user/mesas">Mesas</a>
+                <a aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary"
+                   data-bs-target="#logout"
+                   data-bs-toggle="modal" id="logoutBtn" role="button">
+                    Logout
+                </a>
 
 
             </div>
@@ -70,8 +76,8 @@
             </div>
             <div class="modal-footer">
                 <form action="/api/logout" method="post">
-                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                <button class="btn btn-primary"  type="submit" value="Logout">Fazer logout</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                    <button class="btn btn-primary" type="submit" value="Logout">Fazer logout</button>
                 </form>
             </div>
         </div>
@@ -83,6 +89,6 @@
 
 
 </div>
- </html>
+</html>
 
 

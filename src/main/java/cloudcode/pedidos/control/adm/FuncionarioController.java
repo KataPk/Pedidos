@@ -2,11 +2,9 @@ package cloudcode.pedidos.control.adm;
 
 
 import cloudcode.pedidos.dtos.UserRecordDto;
-import cloudcode.pedidos.model.entity.Contato;
 import cloudcode.pedidos.model.entity.ERole;
 import cloudcode.pedidos.model.entity.Role;
 import cloudcode.pedidos.model.entity.User;
-import cloudcode.pedidos.model.repository.ContatoRepository;
 import cloudcode.pedidos.model.repository.RoleRepository;
 import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.response.MessageResponse;
@@ -21,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -31,18 +30,13 @@ import java.util.*;
 @RequestMapping("/api/admin/")
 public class FuncionarioController {
 
+    private final UserService userService;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
-    @Autowired
-    ContatoRepository contatoRepository;
-
     @Autowired
     PasswordEncoder encoder;
-    private final UserService userService;
 
     public FuncionarioController(UserService userService) {
         this.userService = userService;
@@ -50,7 +44,7 @@ public class FuncionarioController {
 
     @GetMapping("/funcionarios")
     public String Funcionarios(Model model,
-                               @AuthenticationPrincipal UserDetails userDetails){
+                               @AuthenticationPrincipal UserDetails userDetails) {
         List<UserRecordDto> users = userService.findAll();
 
         ERole roleUser = ERole.ROLE_USER;
@@ -70,26 +64,23 @@ public class FuncionarioController {
 
     @PostMapping("/funcionarios/createFuncionario")
     public ResponseEntity<?> createFuncionario(
-            @RequestParam ("nome")          String nome,
-            @RequestParam ("cpf")           String cpf,
-            @RequestParam ("rg")            String rg,
-            @RequestParam ("dataNasc")      String dataNasc,
-            @RequestParam ("endereco")      String logradouro,
-            @RequestParam ("numResid")      String numResid,
-            @RequestParam ("cep")           String cep,
-            @RequestParam ("cidade")        String cidade,
-            @RequestParam ("bairro")        String bairro,
-            @RequestParam ("uf")            String uf,
-            @Param ("complemento")          String complemento,
-            @RequestParam ("telefone1")     String tel1,
-            @Param ("telefoneUser2")            String tel2,
-            @RequestParam ("emailRecup")    String emailRecup,
-            @Param ("emailUser")         String emailUser,
-            @RequestParam ("username")      String username,
-            @RequestParam ("senha")         String password,
-            @RequestParam ("Role")          String strRole
+            @RequestParam("nome") String nome,
+            @RequestParam("cpf") String cpf,
+            @RequestParam("rg") String rg,
+            @RequestParam("dataNasc") String dataNasc,
+            @RequestParam("endereco") String logradouro,
+            @RequestParam("numResid") String numResid,
+            @RequestParam("cep") String cep,
+            @RequestParam("cidade") String cidade,
+            @RequestParam("bairro") String bairro,
+            @RequestParam("uf") String uf,
+            @Param("complemento") String complemento,
+            @RequestParam("emailRecup") String emailRecup,
+            @RequestParam("username") String username,
+            @RequestParam("senha") String password,
+            @RequestParam("Role") String strRole
 
-            ) {
+    ) {
         Map<String, Object> responseData = new HashMap<>();
 
         try {
@@ -97,16 +88,16 @@ public class FuncionarioController {
             String cpfValue = cpf.replace(".", "").replace("-", "");
             String rgValue = rg.replace(".", "").replace("-", "");
             String cepValue = cep.replace("-", "");
-            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
-            String tel2Value = "";
-            String emailUserValue = "";
+//            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
+//            String tel2Value = "";
+//            String emailUserValue = "";
 
-            if (emailUser != null){
-                emailUserValue = emailUser;
-            }
-            if (tel2 != null) {
-                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
-            }
+//            if (emailUser != null){
+//                emailUserValue = emailUser;
+//            }
+//            if (tel2 != null) {
+//                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
+//            }
 
             if (userRepository.existsByUsername(username)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
@@ -120,85 +111,81 @@ public class FuncionarioController {
             }
 
 
-        User user = new User(
-                nome,
-                cpfValue,
-                rgValue,
-                LocalDate.parse(dataNasc),
-                logradouro,
-                numResid,
-                cepValue,
-                bairro,
-                cidade,
-                uf,
-                complemento,
-                emailRecup,
-                username,
-                encoder.encode(password)
-        );
+            User user = new User(
+                    nome,
+                    cpfValue,
+                    rgValue,
+                    LocalDate.parse(dataNasc),
+                    logradouro,
+                    numResid,
+                    cepValue,
+                    bairro,
+                    cidade,
+                    uf,
+                    complemento,
+                    emailRecup,
+                    username,
+                    encoder.encode(password)
+            );
             userRepository.save(user);
 
             Set<Role> roles = new HashSet<>();
 
 
-                if (strRole.equals("admin")) {
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
+            if (strRole.equals("admin")) {
+                Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
 
-                } else {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                }
+            } else {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            }
             user.setRoles(roles);
 
 
-            Contato contato1 = new Contato(
-                    user,
-                    tel1Value,
-                    emailRecup
-            );
-                contatoRepository.save(contato1);
-
-
-            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")){
-
-                Contato contato2 = new Contato(
-                        user,
-                        tel2Value,
-                        emailUser
-                );
-
-                contatoRepository.save(contato2);
-
-            } else if (!Objects.equals(tel2Value, "")) {
-                Contato contato2 = new Contato(
-                        user,
-                        tel2Value,
-                        null
-                );
-
-                contatoRepository.save(contato2);
-
-
-
-
-            } else if (!Objects.equals(emailUserValue, "")) {
-                Contato contato2 = new Contato(
-                        user,
-                        null,
-                        emailUser
-                );
-                contatoRepository.save(contato2);
-
-            }
+//            Contato contato1 = new Contato(
+//                    user,
+//                    tel1Value,
+//                    emailRecup
+//            );
+//                contatoRepository.save(contato1);
+//            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")){
+//
+//                Contato contato2 = new Contato(
+//                        user,
+//                        tel2Value,
+//                        emailUser
+//                );
+//
+//                contatoRepository.save(contato2);
+//
+//            } else if (!Objects.equals(tel2Value, "")) {
+//                Contato contato2 = new Contato(
+//                        user,
+//                        tel2Value,
+//                        null
+//                );
+//
+//                contatoRepository.save(contato2);
+//
+//
+//            } else if (!Objects.equals(emailUserValue, "")) {
+//                Contato contato2 = new Contato(
+//                        user,
+//                        null,
+//                        emailUser
+//                );
+//                contatoRepository.save(contato2);
+//
+//            }
             responseData.put("success", true);
             responseData.put("message", "Usuário registrado com sucesso.");
 
             return ResponseEntity.ok(responseData);
 
-            } catch (Exception e){
+        } catch (Exception e) {
 
             responseData.put("success", false);
             responseData.put("message", "Erro ao processar a solicitação.");
@@ -212,21 +199,18 @@ public class FuncionarioController {
 
     @PostMapping("/EditUsuario")
     public ResponseEntity<?> editUsuario(
-            @RequestParam ("id")            long userId,
-            @RequestParam ("nome")          String nome,
-            @RequestParam ("endereco")      String logradouro,
-            @RequestParam ("numResid")      String numResid,
-            @RequestParam ("cep")           String cep,
-            @RequestParam ("cidade")        String cidade,
-            @RequestParam ("bairro")        String bairro,
-            @RequestParam ("uf")            String uf,
-            @Param ("complemento")          String complemento,
-            @RequestParam ("telefone1")     String tel1,
-            @Param ("telefoneUser2")            String tel2,
-            @RequestParam ("emailRecup")    String emailRecup,
-            @Param ("emailUser")         String emailUser,
-            @RequestParam ("username")      String username,
-            @RequestParam ("Role")          String strRole
+            @RequestParam("id") long userId,
+            @RequestParam("nome") String nome,
+            @RequestParam("endereco") String logradouro,
+            @RequestParam("numResid") String numResid,
+            @RequestParam("cep") String cep,
+            @RequestParam("cidade") String cidade,
+            @RequestParam("bairro") String bairro,
+            @RequestParam("uf") String uf,
+            @Param("complemento") String complemento,
+            @RequestParam("emailRecup") String emailRecup,
+            @RequestParam("username") String username,
+            @Param("Role") String strRole
     ) {
         // UserForm é uma classe que você deve criar para representar os campos do formulário
         Map<String, Object> responseData = new HashMap<>();
@@ -234,10 +218,10 @@ public class FuncionarioController {
         try {
 
             String cepValue = cep.replace("-", "");
-            String tel1Value = "";
-            tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
-            String tel2Value = "";
-            String emailUserValue = "";
+//            String tel1Value = "";
+//            tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
+//            String tel2Value = "";
+//            String emailUserValue = "";
 
             User editUser = userRepository.findById(userId).orElse(null);
             if (editUser == null) {
@@ -245,17 +229,20 @@ public class FuncionarioController {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuário não encontrado."));
             }
 
-            if (emailUser != null) {
-                emailUserValue = emailUser;
-            }
-            if (tel2 != null) {
-                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
-            }
+//            if (emailUser != null) {
+//                emailUserValue = emailUser;
+//            }
+//            if (tel2 != null) {
+//                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
+//            }
 
-            if (!emailRecup.equals(editUser.getEmail()) && userRepository.existsByUsername(username)) {
+            if (userRepository.existsByUsername(username) && !Objects.equals(editUser.getUsername(), username)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
             }
+            if (userRepository.existsByEmail(emailRecup) && !Objects.equals(editUser.getEmail(), emailRecup)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email já registrado!"));
 
+            }
 
 
             editUser.setNome(nome);
@@ -272,8 +259,8 @@ public class FuncionarioController {
 
             userRepository.save(editUser);
 
-
-            editUser.getRoles().clear();
+            if (strRole != null && !strRole.isEmpty())
+                editUser.getRoles().clear();
             Set<Role> roles = new HashSet<>();
             if ("admin".equals(strRole)) {
                 Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
@@ -286,36 +273,35 @@ public class FuncionarioController {
             }
             editUser.setRoles(roles);
 
-            contatoRepository.deleteByUser(editUser);
+//            contatoRepository.deleteByUser(editUser);
+
+//            Contato contato1 = new Contato(
+//                    editUser,
+//                    tel1Value,
+//                    emailRecup
+//            );
+//            contatoRepository.save(contato1);
 
 
-            Contato contato1 = new Contato(
-                    editUser,
-                    tel1Value,
-                    emailRecup
-            );
-            contatoRepository.save(contato1);
-
-
-            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")) {
-
-                Contato contato2 = new Contato(
-                        editUser,
-                        tel2Value,
-                        emailUser
-                );
-
-                contatoRepository.save(contato2);
-
-            } else if (!Objects.equals(tel2Value, "")) {
-                Contato contato2 = new Contato(
-                        editUser,
-                        tel2Value,
-                        null
-                );
-
-                contatoRepository.save(contato2);
-            }
+//            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")) {
+//
+//                Contato contato2 = new Contato(
+//                        editUser,
+//                        tel2Value,
+//                        emailUser
+//                );
+//
+//                contatoRepository.save(contato2);
+//
+//            } else if (!Objects.equals(tel2Value, "")) {
+//                Contato contato2 = new Contato(
+//                        editUser,
+//                        tel2Value,
+//                        null
+//                );
+//
+//                contatoRepository.save(contato2);
+//            }
 
             responseData.put("success", true);
             responseData.put("message", "Usuário atualizado com sucesso.");
@@ -333,30 +319,18 @@ public class FuncionarioController {
     }
 
     @PostMapping("/deleteFuncionario")
-    public ResponseEntity<?> deleteUser(@RequestParam ("id") long id) {
-        Map<String, Object> responseData = new HashMap<>();
+    public RedirectView deleteUser(@RequestParam("userId") long id) {
         try {
-            User user = userRepository.findById(id).orElse(null);
-
-            if (user == null) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuário não encontrado."));
-            }
+            User user = userRepository.getReferenceById(id);
 
             userRepository.delete(user);
 
-
-            responseData.put("success", true);
-            responseData.put("message", "Usuário registrado com sucesso.");
-
-            return ResponseEntity.ok(responseData);
         } catch (Exception e) {
+            throw new RuntimeException(e);
 
-            responseData.put("success", false);
-            responseData.put("message", "Erro ao processar a solicitação.");
-
-
-            return ResponseEntity.badRequest().body(responseData);
         }
+        return new RedirectView("/api/admin/funcionarios");
+
 
     }
 

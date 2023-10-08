@@ -22,7 +22,6 @@ public record PedidoRecordDTO(
         @NotBlank String statusPedido
 
 
-
 ) {
 
 }

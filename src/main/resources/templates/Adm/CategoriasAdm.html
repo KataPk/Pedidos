@@ -8,9 +8,12 @@
     <script src="/js/navbar.js"></script>
     <link href="/css/navbar.css" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="/fontawesome-free-6.4.0-web/js/all.js"> </script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
     <link href="/css/categorias.css" rel="stylesheet">
     <title>Categorias</title>
 </head>
@@ -28,7 +31,7 @@
                 <img alt="..." class="card-img-top image" id="CategoriaAddImage" src="/img/PNG/add_button.png">
             </button>
             <div class="card-body">
-                <h5 class="card-title" >Criar Categoria</h5>
+                <h5 class="card-title">Criar Categoria</h5>
                 <button class="btn btn-primary"
                         data-bs-target="#criarCategoria" data-bs-toggle="modal" type="button">
                     Criar
@@ -40,34 +43,35 @@
 
             <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
-                    <img th:alt="${categoria.nome}" class="card-img-top image" th:src="|data:image;base64, *{categoria.imagem}|"/>
+                    <img class="card-img-top image" th:alt="${categoria.nome}"
+                         th:src="|data:image;base64, *{categoria.imagem}|"/>
                 </button>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${categoria.nome}">Teste</h5>
-                <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                    <button class="btn btn-primary"
-                            th:id="${'CategoriaEdit' + categoria.nome}" type="button">
-                        Editar
-                    </button>
-                    <button class="btn btn-danger" th:id="${'exclude' + categoria.nome}" type="button">Excluir</button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${categoria.nome}">Teste</h5>
+                    <div aria-label="Vertical button group" class="btn-group-vertical" role="group">
+                        <button class="btn btn-primary"
+                                th:id="${'CategoriaEdit' + categoria.nome}" type="button">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger" th:id="${'exclude' + categoria.nome}" type="button">Excluir
+                        </button>
 
+                    </div>
                 </div>
-            </div>
             </div>
 
         </th:block>
-
 
 
     </div>
 
 </div>
 <div id="modals">
-    <div aria-hidden="true" class="modal fade" id="criarCategoria"  aria-labelledby="staticBackdropLabel">
+    <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" id="criarCategoria">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-<!--                    <h1 class="modal-title fs-5" th:text="${categoria.nome}" th:id="'labelCategoria' + ${categoria.nome}"></h1>-->
+                    <!--                    <h1 class="modal-title fs-5" th:text="${categoria.nome}" th:id="'labelCategoria' + ${categoria.nome}"></h1>-->
 
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
@@ -75,13 +79,14 @@
                     <div class="modal-body vstack">
                         <div class="hstack p-1 ">
                             <label class="form-label" for="categoriaNome">Nome da Categoria:</label>
-                            <input class="form-control categoriaNome" id="categoriaNome" name="nome" required type="text">
+                            <input class="form-control categoriaNome" id="categoriaNome" name="nome" required
+                                   type="text">
 
                         </div>
                         <div class="hstack p-2">
                             <div class="m2">
-                            <label for="formFile" class="form-label">Imagem</label>
-                            <input class="form-control" type="file" id="formFile" name="file" accept="image/*">
+                                <label class="form-label" for="formFile">Imagem</label>
+                                <input accept="image/*" class="form-control" id="formFile" name="file" type="file">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -95,10 +100,6 @@
     </div>
 
     <th:block th:each="categoria : ${categorias}">
-
-
-
-
 
 
     </th:block>

@@ -18,7 +18,6 @@ public class ItemPedido {
     private int id;
 
 
-
     @ManyToOne
     @JoinColumn(name = "produto", nullable = false)
     private Produto produto;
@@ -39,7 +38,6 @@ public class ItemPedido {
         this.observacao = observacao;
         this.pedido = pedido;
     }
-
 
 
     public ItemPedido() {

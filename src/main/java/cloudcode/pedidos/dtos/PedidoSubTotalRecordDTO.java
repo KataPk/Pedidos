@@ -24,7 +24,6 @@ public record PedidoSubTotalRecordDTO(
         String subTotal
 
 
-
 ) {
 
 }

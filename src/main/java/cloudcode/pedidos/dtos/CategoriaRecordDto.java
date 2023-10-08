@@ -10,5 +10,6 @@ public record CategoriaRecordDto(
 
 
 ) {
-    public CategoriaRecordDto{}
+    public CategoriaRecordDto {
+    }
 }

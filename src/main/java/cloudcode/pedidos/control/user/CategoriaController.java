@@ -33,11 +33,11 @@ public class CategoriaController {
 
     public static final Logger log = LoggerFactory.getLogger(CategoriaController.class);
 
-   private final CategoriaService categoriaService;
+    private final CategoriaService categoriaService;
 
-   private final ProdutoService produtoService;
+    private final ProdutoService produtoService;
 
-   private final PedidoService pedidoService;
+    private final PedidoService pedidoService;
 
     @Autowired
     CategoriaRepository categoriaRepository;
@@ -56,7 +56,7 @@ public class CategoriaController {
 
 
     @GetMapping("/{pedidoId}/categorias")
-    public String categorias(@PathVariable long pedidoId ,Model model){
+    public String categorias(@PathVariable long pedidoId, Model model) {
 
         List<PedidoRecordDTO> clientes = pedidoService.findAll();
 
@@ -72,22 +72,22 @@ public class CategoriaController {
     @GetMapping("/{pedidoId}/categoria/{categoriaId}")
     public String produtoCategoria(@PathVariable long categoriaId,
                                    @PathVariable long pedidoId,
-                                   Model model){
+                                   Model model) {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
         Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
 
 
-            List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
+        List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
 
-            model.addAttribute("categoria", categoria);
-            model.addAttribute("produtos", produtos);
-            model.addAttribute("pedido", pedido);
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("produtos", produtos);
+        model.addAttribute("pedido", pedido);
 
-            return "User/Produtos";
-        }
-
+        return "User/Produtos";
     }
+
+}
 
 
 

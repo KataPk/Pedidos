@@ -1,7 +1,6 @@
 package cloudcode.pedidos.service;
 
 
-
 import cloudcode.pedidos.dtos.MesaRecordDto;
 import cloudcode.pedidos.model.entity.Mesa;
 import cloudcode.pedidos.model.repository.MesaRepository;
@@ -15,16 +14,17 @@ import java.util.stream.Collectors;
 public class MesaService {
 
     private final MesaRepository mesaRepository;
+
     @Autowired
     public MesaService(MesaRepository mesaRepository) {
         this.mesaRepository = mesaRepository;
     }
 
-    public List<MesaRecordDto> findAll(){
+    public List<MesaRecordDto> findAll() {
         List<Mesa> mesas = mesaRepository.findAll();
-    return mesas.stream()
-            .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
-            .collect(Collectors.toList());
+        return mesas.stream()
+                .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
+                .collect(Collectors.toList());
     }
 
 //            REVER DPS
@@ -54,10 +54,11 @@ public class MesaService {
 
     public List<MesaRecordDto> findAllAtivos() {
         List<Mesa> mesas = mesaRepository.findAllByMStatusNotOrderByNumMesa("INACTIVE");
-         return mesas.stream()
+        return mesas.stream()
                 .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
                 .collect(Collectors.toList());
     }
+
     public List<MesaRecordDto> findAllInativos() {
         List<Mesa> mesas = mesaRepository.findAllByMStatusOrderByNumMesa("INACTIVE");
         return mesas.stream()

@@ -23,9 +23,9 @@ import java.util.Map;
 @RequestMapping("/api/admin")
 public class AdmMesaController {
 
+    private final MesaService mesaService;
     @Autowired
     MesaRepository mesaRepository;
-    private final MesaService mesaService;
 
     public AdmMesaController(MesaService mesaService) {
         this.mesaService = mesaService;
@@ -33,7 +33,7 @@ public class AdmMesaController {
 
 
     @GetMapping("/mesas")
-    public String mesas(Model model){
+    public String mesas(Model model) {
         List<MesaRecordDto> mesas = mesaService.findAllAtivos();
         List<MesaRecordDto> mesasInativas = mesaService.findAllInativos();
         model.addAttribute("mesas", mesas);
@@ -44,30 +44,30 @@ public class AdmMesaController {
 
     @PostMapping("/createMesa")
     public ResponseEntity<?> createMesa(
-            @RequestParam ("numMesa") int numMesa
-    ){
+            @RequestParam("numMesa") int numMesa
+    ) {
         Map<String, Object> responseData = new HashMap<>();
 
         try {
 
-        if (mesaRepository.existsByNumMesa(numMesa)){
+            if (mesaRepository.existsByNumMesa(numMesa)) {
 
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Número já registrado!"));
-        }
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Número já registrado!"));
+            }
 
-        Mesa mesa = new Mesa(
-                numMesa,
-                "ACTIVE"
-        );
+            Mesa mesa = new Mesa(
+                    numMesa,
+                    "ACTIVE"
+            );
 
-        mesaRepository.save(mesa);
+            mesaRepository.save(mesa);
 
 
             responseData.put("success", true);
             responseData.put("message", "Mesa registrada com sucesso.");
 
             return ResponseEntity.ok(responseData);
-        }catch (Exception e){
+        } catch (Exception e) {
 
 
             responseData.put("success", false);
@@ -79,10 +79,6 @@ public class AdmMesaController {
 
 
     }
-
-
-
-
 
 
 }

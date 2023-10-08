@@ -23,9 +23,9 @@
 <!--</div>-->
 
 <div class="container">
-<h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
-<p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-<a  th:href="@{/api/v1/index}">Back to Home Page</a>
+    <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+    <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
+    <a th:href="@{/api/v1/index}">Back to Home Page</a>
 
 
 </div>

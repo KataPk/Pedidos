@@ -10,8 +10,11 @@ import java.util.List;
 public interface MesaRepository extends JpaRepository<Mesa, Long> {
 
     Boolean existsByNumMesa(int numMesa);
+
     Mesa findByNumMesa(int numMesa);
+
     List<Mesa> findByMStatus(String status);
+
     List<Mesa> findByNumMesaAndMStatusNot(int numMesa, String status);
 
     List<Mesa> findAllByMStatusNotOrderByNumMesa(String status);

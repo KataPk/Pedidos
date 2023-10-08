@@ -24,92 +24,89 @@ import static org.slf4j.LoggerFactory.getLogger;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-   private static final Logger log = getLogger(WebSecurityConfig.class);
+    private static final Logger log = getLogger(WebSecurityConfig.class);
 
 
-        @Autowired
-        CustomUserDetailService userDetailsService;
+    @Autowired
+    CustomUserDetailService userDetailsService;
 
-        @Autowired
-        private AuthEntryPoint unauthorizedHandler;
+    @Autowired
+    private AuthEntryPoint unauthorizedHandler;
 
 //        @Autowired
 //        CustomAccessDeniedHandler accessDeniedHandler;
 
 
-
-        @Bean
-        public PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
     @Bean
-    public DaoAuthenticationProvider authProvider(){
-            DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-            authProvider.setUserDetailsService(userDetailsService);
-            authProvider.setPasswordEncoder(passwordEncoder());
-            return authProvider;
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
-            throws Exception{
-            return authConfig.getAuthenticationManager();
+            throws Exception {
+        return authConfig.getAuthenticationManager();
     }
-
-
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-            .csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
 //            .exceptionHandling(exception -> exception
 //                    .authenticationEntryPoint(unauthorizedHandler)
 //                    .accessDeniedHandler(accessDeniedHandler)
 //            )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(
-                            "/api/v1/**",
-                            "/**",
-                            "/api/auth/**",
-                            "/api/test/**",
-                            "/css/**",
-                            "/favicon.ico",
-                            "/js/**"
-                    ).permitAll()
-                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/admin/**").hasRole("ADMIN")
-                    .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
-                    .requestMatchers(new AntPathRequestMatcher("/api/user/**")).hasAnyRole("USER", "ADMIN")
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(
+                                "/api/v1/**",
+                                "/**",
+                                "/api/auth/**",
+                                "/api/test/**",
+                                "/css/**",
+                                "/favicon.ico",
+                                "/js/**"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/**")).hasAnyRole("USER", "ADMIN")
 
-                    .anyRequest().authenticated()
+                        .anyRequest().authenticated()
 
-            )
+                )
 
-            .formLogin(formLogin -> formLogin
-                    .loginPage("/api/v1/login")
-                    .loginProcessingUrl("/login")
-                    .failureUrl("/api/v1/login-error")
-                    .defaultSuccessUrl("/api/user/mesas", true)
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/api/v1/login")
+                        .loginProcessingUrl("/login")
+                        .failureUrl("/api/v1/login-error")
+                        .defaultSuccessUrl("/api/user/mesas", true)
 
 
-            )
-            .logout(logout -> logout
-                    .logoutUrl("/api/logout")
-                    .logoutSuccessUrl("/api/v1/index")
-            )
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout")
+                        .logoutSuccessUrl("/api/v1/index")
+                )
 
-            ;
-    http.authenticationProvider(authProvider());
-    return http.build();
+        ;
+        http.authenticationProvider(authProvider());
+        return http.build();
 
     }
-
 
 
 }

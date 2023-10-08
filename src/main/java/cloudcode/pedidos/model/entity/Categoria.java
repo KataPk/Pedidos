@@ -19,7 +19,6 @@ public class Categoria {
     private long id;
 
 
-
     @Column(name = "Nome", length = 20, nullable = false)
     private String nome;
 
@@ -27,7 +26,7 @@ public class Categoria {
     @Column(name = "Imagem", nullable = false)
     private String imagem;
 
-    @Column(name = "statusCategoria", nullable = true )
+    @Column(name = "statusCategoria", nullable = true)
     private String statusCategoria;
 
     public Categoria(String nome, String imagem, String statusCategoria) {
@@ -35,8 +34,6 @@ public class Categoria {
         this.imagem = imagem;
         this.statusCategoria = statusCategoria;
     }
-
-
 
 
     public Categoria() {

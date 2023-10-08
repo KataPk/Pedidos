@@ -21,7 +21,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException  {
+            throws IOException {
 
         log.error("Unauthorized error: {}", authException.getMessage());
 
@@ -38,7 +38,6 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
 
         mapper.writeValue(response.getOutputStream(), body);
 //        response.sendRedirect("/api/v1/login");
-
 
 
     }

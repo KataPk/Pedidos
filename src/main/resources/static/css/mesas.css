@@ -15,7 +15,6 @@
 }
 
 
-
 .card a:link {
     color: #000;
     background-color: transparent;
@@ -60,10 +59,11 @@
     border-style: none;
     border-width: 0;
 }
+
 .imageBtn:hover {
-background-color:#137a7f
+    background-color: #137a7f
 }
 
-#mesaAddImage , #addMesa{
+#mesaAddImage, #addMesa {
     padding: 0;
 }

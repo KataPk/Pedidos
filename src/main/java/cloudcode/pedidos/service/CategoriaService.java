@@ -23,14 +23,14 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<CategoriaRecordDto> findAll(){
+    public List<CategoriaRecordDto> findAll() {
         List<Categoria> categorias = categoriaRepository.findAll();
         return categorias.stream()
                 .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))
                 .collect(Collectors.toList());
     }
 
-    public List<CategoriaRecordDto> findAllAtivos(){
+    public List<CategoriaRecordDto> findAllAtivos() {
         List<Categoria> categorias = categoriaRepository.findAllByStatusCategoriaIs("ACTIVE");
         return categorias.stream()
                 .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))

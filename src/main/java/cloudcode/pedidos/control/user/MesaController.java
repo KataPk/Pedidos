@@ -23,12 +23,9 @@ import java.util.List;
 public class MesaController {
 
     public static final Logger log = LoggerFactory.getLogger(MesaController.class);
-
+    private final MesaService mesaService;
     @Autowired
     MesaRepository mesaRepository;
-
-
-    private final MesaService mesaService;
 
 
     public MesaController(MesaService mesaService) {

@@ -14,9 +14,7 @@ public record ItemPedidoRecordDto(
         String observacao,
         @NotNull Pedido pedido
 
-        ) {
-
-
+) {
 
 
 }

@@ -25,38 +25,41 @@
     <div class="row align-items-start text-break" id="comandaContainer">
 
         <th:block th:each="pedido : ${pedidos}">
-        <div class="card dropdown order">
-            <div aria-expanded="false" class=" btn-secondary dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                <h2 class="cliente">Cliente: </h2>
-                <p class="name text-wrap text-center" th:text="${pedido.nomeCliente}">Error</p>
-                <h3 class="mesa" th:text="${'Mesa:' + pedido.mesa.getNumMesa() }">Error</h3>
-            </div>
-            <ul class="dropdown-menu">
-                <div class="card card-dropdown">
-                    <div class="card-body  ">
-                        <div class="card-header open">
-                            <h5 class="card-title" th:text="${'Comanda: ' + pedido.statusPedido()}">error</h5>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" th:text="'Subtotal: R$' + ${pedido.subTotal()}">Error</li>
-                        </ul>
-                        <div class="btn-group-vertical " role="group">
-                            <button class="btn btn-danger finiComan">Finalizar</button>
-                            <a th:href="'/api/user/'+ ${pedido.id()} + '/categorias'" class="btn btn-success addProd">
-
-                                Adicionar Produtos
-                            </a>
-                                <a th:href="'/api/user/pedido/'+ ${pedido.id()} + '/finalizarPedido'" class="btn btn-primary editComan">
-                                    Editar
-                            </a>
-                            <button class="btn remove">Remover</button>
-                        </div>
-
-
-                    </div>
+            <div class="card dropdown order">
+                <div aria-expanded="false" class=" btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                     type="button">
+                    <h2 class="cliente">Cliente: </h2>
+                    <p class="name text-wrap text-center" th:text="${pedido.nomeCliente}">Error</p>
+                    <h3 class="mesa" th:text="${'Mesa:' + pedido.mesa.getNumMesa() }">Error</h3>
                 </div>
-            </ul>
-        </div>
+                <ul class="dropdown-menu">
+                    <div class="card card-dropdown">
+                        <div class="card-body  ">
+                            <div class="card-header open">
+                                <h5 class="card-title" th:text="${'Comanda: ' + pedido.statusPedido()}">error</h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" th:text="'Subtotal: R$' + ${pedido.subTotal()}">Error</li>
+                            </ul>
+                            <div class="btn-group-vertical " role="group">
+                                <button class="btn btn-danger finiComan">Finalizar</button>
+                                <a class="btn btn-success addProd"
+                                   th:href="'/api/user/'+ ${pedido.id()} + '/categorias'">
+
+                                    Adicionar Produtos
+                                </a>
+                                <a class="btn btn-primary editComan"
+                                   th:href="'/api/user/pedido/'+ ${pedido.id()} + '/finalizarPedido'">
+                                    Editar
+                                </a>
+                                <button class="btn remove">Remover</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </ul>
+            </div>
 
 
         </th:block>

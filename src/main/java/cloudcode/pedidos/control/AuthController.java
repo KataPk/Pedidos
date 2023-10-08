@@ -30,12 +30,9 @@ import java.util.Set;
 public class AuthController {
 
 
-
-@Autowired
-AuthenticationManager authenticationManager;
-
     public static final Logger log = LoggerFactory.getLogger(AuthController.class);
-
+    @Autowired
+    AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
 
@@ -46,7 +43,7 @@ AuthenticationManager authenticationManager;
     PasswordEncoder encoder;
 
 
-//    Para testes no PostMan
+    //    Para testes no PostMan
     @PostMapping("/signin")
     public RedirectView authenticateUser(
             @RequestParam("username") String username, @RequestParam("password") String password
@@ -55,14 +52,14 @@ AuthenticationManager authenticationManager;
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(username, encoder.encode(password)));
 
-       if (authentication.isAuthenticated()){
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-           return new RedirectView("/api/v1/user/mesas");
+        if (authentication.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return new RedirectView("/api/v1/user/mesas");
 
-       } else {
-           return new RedirectView("/api/v1/login-error");
+        } else {
+            return new RedirectView("/api/v1/login-error");
 
-       }
+        }
 
 
     }
@@ -82,64 +79,63 @@ AuthenticationManager authenticationManager;
                                           @RequestParam("username") String username,
                                           @RequestParam("email") String email,
                                           @RequestParam("senha") String password,
-                                          @RequestParam("roles") Set<String > strRole)
-                                           {
-      try {
-          if (userRepository.existsByUsername(username)) {
-              return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
-          }
+                                          @RequestParam("roles") Set<String> strRole) {
+        try {
+            if (userRepository.existsByUsername(username)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            }
 
-          if (userRepository.existsByEmail(email)) {
-              return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-          }
-          if (userRepository.existsByCpf(cpf) || userRepository.existsByRg(rg)) {
-              return ResponseEntity.badRequest().body(new MessageResponse("Error: User is already in system!"));
-          }
-          // Create new user's account
-          User user = new User(
-                  nome,
-                   cpf,
-                   rg,
-                   LocalDate.parse(dataNasc),
-                   logradouro,
-                   numResid,
-                   cep,
-                   bairro,
-                   cidade,
-                   uf,
-                   complemento,
-                  email,
-                  username,
-                  encoder.encode(password));
+            if (userRepository.existsByEmail(email)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            }
+            if (userRepository.existsByCpf(cpf) || userRepository.existsByRg(rg)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: User is already in system!"));
+            }
+            // Create new user's account
+            User user = new User(
+                    nome,
+                    cpf,
+                    rg,
+                    LocalDate.parse(dataNasc),
+                    logradouro,
+                    numResid,
+                    cep,
+                    bairro,
+                    cidade,
+                    uf,
+                    complemento,
+                    email,
+                    username,
+                    encoder.encode(password));
 
-          Set<Role> roles = new HashSet<>();
+            Set<Role> roles = new HashSet<>();
 
-          if (strRole == null) {
-              Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                      .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-              roles.add(userRole);
-          } else {
-              strRole.forEach(role -> {
-                  if (role.equals("admin")) {
-                      Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                      roles.add(adminRole);
+            if (strRole == null) {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            } else {
+                strRole.forEach(role -> {
+                    if (role.equals("admin")) {
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
 
-                  } else {
-                      Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                      roles.add(userRole);
-                  }
-              });
-          }
+                    } else {
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                    }
+                });
+            }
 
-          user.setRoles(roles);
-          userRepository.save(user);
+            user.setRoles(roles);
+            userRepository.save(user);
 
-          return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-      } catch (Exception e){
-          return ResponseEntity.badRequest().build();
-      }
+            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 
@@ -147,8 +143,6 @@ AuthenticationManager authenticationManager;
     public String test() {
         return "teste";
     }
-
-
 
 
 }

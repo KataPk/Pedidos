@@ -1,7 +1,6 @@
 package cloudcode.pedidos.control.adm;
 
 
-
 import cloudcode.pedidos.dtos.CategoriaRecordDto;
 import cloudcode.pedidos.dtos.ProdutoRecordDto;
 import cloudcode.pedidos.model.entity.Categoria;
@@ -28,16 +27,12 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class AdmProdutoController {
 
+    private final CategoriaService categoriaService;
+    private final ProdutoService produtoService;
     @Autowired
     CategoriaRepository categoriaRepository;
-
     @Autowired
     ProdutoRepository produtoRepository;
-
-
-    private final CategoriaService categoriaService;
-
-    private final ProdutoService produtoService;
 
     public AdmProdutoController(CategoriaService categoriaService, ProdutoService produtoService) {
         this.categoriaService = categoriaService;
@@ -46,21 +41,22 @@ public class AdmProdutoController {
 
 
     @GetMapping("/produtos")
-    public String produtos(Model model){
+    public String produtos(Model model) {
         List<ProdutoRecordDto> produtos = produtoService.findAll();
         model.addAttribute("produtos", produtos);
-        List<CategoriaRecordDto>  categorias = categoriaService.findAll();
+        List<CategoriaRecordDto> categorias = categoriaService.findAll();
         model.addAttribute("categorias", categorias);
 
 
         return "Adm/ProdutosAdm";
     }
+
     @PostMapping("/createProduto")
     public RedirectView createProduto(@RequestParam("nome") String nome,
                                       @RequestParam("descricao") String descricao,
                                       @RequestParam("valor") String valor,
                                       @RequestParam("file") MultipartFile file,
-                                      @RequestParam("categoria") String  categoriaId){
+                                      @RequestParam("categoria") String categoriaId) {
 
         try {
             // tratativa da imagem

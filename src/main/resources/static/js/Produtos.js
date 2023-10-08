@@ -1,12 +1,12 @@
+const toastLiveExample = document.getElementById('liveToast')
+const lessButtons = document.querySelectorAll('.less');
+const plusButtons = document.querySelectorAll('.plus');
+const quantElements = document.querySelectorAll('.quant');
+const totalElements = document.querySelectorAll('.total');
+const addButtons = document.querySelectorAll('.liveToastBtn')
+const forms = document.querySelectorAll('.forms')
+const quantInput = document.querySelectorAll('.quantInput');
 
-    const toastLiveExample = document.getElementById('liveToast')
-    const lessButtons = document.querySelectorAll('.less');
-    const plusButtons = document.querySelectorAll('.plus');
-    const quantElements = document.querySelectorAll('.quant');
-    const totalElements = document.querySelectorAll('.total');
-    const addButtons = document.querySelectorAll('.liveToastBtn')
-    const forms = document.querySelectorAll('.forms')
-    const quantInput = document.querySelectorAll('.quantInput');
 function toast() {
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
     toastBootstrap.show()

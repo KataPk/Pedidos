@@ -31,8 +31,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
         final User user = userRepository.findByUsername(username);
 
-        if (user == null){
-            throw  new UsernameNotFoundException(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
         }
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))

@@ -20,11 +20,11 @@ public class ErrorController {
     private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     @ExceptionHandler(Throwable.class)
-    public String handleException(final Throwable throwable, final Model model, HttpServletResponse response){
+    public String handleException(final Throwable throwable, final Model model, HttpServletResponse response) {
         HttpStatus httpStatus;
         String errorMessage;
 
-        if (throwable instanceof ChangeSetPersister.NotFoundException || throwable instanceof NoHandlerFoundException){
+        if (throwable instanceof ChangeSetPersister.NotFoundException || throwable instanceof NoHandlerFoundException) {
             httpStatus = HttpStatus.NOT_FOUND;
             errorMessage = "Resource not found";
         } else if (throwable instanceof HttpClientErrorException.Forbidden) {

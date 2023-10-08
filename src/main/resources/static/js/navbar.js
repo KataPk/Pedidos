@@ -11,7 +11,7 @@ function include(file, integrity) {
 
 }
 
-function select(){
+function select() {
 
     let selectElement = document.getElementById("selectClients");
     let selectedValue = selectElement.value;
@@ -20,17 +20,17 @@ function select(){
     let pathname = window.location.pathname.split('/')
     console.log("path completa: " + pathname)
     let pathApi = pathname[1]
-    console.log("path Api: "+ pathApi)
+    console.log("path Api: " + pathApi)
     let pathUser = pathname[2]
     console.log("path User: " + pathUser)
     let pathPedido = pathname[3]
     console.log("path Pedido: " + pathPedido)
-    let  pathRestante = pathname[4]
+    let pathRestante = pathname[4]
     console.log("path Restante:" + pathRestante)
 
-    if (selectedValue !== pathPedido){
+    if (selectedValue !== pathPedido) {
 
-        window.location.href="/api/user/" + selectedValue + "/" + pathRestante
+        window.location.href = "/api/user/" + selectedValue + "/" + pathRestante
     }
 
 

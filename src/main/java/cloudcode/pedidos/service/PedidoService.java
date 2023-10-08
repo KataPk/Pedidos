@@ -28,7 +28,7 @@ public class PedidoService {
     ItemPedidoService itemPedidoService;
 
 
-    public List<PedidoRecordDTO> findAll(){
+    public List<PedidoRecordDTO> findAll() {
         List<Pedido> pedidos = pedidoRepository.findAll();
         return pedidos.stream()
                 .map(pedido -> new PedidoRecordDTO(pedido.getId(), pedido.getNomeCliente(), pedido.getDtRegistro(), pedido.getDtFechamento(),
@@ -36,7 +36,8 @@ public class PedidoService {
                 .collect(Collectors.toList());
 
     }
-    public List<PedidoRecordDTO> findAbertos(){
+
+    public List<PedidoRecordDTO> findAbertos() {
         List<Pedido> pedidos = pedidoRepository.findByStatusPedido("ABERTO");
         return pedidos.stream()
                 .map(pedido -> new PedidoRecordDTO(pedido.getId(), pedido.getNomeCliente(), pedido.getDtRegistro(), pedido.getDtFechamento(),
@@ -44,23 +45,21 @@ public class PedidoService {
                 .collect(Collectors.toList());
     }
 
-    public List<PedidoSubTotalRecordDTO> findPedidosAbertosWithSubtotal(){
+    public List<PedidoSubTotalRecordDTO> findPedidosAbertosWithSubtotal() {
 
         List<Pedido> pedidos = pedidoRepository.findByStatusPedido("ABERTO");
 
 
-
         return pedidos.stream().map(pedido -> new PedidoSubTotalRecordDTO(pedido.getId(), pedido.getNomeCliente(),
-                pedido.getDtRegistro(), pedido.getDtFechamento(), pedido.getUser(), pedido.getMesa(),
-                pedido.getStatusPedido(), itemPedidoService.getSubTotal(pedido.getId())))
+                        pedido.getDtRegistro(), pedido.getDtFechamento(), pedido.getUser(), pedido.getMesa(),
+                        pedido.getStatusPedido(), itemPedidoService.getSubTotal(pedido.getId())))
                 .collect(Collectors.toList());
 
 
-        }
-
-
-
     }
+
+
+}
 
 
 

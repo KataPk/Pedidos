@@ -1,4 +1,4 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); 
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css");
 
 body {
@@ -6,7 +6,8 @@ body {
     background: url("../img/PNG/bg-pages.jpg");
     background-size: 500px;
 }
-.offcanvas-body{
+
+.offcanvas-body {
     background: url("../img/PNG/bg-pages.jpg");
     background-size: 500px;
 
@@ -64,7 +65,7 @@ body {
 
 }
 
-.offcanvas-body a , h2 {
+.offcanvas-body a, h2 {
 
     display: block;
     color: #eeeeee;
@@ -118,15 +119,16 @@ body {
 
 }
 
-#selectClients{
-    width: auto ;
+#selectClients {
+    width: auto;
     text-align: center;
 }
 
 #clientLabel {
     color: #eee;
 }
-#clientSelect{
+
+#clientSelect {
     width: auto;
     margin-top: 10px;
 }

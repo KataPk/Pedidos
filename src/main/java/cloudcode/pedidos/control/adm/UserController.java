@@ -1,7 +1,6 @@
 package cloudcode.pedidos.control.adm;
 
 
-
 import cloudcode.pedidos.dtos.CreateUserRecordDto;
 import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
@@ -23,18 +22,13 @@ import java.util.Optional;
 public class UserController {
 
 
+    private final UserService userService;
     @Autowired
     UserRepository userRepository;
-
-    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-
-
-
 
 
     @PostMapping("/funcionario")
@@ -59,7 +53,7 @@ public class UserController {
 
     @PutMapping("/funcionario/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") long id,
-                                                    @RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
+                                             @RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
 
         Optional<User> user0 = userRepository.findById(id);
         if (user0.isEmpty()) {
@@ -79,11 +73,6 @@ public class UserController {
         userRepository.delete(user0.get());
         return ResponseEntity.status(HttpStatus.OK).body("Funcionário deletado");
     }
-
-
-
-
-
 
 
 }

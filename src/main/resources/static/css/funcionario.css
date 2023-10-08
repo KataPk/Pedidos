@@ -14,47 +14,52 @@
 
 }
 
-label{
+label {
     margin: 9px;
     font-size: medium;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.ufUser{
+.numResidUser {
+    width: 75px;
+}
+
+.ufUser {
     width: 50px;
 }
 
-.rgUser{
+.rgUser {
     width: 125px;
 }
 
-.cpfUser{
+.cpfUser {
     width: 145px;
 }
-.dataNascUser{
+
+.dataNascUser {
     width: 170px;
 
 }
 
-.cepUser{
+.cepUser {
     width: 110px;
 }
 
-.hstack{
+.hstack {
     margin-top: 5px;
 }
 
-.emailUser{
-    white-space: pre-line ;
+.emailUser {
+    white-space: pre-line;
 }
 
-.acesso{
+.acesso {
     margin-left: 4px;
     margin-right: 30px;
 }
 
-.eye{
+.eye {
     margin: 9px;
 
 }

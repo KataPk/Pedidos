@@ -10,12 +10,11 @@ import lombok.Setter;
 @Table(name = "Mesa")
 public class Mesa {
 
-//    public static final Logger log = LoggerFactory.getLogger(Mesa.class);
+    //    public static final Logger log = LoggerFactory.getLogger(Mesa.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-
 
 
     @Column(name = "num_mesa", nullable = false)

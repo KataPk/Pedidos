@@ -19,12 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     public static final Logger log = LoggerFactory.getLogger(IndexController.class);
-
+    private final UserService userService;
     @Autowired
     UserRepository userRepository;
-
-    private final UserService userService;
-
 
 
     public IndexController(UserService userService) {
@@ -36,7 +33,6 @@ public class IndexController {
 
         return "index";
     }
-
 
 
 //    Código do professor Leandro:
@@ -67,6 +63,7 @@ public class IndexController {
 
         return "login";
     }
+
     @GetMapping("/login-error")
 
     public String loginError(Model model) {

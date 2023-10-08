@@ -20,7 +20,6 @@ public class Pedido {
     private long id;
 
 
-
     @Column(name = "nomeCliente", length = 12, nullable = false)
     private String nomeCliente;
 
@@ -43,8 +42,6 @@ public class Pedido {
     public Pedido() {
 
     }
-
-
 
 
     public Pedido(String nomeCliente, LocalDateTime dtRegistro, LocalDateTime dtFechamento, User user, Mesa mesa, String statusPedido) {

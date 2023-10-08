@@ -18,17 +18,17 @@ public class Role {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "nome",length = 20)
+    @Column(name = "nome", length = 20)
     private ERole name;
 
 
     public Role() {
 
     }
+
     public Role(ERole name) {
         this.name = name;
     }
-
 
 
 }

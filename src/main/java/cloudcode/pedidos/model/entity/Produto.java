@@ -18,7 +18,6 @@ public class Produto {
     private long id;
 
 
-
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
@@ -51,8 +50,6 @@ public class Produto {
     public Produto() {
 
     }
-
-
 
 
 }
