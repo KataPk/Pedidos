@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Pedidos Deploy" type="gcp-app-engine-deploy" factoryName="Google App Engine Deployment" editBeforeRun="true" server-name="Google App Engine">
+    <deployment type="filesystem-war-jar-module" project="pedidos-401122" version="auto">
+      <settings cloudProjectName="pedidos-401122" environment="APP_ENGINE_FLEX" googleUsername="carlossilva27122005@gmail.com" promote="true" stagedArtifactName="" stopPreviousVersion="true" userSpecifiedArtifactPath="E:\Projetos\Repositorios\TCC_INF3D_2023\IntelliJ Spring\Pedidos\target\Pedidos-0.0.1-SNAPSHOT.jar" version="" />
+    </deployment>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="package" />
+    </method>
+  </configuration>
+</component>
