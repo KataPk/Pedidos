@@ -1,11 +1,25 @@
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-COPY . .
-RUN mvn clean package  -DskipTests
+# Use the official maven/Java 11 image to create a build artifact.
+# https://hub.docker.com/_/maven
+FROM maven:3-eclipse-temurin-17-alpine AS build-env
 
-FROM  openjdk:17-jdk-slim
-COPY --from=build /target/Pedidos-0.0.1-SNAPSHOT.jar Pedidos.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "Pedidos.jar"]
+# Set the working directory to /app
+WORKDIR /app
+# Copy the pom.xml file to download dependencies
+COPY pom.xml ./
+# Copy local code to the container image.
+COPY src ./src
 
+# Download dependencies and build a release artifact.
 
+RUN mvn package -DskipTests
 
+# Use OpenJDK for base image.
+# https://hub.docker.com/_/openjdk
+# https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
+FROM openjdk:17-slim
+
+# Copy the jar to the production image from the builder stage.
+COPY --from=build-env /app/target/Pedidos-*.jar /Pedidos.jar
+
+# Run the web service on container startup.
+CMD ["java", "-jar", "/Pedidos.jar"]
