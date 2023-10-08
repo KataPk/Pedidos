@@ -15,6 +15,13 @@
           </node>
         </introspection-scope>
       </schema-mapping>
+      <ssl-config use-ide-store="true" use-java-store="true" use-system-store="true">
+        <ca-cert>F:\carlo\Downloads\server-ca (1).pem</ca-cert>
+        <client-cert>F:\carlo\Downloads\client-cert.pem</client-cert>
+        <client-key>F:\carlo\Downloads\client-key.pem</client-key>
+        <enabled>true</enabled>
+        <mode>REQUIRE</mode>
+      </ssl-config>
     </data-source>
   </component>
 </project>

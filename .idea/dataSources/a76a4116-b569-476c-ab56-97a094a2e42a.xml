@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.49">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||16385|c|G
-1||16385|C|G
-1||16385|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>36175</IntrospectionStateNumber>
+      <IntrospectionStateNumber>39461</IntrospectionStateNumber>
       <ServerVersion>15.4</ServerVersion>
       <StartupTime>1696641497</StartupTime>
       <TimeZones>true ACDT
@@ -810,7 +802,7 @@ false Zulu
 13795||10|C|G
 13795||-9223372036854775808|U|G
 13795||10|U|G</Grants>
-      <IntrospectionStateNumber>36175</IntrospectionStateNumber>
+      <IntrospectionStateNumber>39461</IntrospectionStateNumber>
       <ObjectId>16488</ObjectId>
       <OwnerName>cloudsqlsuperuser</OwnerName>
     </database>
@@ -4286,9 +4278,9 @@ false Zulu
     <schema id="272" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>36175</IntrospectionStateNumber>
-      <IntrospectionTimestamp>2023-10-07.20:25:27.867</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-10-07.23:25:26</LocalIntrospectionTimestamp>
+      <IntrospectionStateNumber>39461</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2023-10-08.00:54:46.667</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-10-08.03:54:44</LocalIntrospectionTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>758</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>

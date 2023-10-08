@@ -14,6 +14,7 @@ import cloudcode.pedidos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ import java.util.*;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "false")
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/admin/")
 public class FuncionarioController {
 

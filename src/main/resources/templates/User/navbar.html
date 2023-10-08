@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html lang="pt-br"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <div id="navbar">
     <div class="navbar-top ">
@@ -30,8 +31,12 @@
 
             </div>
             <div class="offcanvas-body">
-                <div><a href="/api/user/pedido/Pedidos">Pedidos</a>
-                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+                    <h2  th:text="${'Olá ' + #authentication.principal.username}">Olá teste </h2>
+
+                    <a href="/api/user/pedido/Pedidos">Pedidos</a>
+
+                    <div sec:authorize="hasAnyRole('ADMIN')" >
                         <a class="collapsed" data-bs-toggle="collapse" href="#collapseAdm" aria-controls="collapseAdm">Administração</a>
                         <div class="collapse " id="collapseAdm">
                             <a href="/api/admin/funcionarios">Funcionários</a>
@@ -47,7 +52,7 @@
                         Logout
                     </a>
 
-                </div>
+
             </div>
         </div>
 

@@ -64,14 +64,14 @@ body {
 
 }
 
-.offcanvas-body a {
+.offcanvas-body a , h2 {
 
     display: block;
     color: #eeeeee;
     padding: 16px;
     text-decoration: none;
     background-color: rgba(21, 199, 240, 0.7);
-;
+
 }
 
 .offcanvas-body a:hover {
