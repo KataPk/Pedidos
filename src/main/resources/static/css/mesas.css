@@ -4,14 +4,8 @@
     align-items: center;
     width: 12.5rem;
     background-color: lightsalmon;
-    height: 22rem;
 }
 
-.modal-dialog h1 {
-    font-size: calc(1.25rem + .9vw);
-    margin: 5px;
-    text-align: center;
-}
 
 .card-title {
     text-align: center;

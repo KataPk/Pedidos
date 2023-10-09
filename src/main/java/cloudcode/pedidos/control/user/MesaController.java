@@ -89,7 +89,8 @@ public class MesaController {
 
     @PostMapping("/changeClientMesa")
     public RedirectView mudarMesaClient(@RequestParam("mesaAtualId") long mesaAtualId,
-                                        @RequestParam("mesaDestinoId") long mesaDestinoId) {
+                                        @RequestParam("mesaDestinoId") long mesaDestinoId,
+                                        @RequestParam("pedidoId") long pedidoId) {
 
         try {
 
