@@ -7,15 +7,14 @@
 
     <script src="/js/navbar.js"></script>
     <link href="/css/navbar.css" rel="stylesheet">
-
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
     <script crossorigin="anonymous"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link href="/css/Produtos.css" rel="stylesheet">
-
     <title>Produtos</title>
 </head>
 
@@ -72,7 +71,6 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <!--                    <h1 class="modal-title fs-5" th:text="${categoria.nome}" th:id="'labelCategoria' + ${categoria.nome}"></h1>-->
 
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
@@ -107,8 +105,12 @@
                         <div class="hstack p-2">
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
-                                <input accept="image/*" class="form-control" id="formFile" name="file" required
-                                       type="file">
+                                <input type="file" accept="image/*" class="form-control fileInput" id="formFile"
+                                       name="file"
+                                       required
+                                       maxlength="10000000">
+                                <canvas id="croppedCanvas" style="display: none;"></canvas>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -120,7 +122,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Crop image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="img-container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!--  default image where we will set the src via jquery-->
+                                <img id="image">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                </div>
+            </div>
+        </div>
 
+    </div>
     <th:block th:each="produto : ${produtos}">
 
 
@@ -129,5 +160,5 @@
 
 </body>
 
-</html>
 
+</html>

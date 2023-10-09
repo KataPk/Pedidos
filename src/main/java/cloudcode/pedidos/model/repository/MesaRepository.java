@@ -13,6 +13,7 @@ public interface MesaRepository extends JpaRepository<Mesa, Long> {
 
     Mesa findByNumMesa(int numMesa);
 
+
     List<Mesa> findByMStatus(String status);
 
     List<Mesa> findByNumMesaAndMStatusNot(int numMesa, String status);

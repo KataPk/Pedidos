@@ -33,8 +33,16 @@
                         <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
                         <input class="form-control" name="mesaNum" th:id="'mesaNum' + ${mesa.numMesa}"
                                th:value="${mesa.numMesa}" type="hidden">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button class="btn btn-primary me-md-2" type="submit">Categorias</button>
+                            <button class="btn btn-secondary" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#ModalClient'+${mesa.numMesa }"
+                                    th:id="${'change' + mesa.numMesa}" type="button">
+                                Trocar cliente de mesa
+                            </button>
 
-                        <button class="btn btn-primary me-md-2" type="submit">Categorias</button>
+
+                        </div>
                     </div>
                 </form>
             </div>
@@ -61,10 +69,30 @@
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }"
+                                th:id="${'addPedido' + mesa.numMesa}" type="button">
+                            Adicionar <br/> pedido
+                        </button>
+                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#ModalMesaDesativar'+${mesa.numMesa }"
+                                th:id="${'desativar' + mesa.numMesa}" type="button">
+                            Desativar <br/> mesa
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-center" th:if="${mesa.mStatus == 'INACTIVE'}">
+                <button class="btn imageBtn " th:id="${'mesa' + mesa.numMesa}" type="button" disabled>
+                    <img alt="..." class="card-img-top image" src="/img/PNG/mesa-desabilitada.png">
+                </button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
                     <button class="btn btn-primary" data-bs-toggle="modal"
                             th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }"
                             th:id="${'addPedido' + mesa.numMesa}" type="button">
-                        Adicionar pedido
+                        Reativar mesa
                     </button>
                 </div>
             </div>
@@ -130,8 +158,8 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" th:id="'labelMesa' + ${mesa.numMesa}"
-                                th:text="${'Mesa ' + mesa.numMesa}"></h1>
+                            <h1 class="modal-title fs-5" th:id="'labelMesa' + ${mesa.id()}"
+                                th:text="${'Mesa ' + mesa.id()}"></h1>
 
                             <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                         </div>
@@ -163,7 +191,56 @@
                     </div>
                 </div>
             </div>
+            <div aria-labelledby="staticBackdropLabel" class="modal fade"
+                 th:attr="aria-labelledby='labelMesaDesativar' + ${mesa.numMesa}"
+                 th:id="'ModalMesaDesativar' + ${mesa.numMesa}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" th:id="${'labelMesa' + mesa.numMesa()}">Desativar Mesa</h1>
+                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                        </div>
+                        <div class="modal-body" th:text="${'Deseja desativar a mesa ' + mesa.numMesa() + '?'}">
+                            Error
+                        </div>
+                        <div class="modal-footer">
+                            <form action="/api/user/inativarMesa" method="post">
+                                <input th:value="${mesa.id()}" name="mesaId" type="hidden">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Desativar mesa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </th:block>
+
+        <th:block th:if="${mesa.mStatus() == 'INACTIVE'}">
+            <div aria-labelledby="staticBackdropLabel" class="modal fade"
+                 th:attr="aria-labelledby='labelMesa' + ${mesa.numMesa}" th:id="'ModalMesa' + ${mesa.numMesa}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" th:id="${'labelMesa' + mesa.numMesa()}">Reativar Mesa</h1>
+                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                        </div>
+                        <div class="modal-body" th:text="${'Deseja reativar a mesa ' + mesa.numMesa() + '?'}">
+                            Error
+                        </div>
+                        <div class="modal-footer">
+                            <form action="/api/user/reAtivarMesa" method="post">
+                                <input th:value="${mesa.id()}" name="mesaId" type="hidden">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                                <button class="btn btn-primary" type="submit">Reativar mesa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </th:block>
+
     </th:block>
 </div>
 

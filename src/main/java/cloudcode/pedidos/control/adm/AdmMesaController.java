@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,23 @@ public class AdmMesaController {
         }
 
 
+    }
+
+
+    @PostMapping("/deleteMesa")
+    public RedirectView deleteMesa(@RequestParam("mesaId") long id) {
+
+        try {
+
+            Mesa mesa = mesaRepository.getReferenceById(id);
+
+            mesaRepository.delete(mesa);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+        return new RedirectView("/api/admin/mesas");
     }
 
 

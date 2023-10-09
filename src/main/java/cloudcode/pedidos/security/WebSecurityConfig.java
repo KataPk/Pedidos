@@ -76,7 +76,8 @@ public class WebSecurityConfig {
                                 "/api/test/**",
                                 "/css/**",
                                 "/favicon.ico",
-                                "/js/**"
+                                "/js/**",
+                                "/pintura/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
