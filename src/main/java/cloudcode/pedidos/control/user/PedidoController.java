@@ -158,56 +158,49 @@ public class PedidoController {
 
     @PostMapping("/alterarQuant")
     public ResponseEntity<?> alterarQuant(
-            @RequestParam("pedidoId") long pedidoId,
-            @RequestParam("acao") int acao,
-            @RequestParam("produtoId") long produtoId
+            @RequestParam("itemId") long itemId,
+            @RequestParam("acao") int acao
 
     ) {
 
 
-        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+        ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
+        if (item != null) {
+            if (acao == 0) {
+                item.setQuantProduto(item.getQuantProduto() - 1);
+            } else if (acao == 1) {
+                item.setQuantProduto(item.getQuantProduto() + 1);
 
-        for (ItemPedidoRecordDto it : itens) {
-            if (it.produto().getId() == produtoId) {
-                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
-                if (acao == 0) {
-                    item.setQuantProduto(it.quant() - 1);
-                } else if (acao == 1) {
-                    item.setQuantProduto(it.quant() + 1);
-
-                } else {
-                    return ResponseEntity.badRequest().build();
-                }
-
-                itemPedidoRepository.save(item);
-                return ResponseEntity.ok().build();
-
+            } else {
+                return ResponseEntity.badRequest().build();
             }
 
+            itemPedidoRepository.save(item);
+            return ResponseEntity.ok().build();
+
         }
+
+
         return ResponseEntity.notFound().build();
 
     }
 
     @PostMapping("/removeItem")
     public ResponseEntity<?> removeItem(
-            @RequestParam("pedidoId") long pedidoId,
-            @RequestParam("produtoId") long produtoId
+            @RequestParam("ItemId") long itemId
 
     ) {
 
 
-        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+        ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
 
-        for (ItemPedidoRecordDto it : itens) {
-            if (it.produto().getId() == produtoId) {
-                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
-                itemPedidoRepository.delete(item);
+        if (item != null) {
+            itemPedidoRepository.delete(item);
 
-                return ResponseEntity.ok().build();
-            }
-
+            return ResponseEntity.ok().build();
         }
+
+
         return ResponseEntity.notFound().build();
 
     }

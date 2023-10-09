@@ -17,19 +17,19 @@ let tempTotal = 0;
 for (let i = 0; i < plusButtons.length; i++) {
     const price = parseFloat(precoElements[i].getAttribute('data-price'));
     let quantData = parseInt(quantElements[i].getAttribute('data-quant'));
-    const pedidoId = parseInt(idElements[i].getAttribute('data-id'));
-
     quantElements[i].innerHTML = quantData.toString()
     let total = (price * quantData).toFixed(2).toString().replace('.', ',')
+    let isSubmitting = false;
 
     totalElements[i].innerHTML = `Total: R$${total}`;
     formPlus[i].addEventListener('submit', function (event) {
 
         event.preventDefault();
-
+        if (isSubmitting == true) {
+            return;
+        }
         fetch('/api/user/pedido/alterarQuant', {
-            method: 'POST',
-            body: new FormData(this)
+            method: 'POST', body: new FormData(this)
         })
             .then(response => {
                 if (response.ok) {
@@ -41,6 +41,10 @@ for (let i = 0; i < plusButtons.length; i++) {
                     totalElements[i].innerHTML = `Total: R$${total}`;
                     tempTotal += price
                     valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+
+                    isSubmiting = true;
+
+
                 } else {
                     console.log('Ocorreu um erro durante a solicitação.')
 
@@ -48,7 +52,50 @@ for (let i = 0; i < plusButtons.length; i++) {
             })
             .catch(error => {
                 console.error('Erro na solicitação:', error)
+            }).finally(() => {
+            isSubmitting = false
+        });
+
+
+    })
+
+    formLess[i].addEventListener('submit', function (event) {
+
+        event.preventDefault();
+      
+        let quant = parseInt(quantElements[i].innerHTML);
+        if (quant > 1) {
+            fetch('/api/user/pedido/alterarQuant', {
+                method: 'POST', body: new FormData(this)
+            })
+                .then(response => {
+                    if (response.ok) {
+
+                        quantData--;
+                        quant = quantData
+                        quantElements[i].innerHTML = quant.toString();
+                        let total = (price * quant).toFixed(2).toString().replace('.', ',');
+                        totalElements[i].innerHTML = `Total: R$${total}`;
+
+                        tempTotal -= price
+                        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+
+                        isSubmiting = true;
+
+                    } else {
+                        console.log('Ocorreu um erro durante a solicitação.')
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na solicitação:', error)
+                }).finally(() => {
+                isSubmitting = false
             });
+        } else {
+            const modal = new bootstrap.Modal(modalRemover[i])
+            modal.show();
+        }
 
 
     })
@@ -65,43 +112,6 @@ for (let i = 0; i < plusButtons.length; i++) {
     //
     //
     // });
-    formLess[i].addEventListener('submit', function (event) {
-
-        event.preventDefault();
-        let quant = parseInt(quantElements[i].innerHTML);
-        if (quant > 1) {
-            fetch('/api/user/pedido/alterarQuant', {
-                method: 'POST',
-                body: new FormData(this)
-            })
-                .then(response => {
-                    if (response.ok) {
-
-                        quantData--;
-                        quant = quantData
-                        quantElements[i].innerHTML = quant.toString();
-                        let total = (price * quant).toFixed(2).toString().replace('.', ',');
-                        totalElements[i].innerHTML = `Total: R$${total}`;
-
-                        tempTotal -= price
-                        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
-
-                    } else {
-                        console.log('Ocorreu um erro durante a solicitação.')
-
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro na solicitação:', error)
-                });
-        } else {
-              const modal = new bootstrap.Modal(modalRemover[i])
-                modal.show();
-        }
-
-
-    })
-
 
     // lessButtons[i].addEventListener('click', function () {
     //     let quant = parseInt(quantElements[i].innerHTML);
@@ -120,8 +130,7 @@ for (let i = 0; i < plusButtons.length; i++) {
         event.preventDefault();
 
         fetch('/api/user/pedido/removeItem', {
-            method: 'POST',
-            body: new FormData(this)
+            method: 'POST', body: new FormData(this)
         })
             .then(response => {
                 if (response.ok) {

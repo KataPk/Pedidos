@@ -43,8 +43,8 @@ public class ItemPedidoService {
             subTotal += valorItem;
 
         }
-        DecimalFormat decimalFormat = new DecimalFormat("###0,00");
-        return decimalFormat.format(subTotal);
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(subTotal).replace(".", ",");
     }
 
 

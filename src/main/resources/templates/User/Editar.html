@@ -43,8 +43,7 @@
                             <div class="hstack  p-1">
                                 <p class="p-1 text">Quantidade:</p>
                                 <form class="formLess">
-                                    <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
-                                    <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                                    <input th:value="${item.id()}" name="itemId" type="hidden">
                                     <input value="0" name="acao" type="hidden">
 
                                     <button class="less p-1" type="submit" role="button"><i
@@ -52,8 +51,7 @@
                                 </form>
                                 <p class="text p-1 quant" th:attr="data-quant=${item.quant()}">0</p>
                                 <form class="formPlus">
-                                    <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
-                                    <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                                    <input th:value="${item.id()}" name="itemId" type="hidden">
                                     <input value="1" name="acao" type="hidden">
                                     <button class="plus p-1" type="submit" role="button"><i
                                             class="fas fa-plus-circle"></i></button>
@@ -61,10 +59,10 @@
                             </div>
                             <h2 class="total">Total: R$0,00</h2>
                         </div>
-                        <form class="formPlus">
-                            <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
-                            <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
-                            <button class="btn btn-danger remover" type="button">Remover</button>
+                        <form class="formRemove">
+
+                            <input th:value="${item.id()}" name="itemId" type="hidden">
+                            <button class="btn btn-danger remover" type="submit">Remover</button>
                         </form>
                     </div>
                 </div>
