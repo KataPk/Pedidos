@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@pqina/pintura": "^8.66.2",
-    "@pqina/pintura-input": "^9.0.2",
-    "cropperjs": "^1.6.1"
+    "bootstrap": "^5.3.2"
   }
 }
