@@ -30,7 +30,7 @@
 
             <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
-                    <a class="imgLink" th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.nome}">
+                    <a class="imgLink" th:href="'/api/user/'+${pedidoId}+'/categoria/'+${categoria.id}">
                         <img class="card-img-top image" th:alt="${categoria.nome}"
                              th:src="|data:image;base64, *{categoria.imagem}|"/>
                     </a>

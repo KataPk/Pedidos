@@ -23,42 +23,56 @@
 
 <div class="container text-center">
     <div class="row">
-        <form>
-            <th:block th:each="item : ${itens}">
-                <div class="card id" th:attr="data-id=${item.pedido().getId()}">
-                    <div class="row g-0">
-                        <div class="col-md-3 ">
-                            <img alt="..." class="card-img-top"
-                                 th:src="|data:image;base64, *{item.produto().getImagem()}|">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
-                                <div class="hstack p-1">
-                                    <h2 class="p-1 preco" th:attr="data-price=${item.produto.getValor}"
-                                        th:text="'Preço: R$' + ${#numbers.formatCurrency(item.produto().getValor())}">
-                                        Error</h2>
 
-                                </div>
-                                <div class="hstack  p-1">
-                                    <p class="p-1 text">Quantidade:</p>
-                                    <button class="less p-1" type="button"><i class="fas fa-minus-circle"></i></button>
-                                    <p class="text p-1 quant" th:attr="data-quant=${item.quant()}">0</p>
+        <th:block th:each="item : ${itens}">
+            <div class="card id" th:attr="data-id=${item.pedido().getId()}">
+                <div class="row g-0">
+                    <div class="col-md-3 ">
+                        <img alt="..." class="card-img-top"
+                             th:src="|data:image;base64, *{item.produto().getImagem()}|">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
+                            <div class="hstack p-1">
+                                <h2 class="p-1 preco" th:attr="data-price=${item.produto.getValor}"
+                                    th:text="'Preço: R$' + ${#numbers.formatCurrency(item.produto().getValor())}">
+                                    Error</h2>
 
-                                    <button class="plus p-1" type="button"><i class="fas fa-plus-circle"></i></button>
-
-                                </div>
-                                <h2 class="total">Total: R$0,00</h2>
                             </div>
-                            <button class="btn btn-danger remover" type="button">Remover</button>
+                            <div class="hstack  p-1">
+                                <p class="p-1 text">Quantidade:</p>
+                                <form class="formLess">
+                                    <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
+                                    <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                                    <input value="0" name="acao" type="hidden">
+
+                                    <button class="less p-1" type="submit" role="button"><i
+                                            class="fas fa-minus-circle"></i></button>
+                                </form>
+                                <p class="text p-1 quant" th:attr="data-quant=${item.quant()}">0</p>
+                                <form class="formPlus">
+                                    <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
+                                    <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                                    <input value="1" name="acao" type="hidden">
+                                    <button class="plus p-1" type="submit" role="button"><i
+                                            class="fas fa-plus-circle"></i></button>
+                                </form>
+                            </div>
+                            <h2 class="total">Total: R$0,00</h2>
                         </div>
+                        <form class="formPlus">
+                            <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
+                            <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                            <button class="btn btn-danger remover" type="button">Remover</button>
+                        </form>
                     </div>
                 </div>
+            </div>
 
-            </th:block>
+        </th:block>
 
 
-        </form>
     </div>
 
 
@@ -70,6 +84,30 @@
     </nav>
 </div>
 
+<th:block th:each="item : ${itens}">
+    <div aria-labelledby="staticBackdropLabel" class="modal fade modalRemove"
+         th:attr="aria-labelledby='labelItem' + ${item.id()}" th:id="'ModalItem' + ${item.id()}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" th:id="${'labelItem' + item.id()}">Remover produto?</h1>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body" th:text="${'Remover ' + item.produto().getNome()+ '?'}">
+                    Error
+                </div>
+                <div class="modal-footer">
+                    <form class="formRemove">
+                        <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
+                        <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                        <button class="btn btn-danger" type="submit">Remover</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
 
 </body>
 </html>

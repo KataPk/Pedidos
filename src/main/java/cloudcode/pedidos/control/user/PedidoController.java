@@ -2,11 +2,12 @@ package cloudcode.pedidos.control.user;
 
 
 import cloudcode.pedidos.dtos.ItemPedidoRecordDto;
-import cloudcode.pedidos.dtos.PedidoRecordDTO;
+import cloudcode.pedidos.dtos.MesaRecordDto;
 import cloudcode.pedidos.dtos.PedidoSubTotalRecordDTO;
 import cloudcode.pedidos.model.entity.*;
 import cloudcode.pedidos.model.repository.*;
 import cloudcode.pedidos.service.ItemPedidoService;
+import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
 import cloudcode.pedidos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +16,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Controller
+@Transactional
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 @RequestMapping("/api/user/pedido")
 public class PedidoController {
 
 
+    private final MesaService mesaService;
     private final ProdutoService produtoService;
     private final PedidoService pedidoService;
     private final ItemPedidoService itemPedidoService;
@@ -44,11 +47,11 @@ public class PedidoController {
     ItemPedidoRepository itemPedidoRepository;
     @Autowired
     CategoriaRepository categoriaRepository;
-    PedidoRecordDTO pedidoRecordDTO;
 
-    ItemPedidoRecordDto itemPedidoRecordDto;
 
-    public PedidoController(ProdutoService produtoService, PedidoService pedidoService, ItemPedidoService itemPedidoService) {
+    public PedidoController(MesaService mesaService, ProdutoService produtoService,
+                            PedidoService pedidoService, ItemPedidoService itemPedidoService) {
+        this.mesaService = mesaService;
         this.produtoService = produtoService;
         this.pedidoService = pedidoService;
         this.itemPedidoService = itemPedidoService;
@@ -58,7 +61,8 @@ public class PedidoController {
     @GetMapping("/Pedidos")
     public String pedidos(Model model) {
         List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
-
+        List<MesaRecordDto> mesas = mesaService.findAll();
+        model.addAttribute("mesas", mesas);
         model.addAttribute("pedidos", pedidos);
 
         return "User/Comandas";
@@ -126,8 +130,10 @@ public class PedidoController {
         Pedido pedido = pedidoRepository.findByMesa(mesa);
         long pedidoId = pedido.getId();
 
-
-        return new RedirectView("/api/user/" + pedidoId + "/categorias");
+        if (pedido.getStatusPedido().equals("ABERTO")) {
+            return new RedirectView("/api/user/" + pedidoId + "/categorias");
+        }
+        return new RedirectView("/api/user/mesas");
     }
 
     @GetMapping("/{pedidoId}/finalizarPedido")
@@ -150,15 +156,15 @@ public class PedidoController {
     }
 
 
-    @PostMapping("{pedidoId}/alterarQuant/{id}/{acao}")
-    public ResponseEntity<?> alterarQaunt(
-            @PathVariable("pedidoId") long pedidoId,
-            @PathVariable("acao") int acao,
-            @PathVariable("id") long produtoId
+    @PostMapping("/alterarQuant")
+    public ResponseEntity<?> alterarQuant(
+            @RequestParam("pedidoId") long pedidoId,
+            @RequestParam("acao") int acao,
+            @RequestParam("produtoId") long produtoId
 
-    ) throws InterruptedException {
+    ) {
 
-        Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+
         List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
 
         for (ItemPedidoRecordDto it : itens) {
@@ -166,59 +172,51 @@ public class PedidoController {
                 ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
                 if (acao == 0) {
                     item.setQuantProduto(it.quant() - 1);
-                    itemPedidoRepository.save(item);
                 } else if (acao == 1) {
                     item.setQuantProduto(it.quant() + 1);
-                    itemPedidoRepository.save(item);
-                } else if (acao == 2) {
-                    itemPedidoRepository.delete(item);
+
+                } else {
+                    return ResponseEntity.badRequest().build();
                 }
-                break;
+
+                itemPedidoRepository.save(item);
+                return ResponseEntity.ok().build();
 
             }
 
         }
-        return ResponseEntity.ok().body("preencher");
-
+        return ResponseEntity.notFound().build();
 
     }
 
+    @PostMapping("/removeItem")
+    public ResponseEntity<?> removeItem(
+            @RequestParam("pedidoId") long pedidoId,
+            @RequestParam("produtoId") long produtoId
 
-    @PostMapping("/closePedido")
-    public RedirectView closePedido() {
+    ) {
 
-//    Pesquisar a edição
-//        PedidoRecordDTO pedidoDTO;
-//
-//        Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
-//
-//        User funcionario = userRepository.findByUsername(userDetails.getUsername());
-//
-//        LocalDateTime dtRegistro = LocalDateTime.now();
-//
-//        Pedido pedido = new Pedido(
-//                cliente,
-//                dtRegistro,
-//                null,
-//                funcionario,
-//                mesa,
-//                "ABERTO"
-//
-//        );
-//
-//        pedidoRepository.save(pedido);
-//
-//        mesa.setmMStatus("ABERTA");
 
-        return new RedirectView("/api/user/mesas");
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+
+        for (ItemPedidoRecordDto it : itens) {
+            if (it.produto().getId() == produtoId) {
+                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+                itemPedidoRepository.delete(item);
+
+                return ResponseEntity.ok().build();
+            }
+
+        }
+        return ResponseEntity.notFound().build();
+
     }
-
 
     @PostMapping("/addItem")
     public RedirectView addItem(@RequestParam("quant") int quant,
                                 @RequestParam("observacoes") String observacoes,
                                 @RequestParam("pedidoId") long pedidoId,
-                                @RequestParam("produtoId") long produtoId) throws InterruptedException {
+                                @RequestParam("produtoId") long produtoId) {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
         Produto produto = produtoRepository.getReferenceById(produtoId);
@@ -235,7 +233,6 @@ public class PedidoController {
             }
         }
         Categoria categoria = produto.getCategoria();
-        String categoriaNome = categoria.getNome();
 
         if (controle == 0) {
 
@@ -249,9 +246,9 @@ public class PedidoController {
 
 
             itemPedidoRepository.save(itemPedido);
-            TimeUnit.SECONDS.sleep(1);
+
         }
-        return new RedirectView("/api/user/" + pedidoId + "/categoria/" + categoriaNome);
+        return new RedirectView("/api/user/" + pedidoId + "/categoria/" + categoria.getId());
 
 
     }

@@ -42,7 +42,7 @@
                                 <li class="list-group-item" th:text="'Subtotal: R$' + ${pedido.subTotal()}">Error</li>
                             </ul>
                             <div class="btn-group-vertical " role="group">
-                                <button class="btn btn-danger finiComan">Finalizar</button>
+
                                 <a class="btn btn-success addProd"
                                    th:href="'/api/user/'+ ${pedido.id()} + '/categorias'">
 
@@ -52,6 +52,11 @@
                                    th:href="'/api/user/pedido/'+ ${pedido.id()} + '/finalizarPedido'">
                                     Editar
                                 </a>
+                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#ModalClient'+ ${pedido.id()}"
+                                        th:id="${'changeMesa' + pedido.id()}" type="button">
+                                    Trocar cliente de mesa
+                                </button>
                                 <button class="btn remove">Remover</button>
                             </div>
 
@@ -65,6 +70,45 @@
         </th:block>
     </div>
 </div>
+
+<th:block th:each="pedido : ${pedidos}">
+
+    <div aria-labelledby="staticBackdropLabel" class="modal fade"
+         th:attr="aria-labelledby='labelMesa' + ${pedido.id()}" th:id="'ModalClient' + ${pedido.id()}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" th:id="${'labelMesa' + pedido.id()}">Trocar de mesa</h1>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action="/api/user/changeClientMesa" method="post">
+                    <div class="modal-body">
+                        <p class="col-first me-3">Selecione a mesa que deseja ocupar</p>
+                        <select aria-label="Mesa de destino: " name="mesaDestinoId"
+                                class="form-select form-select-lg mb-3 col-last"
+                                th:id="${'selectMesa' + pedido.id()}">
+                            <option th:each="mesa : ${mesas}" th:id="'mesa-id-' + ${mesa.id}"
+                                    th:if="${mesa.mStatus().equals('ACTIVE')}"
+                                    th:text="${'Mesa ' + mesa.numMesa()}"
+                                    th:value="${mesa.id}">error
+                            </option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <input th:value="${pedido.mesa().getId()}" name="mesaAtualId" type="hidden">
+
+
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                        <button class="btn btn-primary" type="submit">Mudar de mesa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+
 
 </body>
 </html>

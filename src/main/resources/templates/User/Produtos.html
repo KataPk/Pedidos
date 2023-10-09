@@ -17,7 +17,7 @@
 
     <script crossorigin='anonymous' src=/fontawesome-free-6.4.0-web/js/all.js></script>
 
-    <title>Title</title>
+    <title>Produtos</title>
 </head>
 <body>
 
@@ -49,7 +49,7 @@
     </div>
     <nav class="navbar sticky-bottom  navBottom" id="navFinalizar">
         <div class="container-fluid">
-            <button class="btn btn-danger finalizar" onclick="window.location.href='../Editar'">Finalizar</button>
+            <a class="btn btn-danger finalizar" role="button" th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}" >Finalizar</a>
         </div>
     </nav>
 
@@ -92,7 +92,7 @@
                             <h2 class="total">Total: R$0,00</h2>
                         </div>
                         <input name="pedidoId" th:value="${pedidoId}" type="hidden">
-                        <input name="produtoNome" th:value="${produto.nome}" type="hidden">
+                        <input name="produtoId" th:value="${produto.id()}" type="hidden">
                         <div class="modal-footer">
                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
                             <button class="btn btn-primary liveToastBtn" type="submit">Adicionar</button>

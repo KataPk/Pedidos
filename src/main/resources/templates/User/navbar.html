@@ -35,9 +35,9 @@
 
 
             </div>
-            <div class="offcanvas-body">
+            <div class="offcanvas-body" id="offCanvasNavbar">
 
-                <h2 th:text="${'Olá, ' + #authentication.principal.username}">Olá teste </h2>
+                <h4 id="hello" th:text="${'Olá, ' + #authentication.principal.username}">Olá teste </h4>
 
                 <a href="/api/user/pedido/Pedidos">Pedidos</a>
 

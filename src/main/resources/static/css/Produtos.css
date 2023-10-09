@@ -82,5 +82,6 @@ h2 {
 
 #navFinalizar {
     background-color: lightsalmon;
+    z-index: 1;
 }
 

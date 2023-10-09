@@ -1,13 +1,14 @@
 .card {
-    padding: 1px;
+    padding: 10px;
     margin: 1.5%;
     align-items: center;
-    max-width: 440px
+    max-width: 440px;
+    background-color: lightsalmon;
 
 }
 
 .card-title {
-
+    text-align: center;
     font-size: 2.21em;
     margin-bottom: 0;
 }
@@ -46,11 +47,14 @@ img {
 .less {
     margin: 5px;
     color: #D82435;
+    background-color: #EEEEEE;
+
 }
 
 .plus {
     margin: 5px;
     color: #4CAF50;
+    background-color: #EEEEEE;
 }
 
 .text, .quant {

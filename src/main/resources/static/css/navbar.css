@@ -35,7 +35,7 @@ body {
     top: 0; /* Position the navbar at the top of the page */
     width: 110%; /* Full width */
     margin-left: -5px;
-    z-index: 100;
+    z-index: 1000;
     height: 62px;
 }
 
@@ -65,7 +65,7 @@ body {
 
 }
 
-.offcanvas-body a, h2 {
+#offCanvasNavbar a, h4{
 
     display: block;
     color: #eeeeee;
@@ -75,7 +75,7 @@ body {
 
 }
 
-.offcanvas-body a:hover {
+#offCanvasNavbar a:hover {
 
     background-color: #D82435;
     color: #FFF;

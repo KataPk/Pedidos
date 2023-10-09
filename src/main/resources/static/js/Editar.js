@@ -5,9 +5,12 @@ const precoElements = document.querySelectorAll('.preco');
 const idElements = document.querySelectorAll('.id');
 const totalElements = document.querySelectorAll('.total');
 const removeButtons = document.querySelectorAll('.remover');
+const formRemover = document.querySelectorAll('.formRemove')
 let valorTotal = document.querySelector('#total');
-
-let arrayValue = document.querySelector('#itemArray')
+const formPlus = document.querySelectorAll('.formPlus')
+const formLess = document.querySelectorAll('.formLess')
+const modalRemover = document.querySelectorAll('.modalRemove')
+const buttonFinish = document.querySelector('#finish')
 
 let tempTotal = 0;
 
@@ -20,44 +23,126 @@ for (let i = 0; i < plusButtons.length; i++) {
     let total = (price * quantData).toFixed(2).toString().replace('.', ',')
 
     totalElements[i].innerHTML = `Total: R$${total}`;
+    formPlus[i].addEventListener('submit', function (event) {
 
-    plusButtons[i].addEventListener('click', function () {
+        event.preventDefault();
+
+        fetch('/api/user/pedido/alterarQuant', {
+            method: 'POST',
+            body: new FormData(this)
+        })
+            .then(response => {
+                if (response.ok) {
+                    let quant = parseInt(quantElements[i].innerHTML);
+                    quantData++;
+                    quant = quantData
+                    quantElements[i].innerHTML = quant.toString();
+                    let total = (price * quant).toFixed(2).toString().replace('.', ',');
+                    totalElements[i].innerHTML = `Total: R$${total}`;
+                    tempTotal += price
+                    valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+                } else {
+                    console.log('Ocorreu um erro durante a solicitação.')
+
+                }
+            })
+            .catch(error => {
+                console.error('Erro na solicitação:', error)
+            });
+
+
+    })
+
+    // plusButtons[i].addEventListener('click', function () {
+    //     let quant = parseInt(quantElements[i].innerHTML);
+    //     quantData++;
+    //     quant = quantData
+    //     quantElements[i].innerHTML = quant.toString();
+    //     let total = (price * quant).toFixed(2).toString().replace('.', ',');
+    //     totalElements[i].innerHTML = `Total: R$${total}`;
+    //     tempTotal += price
+    //     valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+    //
+    //
+    // });
+    formLess[i].addEventListener('submit', function (event) {
+
+        event.preventDefault();
         let quant = parseInt(quantElements[i].innerHTML);
-        quantData++;
-        quant = quantData
-        quantElements[i].innerHTML = quant.toString();
-        let total = (price * quant).toFixed(2).toString().replace('.', ',');
-        totalElements[i].innerHTML = `Total: R$${total}`;
-        tempTotal += price
-        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+        if (quant > 1) {
+            fetch('/api/user/pedido/alterarQuant', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+                .then(response => {
+                    if (response.ok) {
 
-        const url
+                        quantData--;
+                        quant = quantData
+                        quantElements[i].innerHTML = quant.toString();
+                        let total = (price * quant).toFixed(2).toString().replace('.', ',');
+                        totalElements[i].innerHTML = `Total: R$${total}`;
 
-    });
+                        tempTotal -= price
+                        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
-    lessButtons[i].addEventListener('click', function () {
-        let quant = parseInt(quantElements[i].innerHTML);
-        if (quant > 0) {
-            quantData--;
-            quant = quantData
-            quantElements[i].innerHTML = quant.toString();
-            let total = (price * quant).toFixed(2).toString().replace('.', ',');
-            totalElements[i].innerHTML = `Total: R$${total}`;
-        }
-        tempTotal -= price
-        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
-    });
+                    } else {
+                        console.log('Ocorreu um erro durante a solicitação.')
 
-    removeButtons[i].addEventListener('click', function () {
-        const cardProduto = this.parentNode.parentNode.parentNode
-        cardProduto.remove();
-        tempTotal -= price * quantData;
-        if (quantElements.length === 0) {
-            tempTotal = 0;
-            valorTotal.innerHTML = `Total: R$0,00`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na solicitação:', error)
+                });
         } else {
-            valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`;
+              const modal = new bootstrap.Modal(modalRemover[i])
+                modal.show();
         }
+
+
+    })
+
+
+    // lessButtons[i].addEventListener('click', function () {
+    //     let quant = parseInt(quantElements[i].innerHTML);
+    //     if (quant > 0) {
+    //         quantData--;
+    //         quant = quantData
+    //         quantElements[i].innerHTML = quant.toString();
+    //         let total = (price * quant).toFixed(2).toString().replace('.', ',');
+    //         totalElements[i].innerHTML = `Total: R$${total}`;
+    //     }
+    //     tempTotal -= price
+    //     valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
+    // });
+
+    formRemover[i].addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        fetch('/api/user/pedido/removeItem', {
+            method: 'POST',
+            body: new FormData(this)
+        })
+            .then(response => {
+                if (response.ok) {
+                    const cardProduto = removeButtons[i].parentNode.parentNode.parentNode.parentNode
+                    cardProduto.remove();
+                    tempTotal -= price * quantData;
+                    if (quantElements.length === 0) {
+                        tempTotal = 0;
+                        valorTotal.innerHTML = `Total: R$0,00`;
+                    } else {
+                        valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`;
+                    }
+                } else {
+                    console.log('Ocorreu um erro durante a solicitação.')
+
+                }
+            })
+            .catch(error => {
+                console.error('Erro na solicitação:', error)
+            });
+
     });
 
     valorTotal.innerHTML = `R$${(price * quantData).toFixed(2).replace('.', ',')}`
@@ -67,6 +152,9 @@ for (let i = 0; i < plusButtons.length; i++) {
 if (quantElements.length === 0) {
     tempTotal = 0;
     valorTotal.innerHTML = `Total: R$0,00`;
+    buttonFinish.disabled = true
 } else {
     valorTotal.innerHTML = `Total: R$${tempTotal.toFixed(2).replace('.', ',')}`;
+    buttonFinish.disabled = false
+
 }
