@@ -40,14 +40,14 @@ img {
 .hstack button {
     font-size: large;
     width: fit-content;
-    background-color: transparent;
+    /*background-color: transparent;*/
     border: none;
 }
 
 .less {
     margin: 5px;
     color: #D82435;
-    background-color: #EEEEEE;
+    background-color: transparent;
 
 
 }
@@ -55,7 +55,7 @@ img {
 .plus {
     margin: 5px;
     color: #4CAF50;
-    background-color: #EEEEEE;
+    background-color: transparent;
 }
 
 .text, .quant {
@@ -84,7 +84,19 @@ h2 {
 
 #carrinho {
 
+    margin-left: 75%;
+
+}
+
+#navBot {
+    background-color: #D82435;
     position: fixed;
-    margin-bottom: 7rem;
-    margin-left: 80%;
+    z-index: 1;
+
+}
+
+#total {
+    color: #eeeeee;
+    padding-right: 15px;
+    margin-right: 25px;
 }

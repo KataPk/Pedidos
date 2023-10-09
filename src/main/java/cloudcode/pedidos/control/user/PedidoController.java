@@ -165,24 +165,28 @@ public class PedidoController {
 
 
         ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
-        if (item != null) {
-            if (acao == 0) {
-                item.setQuantProduto(item.getQuantProduto() - 1);
-            } else if (acao == 1) {
-                item.setQuantProduto(item.getQuantProduto() + 1);
+        Pedido pedido = item.getPedido();
+        if (!pedido.getStatusPedido().equals("FECHADO")) {
 
-            } else {
-                return ResponseEntity.badRequest().build();
+            if (item != null) {
+                if (acao == 0) {
+                    item.setQuantProduto(item.getQuantProduto() - 1);
+                } else if (acao == 1) {
+                    item.setQuantProduto(item.getQuantProduto() + 1);
+
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+
+                itemPedidoRepository.save(item);
+                return ResponseEntity.ok().build();
+
             }
 
-            itemPedidoRepository.save(item);
-            return ResponseEntity.ok().build();
 
+            return ResponseEntity.notFound().build();
         }
-
-
-        return ResponseEntity.notFound().build();
-
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/removeItem")
@@ -193,16 +197,18 @@ public class PedidoController {
 
 
         ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
+        Pedido pedido = item.getPedido();
+        if (pedido.getStatusPedido() != "FECHADO") {
+            if (item != null) {
+                itemPedidoRepository.delete(item);
 
-        if (item != null) {
-            itemPedidoRepository.delete(item);
+                return ResponseEntity.ok().build();
+            }
 
-            return ResponseEntity.ok().build();
+
+            return ResponseEntity.notFound().build();
         }
-
-
-        return ResponseEntity.notFound().build();
-
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/addItem")
@@ -244,6 +250,24 @@ public class PedidoController {
         return new RedirectView("/api/user/" + pedidoId + "/categoria/" + categoria.getId());
 
 
+    }
+
+
+    @PostMapping("/closePedido")
+    public RedirectView closePedido(@RequestParam("pedidoId") long pedidoId) {
+
+        Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+        Mesa mesa = pedido.getMesa();
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        pedido.setStatusPedido("FECHADO");
+        pedido.setDtFechamento(dateTime);
+        mesa.setMStatus("ACTIVE");
+
+        pedidoRepository.save(pedido);
+        mesaRepository.save(mesa);
+
+        return new RedirectView("/api/user/mesas");
     }
 
 

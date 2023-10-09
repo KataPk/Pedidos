@@ -12,9 +12,10 @@
     <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
     <script src="/js/navbar.js"></script>
     <link href="/css/navbar.css" rel="stylesheet">
-    <link href="/css/Editar.css" rel="stylesheet">
 
     <script crossorigin='anonymous' src=/fontawesome-free-6.4.0-web/js/all.js></script>
+    <link href="/css/Editar.css" rel="stylesheet">
+
     <title>Editar</title>
 </head>
 <body>
@@ -36,7 +37,7 @@
                             <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
                             <div class="hstack p-1">
                                 <h2 class="p-1 preco" th:attr="data-price=${item.produto.getValor}"
-                                    th:text="'Preço: R$' + ${#numbers.formatCurrency(item.produto().getValor())}">
+                                    th:text="'Preço: ' + ${#numbers.formatCurrency(item.produto().getValor())}">
                                     Error</h2>
 
                             </div>
@@ -74,10 +75,14 @@
     </div>
 
 
-    <nav class="navbar fixed-bottom bg-body-tertiary">
-        <div id="carrinho">
+    <nav class="navbar fixed-bottom" id="navBot">
+        <div id="carrinho" class="hstack p-1">
             <h2 id="total" th:text="'Total: R$' + ${subtotal}">Total: R$0,00</h2>
-            <button class="btn btn-lg btn-primary" id="finish">Finalizar</button>
+            <form action="/api/user/pedido/closePedido" method="post">
+                <input th:value="${pedido.getId()}" name="pedidoId" type="hidden">
+                <button class="btn btn-lg btn-primary" id="finish" type="submit">Finalizar</button>
+            </form>
+
         </div>
     </nav>
 </div>

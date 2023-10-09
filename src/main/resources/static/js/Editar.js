@@ -25,9 +25,7 @@ for (let i = 0; i < plusButtons.length; i++) {
     formPlus[i].addEventListener('submit', function (event) {
 
         event.preventDefault();
-        if (isSubmitting == true) {
-            return;
-        }
+
         fetch('/api/user/pedido/alterarQuant', {
             method: 'POST', body: new FormData(this)
         })
@@ -42,7 +40,6 @@ for (let i = 0; i < plusButtons.length; i++) {
                     tempTotal += price
                     valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
-                    isSubmiting = true;
 
 
                 } else {
@@ -52,9 +49,7 @@ for (let i = 0; i < plusButtons.length; i++) {
             })
             .catch(error => {
                 console.error('Erro na solicitação:', error)
-            }).finally(() => {
-            isSubmitting = false
-        });
+            });
 
 
     })
@@ -89,9 +84,7 @@ for (let i = 0; i < plusButtons.length; i++) {
                 })
                 .catch(error => {
                     console.error('Erro na solicitação:', error)
-                }).finally(() => {
-                isSubmitting = false
-            });
+                });
         } else {
             const modal = new bootstrap.Modal(modalRemover[i])
             modal.show();
