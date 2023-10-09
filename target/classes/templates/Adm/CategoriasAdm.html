@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <script src="/js/navbar.js"></script>
+    <link href="/css/navbar.css" rel="stylesheet">
+
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
+    <link href="/css/categorias.css" rel="stylesheet">
+    <title>Categorias</title>
+</head>
+
+<body>
+
+<div th:insert="~{User/navbar}"></div>
+
+<div class="container">
+
+
+    <div class="row align-items-start">
+        <div class="card text-center">
+            <button class="btn imageBtn" data-bs-target="#criarCategoria" data-bs-toggle="modal" type="button">
+                <img alt="..." class="card-img-top image" id="CategoriaAddImage" src="/img/PNG/add_button.png">
+            </button>
+            <div class="card-body">
+                <h5 class="card-title">Criar Categoria</h5>
+                <button class="btn btn-primary"
+                        data-bs-target="#criarCategoria" data-bs-toggle="modal" type="button">
+                    Criar
+                </button>
+            </div>
+        </div>
+
+        <th:block th:each="categoria : ${categorias}">
+
+            <div class="card text-center" th:id="${categoria.nome}">
+                <button class="btn">
+                    <img class="card-img-top image" th:alt="${categoria.nome}"
+                         th:src="|data:image;base64, *{categoria.imagem}|"/>
+                </button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${categoria.nome}">Teste</h5>
+                    <div aria-label="Vertical button group" class="btn-group-vertical" role="group">
+                        <button class="btn btn-primary"
+                                th:id="${'CategoriaEdit' + categoria.nome}" type="button">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger" th:id="${'exclude' + categoria.nome}" type="button">Excluir
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </th:block>
+
+
+    </div>
+
+</div>
+<div id="modals">
+    <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" id="criarCategoria">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--                    <h1 class="modal-title fs-5" th:text="${categoria.nome}" th:id="'labelCategoria' + ${categoria.nome}"></h1>-->
+
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action="/api/admin/createCategoria" enctype="multipart/form-data" method="POST">
+                    <div class="modal-body vstack">
+                        <div class="hstack p-1 ">
+                            <label class="form-label" for="categoriaNome">Nome da Categoria:</label>
+                            <input class="form-control categoriaNome" id="categoriaNome" name="nome" required
+                                   type="text">
+
+                        </div>
+                        <div class="hstack p-2">
+                            <div class="m2">
+                                <label class="form-label" for="formFile">Imagem</label>
+                                <input accept="image/*" class="form-control" id="formFile" name="file" type="file">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="submit">Criar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <th:block th:each="categoria : ${categorias}">
+
+
+    </th:block>
+</div>
+
+</body>
+
+</html>
+
