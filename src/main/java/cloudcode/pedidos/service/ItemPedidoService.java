@@ -6,6 +6,7 @@ import cloudcode.pedidos.model.entity.ItemPedido;
 import cloudcode.pedidos.model.repository.ItemPedidoRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.util.List;

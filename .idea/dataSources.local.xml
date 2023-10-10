@@ -15,6 +15,29 @@
           </node>
         </introspection-scope>
       </schema-mapping>
+      <ssl-config use-ide-store="true" use-java-store="true" use-system-store="true">
+        <ca-cert>F:\carlo\Downloads\server-ca (1).pem</ca-cert>
+        <client-cert>F:\carlo\Downloads\client-cert.pem</client-cert>
+        <client-key>F:\carlo\Downloads\client-key.pem</client-key>
+        <enabled>true</enabled>
+        <mode>REQUIRE</mode>
+      </ssl-config>
+    </data-source>
+    <data-source name="BdPedidos@localhost" uuid="e49d0ae1-5b32-477e-b214-98cd130a1f93">
+      <database-info product="Microsoft SQL Server" version="16.00.1050" jdbc-version="4.2" driver-name="Microsoft JDBC Driver 12.2 for SQL Server" driver-version="12.2.0.0" dbms="MSSQL" exact-version="16.0.1050" exact-driver-version="12.2">
+        <extra-name-characters>$#@</extra-name-characters>
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>sa</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database" qname="@">
+            <node kind="schema" qname="@" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
     </data-source>
   </component>
 </project>

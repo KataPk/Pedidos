@@ -44,7 +44,8 @@
             <div class="card text-center" th:id="${produto.nome}">
                 <button class="btn">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="|data:image;base64, *{produto.imagem}|"/>
+                         th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
+
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
@@ -85,7 +86,7 @@
 
                             <label class="form-label" for="descricao">Descrição:</label>
                             <textarea class="form-control" id="descricao" name="descricao" rows="3"
-                                      type="text"></textarea>
+                                      type="text" required></textarea>
                         </div>
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoValor">Valor do Produto:</label>
@@ -105,7 +106,7 @@
                         <div class="hstack p-2">
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
-                                <input type="file" accept="image/*" class="form-control fileInput" id="formFile"
+                                <input type="file" accept="image/png, image/jpeg" class="form-control fileInput" id="formFile"
                                        name="file"
                                        required
                                        maxlength="10000000">

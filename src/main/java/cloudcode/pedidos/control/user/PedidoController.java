@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@Transactional
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 @RequestMapping("/api/user/pedido")
 public class PedidoController {
@@ -58,6 +57,7 @@ public class PedidoController {
     }
 
 
+
     @GetMapping("/Pedidos")
     public String pedidos(Model model) {
         List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
@@ -69,6 +69,7 @@ public class PedidoController {
     }
 
 
+    @Transactional
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,
                                      @RequestParam("mesaId") long mesaId,
@@ -127,7 +128,7 @@ public class PedidoController {
     public RedirectView openPedido(@RequestParam("mesaNum") int mesaNum) {
 
         Mesa mesa = mesaRepository.findByNumMesa(mesaNum);
-        Pedido pedido = pedidoRepository.findByMesa(mesa);
+        Pedido pedido = pedidoRepository.findByMesaAndStatusPedido(mesa, "ABERTO");
         long pedidoId = pedido.getId();
 
         if (pedido.getStatusPedido().equals("ABERTO")) {
@@ -262,10 +263,12 @@ public class PedidoController {
         LocalDateTime dateTime = LocalDateTime.now();
         pedido.setStatusPedido("FECHADO");
         pedido.setDtFechamento(dateTime);
-        mesa.setMStatus("ACTIVE");
+        if (mesa.getMStatus().equals("OCUPADA")) {
+           mesa.setMStatus("ACTIVE");
+            mesaRepository.save(mesa);
 
+        }
         pedidoRepository.save(pedido);
-        mesaRepository.save(mesa);
 
         return new RedirectView("/api/user/mesas");
     }

@@ -15,6 +15,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     Pedido findByMesa(Mesa mesa);
 
+    Pedido findByMesaAndStatusPedido(Mesa mesa, String status);
     List<Pedido> findByStatusPedido(String statusPedido);
 
 }

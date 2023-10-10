@@ -36,7 +36,7 @@ public class ErrorController {
         } else if (throwable instanceof BadCredentialsException) {
             httpStatus = HttpStatus.UNAUTHORIZED;
             errorMessage = "Usuario ou senha incorreto";
-            new RedirectView("/api/v1/login-err");
+            new RedirectView("/api/v1/login-error");
 
         } else {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

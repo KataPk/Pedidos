@@ -30,7 +30,7 @@
             <div class="card text-center" th:id="${produto.id}">
                 <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.nome}">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="|data:image;base64, *{produto.imagem}|"/>
+                         th:src="${'/uploads/images/produtos/' + produto.categoria.id() + '/' + produto.id()}"/>
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
@@ -47,9 +47,9 @@
         </th:block>
 
     </div>
-    <nav class="navbar sticky-bottom  navBottom" id="navFinalizar">
+    <nav class="navbar fixed-bottom  navBottom" id="navFinalizar">
         <div class="container-fluid">
-            <a class="btn btn-danger finalizar" role="button" th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}" >Finalizar</a>
+            <a class="btn btn-primary finalizar" role="button" th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}" >Finalizar</a>
         </div>
     </nav>
 
