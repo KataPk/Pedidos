@@ -44,17 +44,21 @@
             <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
                     <img class="card-img-top image" th:alt="${categoria.nome}"
-                         th:src="${'/uploads/images/categorias/' + categoria.id() + '/' + categoria.imagem()}" />
+                         th:src="${'/uploads/images/categorias/' + categoria.id() + '/' + categoria.imagem()}"/>
 
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${categoria.nome}">Teste</h5>
                     <div aria-label="Vertical button group" class="btn-group-vertical" role="group">
-                        <button class="btn btn-primary"
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                th:attr="data-bs-target=${'#editCategoria' + categoria.id()}"
                                 th:id="${'CategoriaEdit' + categoria.nome}" type="button">
                             Editar
                         </button>
-                        <button class="btn btn-danger" th:id="${'exclude' + categoria.nome}" type="button">Excluir
+                        <button class="btn btn-danger" th:id="${'exclude' + categoria.id()}"
+                                th:attr="data-bs-target=${'#delete' + categoria.id()}"
+                                data-bs-toggle="modal"
+                                type="button">Excluir
                         </button>
 
                     </div>
@@ -88,7 +92,7 @@
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
                                 <input accept="image/png, image/jpeg" class="form-control"
-                                       id="formFile" name="file" type="file">
+                                       id="formFile" name="file" type="file" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -102,7 +106,64 @@
     </div>
 
     <th:block th:each="categoria : ${categorias}">
+        <div aria-labelledby="staticBackdropLabel" class="modal fade" th:id="${'editCategoria' + categoria.id()}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Editar Categoria</h1>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <form action="/api/admin/editCategoria" class="formEdit" enctype="multipart/form-data"
+                          method="POST">
+                        <div class="modal-body vstack">
+                            <div class="hstack p-1 ">
+                                <label class="form-label" th:for="${'categoriaNome' + categoria.id()}">Nome da
+                                    Categoria:</label>
+                                <input class="form-control categoriaNome" th:id="${'categoriaNome' + categoria.id()}"
+                                       name="nome" required
+                                       th:value="${categoria.nome()}" type="text">
 
+                            </div>
+                            <div class="hstack p-2">
+                                <div class="m2">
+                                    <label class="form-label" th:for="${'formFile' + categoria.id()}">Imagem</label>
+                                    <input accept="image/png, image/jpeg" class="form-control"
+                                           th:id="${'formFile' + categoria.id()}" name="file" type="file">
+                                    <input th:value="${categoria.id()}" name="categoriaId" type="hidden">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="submit">Editar</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div aria-labelledby="staticBackdropLabel" class="modal fade" th:id="${'delete'+ categoria.id()}"
+             tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="labelLogout">Deletar categoria?</h1>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body" th:text="${'Tem certeza que deseja deletar ' + categoria.nome() + '?'}">
+                        Error
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/api/admin/disableCategoria" method="post">
+                            <input th:value="${categoria.id()}" name="categoriaId" type="hidden">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                            <button class="btn btn-danger" type="submit">Deletar categoria</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </th:block>
 </div>

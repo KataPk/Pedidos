@@ -52,6 +52,14 @@ public class ProdutoService {
         )).collect(Collectors.toList());
     }
 
+    public List<ProdutoRecordDto> findAtivos() {
+        List<Produto> produtos = produtoRepository.findAllByStatusProduto("ACTIVE");
+        return produtos.stream()
+                .map(produto -> new ProdutoRecordDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getImagem(),
+                        produto.getValor(), produto.getCategoria()))
+                .collect(Collectors.toList());
+
+    }
 
 }
 

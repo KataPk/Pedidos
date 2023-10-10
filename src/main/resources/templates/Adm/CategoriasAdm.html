@@ -44,7 +44,7 @@
             <div class="card text-center" th:id="${categoria.nome}">
                 <button class="btn">
                     <img class="card-img-top image" th:alt="${categoria.nome}"
-                         th:src="${'/uploads/images/categorias/' + categoria.id() + '/' + categoria.imagem()}" />
+                         th:src="${'/uploads/images/categorias/' + categoria.id() + '/' + categoria.imagem()}"/>
 
                 </button>
                 <div class="card-body">
@@ -92,7 +92,7 @@
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
                                 <input accept="image/png, image/jpeg" class="form-control"
-                                       id="formFile" name="file" type="file">
+                                       id="formFile" name="file" type="file" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -110,120 +110,35 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Editar Usuário</h1>
+                        <h1 class="modal-title fs-5">Editar Categoria</h1>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
-                    <form action="/api/admin/editCategoria" class="formEdit" method="POST">
-                        <input class="form-control" name="id" required th:id="${'Id' + user.id()}"
-                               th:value="${user.id()}" type="hidden">
+                    <form action="/api/admin/editCategoria" class="formEdit" enctype="multipart/form-data"
+                          method="POST">
+                        <div class="modal-body vstack">
+                            <div class="hstack p-1 ">
+                                <label class="form-label" th:for="${'categoriaNome' + categoria.id()}">Nome da
+                                    Categoria:</label>
+                                <input class="form-control categoriaNome" th:id="${'categoriaNome' + categoria.id()}"
+                                       name="nome" required
+                                       th:value="${categoria.nome()}" type="text">
 
-                        <div class="modal-body vstack text-center">
-                            <div class="hstack p-1">
-                                <label class="form-label" th:for="${'nomeUsuario' + user.id()}">Nome:</label>
-                                <input class="form-control nomeUser" name="nome"
-                                       required th:id="${'nomeUsuario' + user.id()}" th:value="${user.nome()}"
-                                       type="text">
                             </div>
-                            <p class="text-danger hstack p-1" style="display: none;"></p>
+                            <div class="hstack p-2">
+                                <div class="m2">
+                                    <label class="form-label" th:for="${'formFile' + categoria.id()}">Imagem</label>
+                                    <input accept="image/png, image/jpeg" class="form-control"
+                                           th:id="${'formFile' + categoria.id()}" name="file" type="file">
+                                    <input th:value="${categoria.id()}" name="categoriaId" type="hidden">
 
-                            <div class="hstack p-1">
-                                <div class="hstack p-1">
-                                    <label class="form-label" th:for="${'cep' + user.id()}">CEP: </label>
-                                    <input class="form-control cepUser" name="cep"
-                                           placeholder="00000-000" required th:id="${'cep' + user.id()}"
-                                           th:value="${user.cep()}"
-                                           type="text"
-
-                                    >
-                                </div>
-                                <p class="text-danger vstack p-1" style="display: none;"></p>
-                                <div class="hstack p-1">
-                                    <label class="form-label"
-                                           th:for="${'enderecoUsuario' + user.id()}">Endereço: </label>
-                                    <input class="form-control enderecoUser" name="endereco"
-                                           required th:id="${'enderecoUsuario' + user.id()}"
-                                           th:value="${user.logradouro()}"
-                                           type="text">
                                 </div>
                             </div>
-
-
-                            <div class="hstack p-1">
-                                <label class="form-label" th:for="${'numResidUsuario' + user.id()}">Número: </label>
-                                <input class="form-control numResidUser" max="999"
-                                       min="1" name="numResid" placeholder="000" required
-                                       th:id="${'numResidUsuario' + user.id()}" th:value="${user.numResid()}"
-                                       type="number">
-                                <label class="form-label"
-                                       th:for="${'complementoUsuario' + user.id()}">Complemento: </label>
-                                <input class="form-control complementoUser" name="complemento"
-                                       th:id="${'complementoUsuario' + user.id()}" th:value="${user.complemento()}"
-                                       type="text">
-                            </div>
-
-                            <div class="hstack p-1">
-                                <label class="form-label" th:for="${'BairroUsuario' + user.id()}">Bairro: </label>
-                                <input class="form-control bairroUser" name="bairro"
-                                       required th:id="${'BairroUsuario' + user.id()}" th:value="${user.bairro()}"
-                                       type="text">
-
-                                <label class="form-label" th:for="${'cidade' + user.id()}">Cidade: </label>
-                                <input class="form-control cidadeUser" name="cidade"
-                                       required th:id="${'cidade' + user.id()}" th:value="${user.cidade()}" type="text">
-
-                                <label class="form-label" th:for="${'uf' + user.id()}">UF: </label>
-                                <input class="form-control ufUser" maxlength="2" minlength="2"
-                                       name="uf" onchange="maskUf(this)" pattern="[A-Z]{2}" required
-                                       th:id="${'uf' + user.id()}"
-                                       th:value="${user.uf()}" type="text">
-
-                            </div>
-
-
-                            <div class="hstack p-1">
-                                <label class="form-label" th:for="${'emailRecuperacaoUsuario' + user.id()}">Email de
-                                    recuperação: </label>
-                                <input class="form-control emailUser"
-                                       name="emailRecup" th:id="${'emailRecuperacaoUsuario' + user.id()}"
-                                       th:value="${user.email()}" type="email">
-                            </div>
-                            <p class="text-danger hstack p-1" style="display: none"></p>
-
-
-                            <div class="hstack p-1">
-                                <label class="form-label" th:for="${'username' + user.id()}">Username: </label>
-                                <input class="form-control" name="username"
-                                       required th:id="${'username' + user.id()}" th:value="${user.username()}"
-                                       type="text">
-                            </div>
-                            <p class="text-danger hstack p-1" style="display: none"></p>
-                            <div class="hstack p-1" th:if="${user.username() != #authentication.principal.username}">
-                                <label class="text-xxl-center" th:for="${'acesso' + user.id}">Acesso:</label>
-                                <div th:id="${'acesso' + user.id}">
-                                    <input class="" name="Role" th:checked="${user.roles().contains(RoleUser)}"
-                                           th:id="${'Role1' + user.id()}"
-                                           type="radio" value="user">
-                                    <label class="form-label acesso" th:for="${'Role1' + user.id()}">Usuário </label>
-
-                                    <input class="" name="Role" th:checked="${user.roles().contains(RoleAdmin)}"
-                                           th:id="${'Role2' + user.id()}"
-                                           type="radio" value="admin">
-                                    <label class="form-label acesso"
-                                           th:for="${'Role2' + user.id()}">Administrador </label>
-                                </div>
-                                <p class="text-danger hstack p-1 backMessage" style="display: none"></p>
-
-                            </div>
-
                             <div class="modal-footer">
-                                <button aria-label="Close" class="btn btn-danger  start-0"
-                                        data-bs-dismiss="modal" type="button">Cancelar
-                                </button>
-                                <button class="btn btn-secondary btnSubmit" th:id="${'criarUser' + user.id()}"
-                                        type="submit">Salvar alterações
-                                </button>
+                                <button class="btn btn-secondary" type="submit">Editar</button>
                             </div>
                         </div>
+
+
                     </form>
                 </div>
             </div>
@@ -233,17 +148,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="labelLogout">Deletar funcionário?</h1>
+                        <h1 class="modal-title fs-5" id="labelLogout">Deletar categoria?</h1>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
-                    <div class="modal-body" th:text="${'Tem certeza que deseja deletar ' + user.nome() + '?'}">
+                    <div class="modal-body" th:text="${'Tem certeza que deseja deletar ' + categoria.nome() + '?'}">
                         Error
                     </div>
                     <div class="modal-footer">
-                        <form action="/api/admin/deleteFuncionario" method="post">
-                            <input th:value="${user.id()}" name="userId" type="hidden">
+                        <form action="/api/admin/disableCategoria" method="post">
+                            <input th:value="${categoria.id()}" name="categoriaId" type="hidden">
                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                            <button class="btn btn-danger" type="submit">Deletar funcionário</button>
+                            <button class="btn btn-danger" type="submit">Deletar categoria</button>
                         </form>
                     </div>
                 </div>

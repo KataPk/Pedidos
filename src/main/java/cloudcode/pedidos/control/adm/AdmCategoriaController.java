@@ -11,6 +11,7 @@ import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
 import cloudcode.pedidos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,38 +104,35 @@ public class AdmCategoriaController {
     public RedirectView editCategoria(
             @RequestParam("categoriaId") long categoriaId,
             @RequestParam("nome") String nome,
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @Param("file") MultipartFile file) throws IOException {
 
         try {
 
             Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
             String imagem = categoria.getImagem();
-
-            // tratativa da imagem
-            String uniqueFileName = UUID.randomUUID().toString();
-            String fileName = "";
-            // Obtém a extensão do arquivo original (se necessário)
-            String originalFileName = file.getOriginalFilename();
             String fileExtension = "";
+            String fileName = "";
+            if (file != null) {
+                // tratativa da imagem
+                String uniqueFileName = UUID.randomUUID().toString();
+                // Obtém a extensão do arquivo original (se necessário)
+                String originalFileName = file.getOriginalFilename();
 
-            if (originalFileName != null) {
-                int lastDotIndex = originalFileName.lastIndexOf(".");
-                if (lastDotIndex != -1) {
-                    fileExtension = originalFileName.substring(lastDotIndex);
+                if (originalFileName != null) {
+                    int lastDotIndex = originalFileName.lastIndexOf(".");
+                    if (lastDotIndex != -1) {
+                        fileExtension = originalFileName.substring(lastDotIndex);
+                    }
+                    fileName = uniqueFileName + fileExtension;
+                } else {
+                    fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 }
-                fileName = uniqueFileName + fileExtension;
-            } else {
-                fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                categoria.setImagem(fileName);
             }
 
-//            método com base 64
-//            byte[] image = Base64.getEncoder().encode(file.getBytes());
-//            String imageBase64 = new String(image);
-
-            // criação da Categoria
 
             categoria.setNome(nome);
-            categoria.setImagem(fileName);
+
 
             categoriaRepository.save(categoria);
 
@@ -166,7 +164,7 @@ public class AdmCategoriaController {
             produto1.setStatusProduto("INACTIVE");
             produtoRepository.save(produto1);
 
-            String  imagem = produto.imagem();
+            String imagem = produto.imagem();
             if (imagem != null && !imagem.isEmpty()) {
                 String uploadDirAnterior = "uploads/images/produtos/" + produto.categoria().getId();
                 FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
@@ -176,7 +174,7 @@ public class AdmCategoriaController {
         categoria.setStatusCategoria("INACTIVE");
         categoriaRepository.save(categoria);
 
-        String  imagem = categoria.getImagem();
+        String imagem = categoria.getImagem();
         if (imagem != null && !imagem.isEmpty()) {
             String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
             FileUploadUtil.deleteFile(uploadDirAnterior, imagem);

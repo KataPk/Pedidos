@@ -47,7 +47,7 @@ public class AdmProdutoController {
     public String produtos(Model model) {
         List<ProdutoRecordDto> produtos = produtoService.findAll();
         model.addAttribute("produtos", produtos);
-        List<CategoriaRecordDto> categorias = categoriaService.findAll();
+        List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
         model.addAttribute("categorias", categorias);
 
 
@@ -128,7 +128,7 @@ public class AdmProdutoController {
             Produto produto = produtoRepository.getReferenceById(produtoId);
             String imagem = produto.getImagem();
 
-                    String uniqueFileName = UUID.randomUUID().toString();
+            String uniqueFileName = UUID.randomUUID().toString();
             String fileName = "";
             // Obtém a extensão do arquivo original (se necessário)
             String originalFileName = file.getOriginalFilename();
@@ -179,8 +179,14 @@ public class AdmProdutoController {
     public RedirectView disableProduto(
             @RequestParam("id") long produtoId
     ) {
-
-        try
+        Produto produto = produtoRepository.getReferenceById(produtoId);
+        produto.setStatusProduto("INACTIVE");
+        produtoRepository.save(produto);
+        String imagem = produto.getImagem();
+        if (imagem != null && !imagem.isEmpty()) {
+            String uploadDirAnterior = "uploads/images/produtos/" + produto.getCategoria().getId();
+            FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
+        }
 
 
         return new RedirectView("/api/admin/produtos");

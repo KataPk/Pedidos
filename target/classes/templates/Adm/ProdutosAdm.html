@@ -51,10 +51,16 @@
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
                     <div aria-label="Vertical button group" class="btn-group-vertical" role="group">
                         <button class="btn btn-primary"
-                                th:id="${'CategoriaEdit' + produto.nome}" type="button">
+                                th:id="${'produtoEdit' + produto.id()}" type="button"
+                                data-bs-toggle="modal"
+                                th:attr="data-bs-target=${'#editProduto' + produto.id()}"
+                        >
                             Editar
                         </button>
-                        <button class="btn btn-danger" th:id="${'exclude' + produto.nome}" type="button">Excluir
+                        <button class="btn btn-danger" th:id="${'exclude' + produto.id()}" type="button"
+                                th:attr="data-bs-target=${'#delete' + produto.id()}"
+                                data-bs-toggle="modal"
+                        >Excluir
                         </button>
 
                     </div>
@@ -106,11 +112,11 @@
                         <div class="hstack p-2">
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
-                                <input type="file" accept="image/png, image/jpeg" class="form-control fileInput" id="formFile"
+                                <input type="file" accept="image/png, image/jpeg" class="form-control fileInput"
+                                       id="formFile"
                                        name="file"
                                        required
                                        maxlength="10000000">
-                                <canvas id="croppedCanvas" style="display: none;"></canvas>
 
                             </div>
                         </div>
@@ -154,6 +160,92 @@
 
     </div>
     <th:block th:each="produto : ${produtos}">
+        <div aria-labelledby="staticBackdropLabel" class="modal fade" th:id="${'editProduto' + produto.id()}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <form action="/api/admin/editProduto" enctype="multipart/form-data" method="POST">
+                        <div class="modal-body vstack">
+                            <div class="hstack p-1 ">
+                                <label class="form-label" th:for="${'produtoNome' + produto.id()}">Nome do
+                                    Produto:</label>
+                                <input class="form-control produtoNome" th:id="${'produtoNome' + produto.id()}"
+                                       name="nome"
+                                       th:value="${produto.nome()}" type="text">
+                            </div>
+                            <div class="hstack p-1">
+
+                                <label class="form-label" th:for="${'descricao' + produto.id() }">Descrição:</label>
+                                <textarea class="form-control" th:id="${'descricao' + produto.id()}" name="descricao"
+                                          rows="3"
+                                          type="text" th:value="${produto.descricao()}"></textarea>
+                            </div>
+                            <div class="hstack p-1 ">
+                                <label class="form-label" for="produtoValor">Valor do Produto:</label>
+                                <input class="form-control produtoValor" th:id="${'produtoValor' + produto.id()}"
+                                       max="10000.00" min="0.00"
+                                       name="valor"
+                                       required step="0.01" type="number"
+                                       th:value="${produto.valor()}"
+                                >
+
+                            </div>
+                            <div class="hstack p-1 ">
+                                <label class="form-label" th:for="${'produtoCategoria' + produto.id}">Categoria do
+                                    Produto:</label>
+                                <select class="form-select" th:id="${'produtoCategoria' + produto.id()}"
+                                        name="categoria" required>
+                                    <option th:each="categoria : ${categorias}" th:text="${categoria.nome}"
+                                            th:value="${categoria.id}"
+                                            th:selected="${categoria == produto.categoria()}"></option>
+                                </select>
+
+                            </div>
+                            <div class="hstack p-2">
+                                <div class="m2">
+                                    <label class="form-label" th:for="${'formFile' + produto.id()}">Imagem</label>
+                                    <input type="file" accept="image/png, image/jpeg" class="form-control fileInput"
+                                           th:id="${'formFile' + produto.id()}"
+                                           name="file"
+                                           required
+                                           maxlength="10000000">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Editar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div aria-labelledby="staticBackdropLabel" class="modal fade" th:id="${'delete'+ produto.id()}"
+             tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="labelLogout">Deletar funcionário?</h1>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body" th:text="${'Tem certeza que deseja deletar ' + produto.nome() + '?'}">
+                        Error
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/api/admin/disableProduto" method="post">
+                            <input th:value="${produto.id()}" name="produtoId" type="hidden">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                            <button class="btn btn-danger" type="submit">Deletar produto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </th:block>
