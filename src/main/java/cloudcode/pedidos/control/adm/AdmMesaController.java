@@ -36,10 +36,8 @@ public class AdmMesaController {
 
     @GetMapping("/mesas")
     public String mesas(Model model) {
-        List<MesaRecordDto> mesas = mesaService.findAllAtivos();
-        List<MesaRecordDto> mesasInativas = mesaService.findAllInativos();
+        List<MesaRecordDto> mesas = mesaService.findAllMesas();
         model.addAttribute("mesas", mesas);
-        model.addAttribute("mesasInativas", mesasInativas);
         return "Adm/MesasAdm";
     }
 
@@ -119,7 +117,7 @@ public class AdmMesaController {
 
             mesa.setNumMesa(numMesa);
             mesaRepository.save(mesa);
-            
+
             responseData.put("success", true);
             responseData.put("message", "Mesa registrada com sucesso.");
 

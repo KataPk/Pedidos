@@ -13,6 +13,8 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+    <link href="/static/css/cropper.css" rel="stylesheet">
     <link href="/css/navbar.css" rel="stylesheet">
     <link href="/css/Produtos.css" rel="stylesheet">
     <title>Produtos</title>
@@ -96,7 +98,8 @@
                         </div>
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoValor">Valor do Produto:</label>
-                            <input class="form-control produtoValor" id="produtoValor" max="10000.00" min="0.00"
+                            <input class="form-control produtoValor fileInput" id="produtoValor" max="10000.00"
+                                   min="0.00"
                                    name="valor"
                                    required step="0.01" type="number">
 
@@ -190,6 +193,7 @@
                                        required step="0.01" type="number"
                                        th:value="${produto.valor()}"
                                 >
+                                <img class="imageCropper" style="display: none">
 
                             </div>
                             <div class="hstack p-1 ">
@@ -253,5 +257,46 @@
 
 </body>
 
+<script src="/static/cropperjs-main/src/js/cropper.js"></script>
+<script>
+    // Função para inicializar o Cropper.js em um elemento de imagem
+    function initializeCropper(imageElement) {
+        const cropper = new Cropper(imageElement, {
+            aspectRatio: 1, // Configuração para fazer a imagem recortada ser quadrada
+            viewMode: 2, // Configuração para ajustar a visualização da imagem
+        });
 
+        // Quando o botão "Crop" é clicado
+        document.getElementById('crop').addEventListener('click', () => {
+            // Obtém a imagem recortada como um blob
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                // Crie um objeto FormData para enviar a imagem recortada
+                const formData = new FormData();
+                formData.append('croppedImage', blob, 'cropped-image.png');
+
+                // Envie a imagem recortada para o servidor ou realize a ação desejada aqui
+                // Exemplo: enviar via AJAX
+            });
+        });
+    }
+
+    // Quando um arquivo é selecionado em qualquer campo de entrada de arquivo
+    document.querySelectorAll('input[type="file"]').forEach((inputElement) => {
+        inputElement.addEventListener('change', (event) => {
+            const file = event.target.files[0]; // Obtém o arquivo selecionado
+            if (file) {
+                const imageElement = document.getElementById('image'); // Seu elemento de imagem onde o Cropper será inicializado
+                const reader = new FileReader();
+
+                // Quando o arquivo é carregado
+                reader.onload = (e) => {
+                    imageElement.src = e.target.result; // Define a imagem do Cropper
+                    initializeCropper(imageElement); // Inicializa o Cropper.js com a imagem
+                };
+
+                reader.readAsDataURL(file); // Lê o arquivo como um URL de dados
+            }
+        });
+    });
+</script>
 </html>

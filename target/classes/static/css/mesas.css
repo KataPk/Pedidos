@@ -56,7 +56,7 @@
 .modal-body button {
     font-size: large;
     width: fit-content;
-    background-color: transparent;
+    /*background-color: transparent;*/
     border: none;
 }
 

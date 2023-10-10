@@ -14,7 +14,6 @@
     <script src="/js/navbar.js"></script>
 
     <link href="/css/mesas.css" rel="stylesheet">
-    <script src="/js/mesas.js"></script>
     <title>Mesas</title>
 </head>
 <body>
@@ -23,14 +22,21 @@
 
     <!--Card para adicionar mesas-->
     <div class="row align-items-start text-center" id="MesaContainer">
+
         <div class="card">
-            <button class="btn imageBtn addMesa" type="button">
+            <button class="btn imageBtn addMesa" type="button"
+                    data-bs-target="#ModalcreateMesa"
+                    data-bs-toggle="modal"
+            >
                 <img alt="..." class="card-img-top image" id="mesaAddImage" src="/img/PNG/add_button.png">
             </button>
             <div class="card-body">
                 <h5 class="card-title">Criar Mesa</h5>
                 <button class="btn btn-primary createMesa"
-                        id="createMesa" type="button">
+                        id="createMesa" type="button"
+                        data-bs-target="#ModalcreateMesa"
+                        data-bs-toggle="modal"
+                >
                     Criar Mesa
                 </button>
             </div>
@@ -39,7 +45,10 @@
         <th:block th:each="mesa : ${mesas}">
 
             <div class="card" th:if="${mesa.mStatus == 'ACTIVE'}">
-                <button class="btn imageBtn" th:id="${'addPedido' + mesa.numMesa}" type="button">
+                <button class="btn imageBtn" th:id="${'addPedido' + mesa.numMesa}" type="button"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#editMesa' + mesa.id()}"
+                >
                     <img alt="..." class="card-img-top image" src="/img/PNG/mesa.png">
                 </button>
                 <div class="card-body">
@@ -79,17 +88,29 @@
                     </div>
                 </div>
             </div>
+
             <div class="card text-center" th:if="${mesa.mStatus == 'INACTIVE'}">
-                <button class="btn imageBtn " disabled th:id="${'mesa' + mesa.numMesa}" type="button">
+                <button class="btn imageBtn "
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#ModalMesa' + mesa.numMesa()}"
+                        th:id="${'mesa' + mesa.numMesa}" type="button">
                     <img alt="..." class="card-img-top image" src="/img/PNG/mesa-desabilitada.png">
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${'Mesa ' + mesa.numMesa}">Mesa</h5>
-                    <button class="btn btn-primary" data-bs-toggle="modal"
-                            th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }"
-                            th:id="${'addPedido' + mesa.numMesa}" type="button">
-                        Reativar mesa
-                    </button>
+                    <div aria-label="Vertical button group" class="btn-group-vertical" role="group">
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#ModalMesa'+${mesa.numMesa }"
+                                th:id="${'reactive' + mesa.numMesa}" type="button">
+                            Reativar mesa
+                        </button>
+                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                th:attr="data-bs-target=${'#delete' + mesa.id()}"
+                                th:id="${'exclude' + mesa.numMesa}"
+                                type="button">
+                            Excluir
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -100,6 +121,41 @@
 
     <!--    Modals-->
     <div id="modals">
+
+        <div aria-labelledby="staticBackdropLabel" class="modal fade"
+             id="ModalcreateMesa">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Criar Mesa</h1>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                type="button"></button>
+                    </div>
+                    <form action="/api/admin/createMesa" id="formCreate"
+                          method="POST">
+                        <div class="modal-body vstack">
+                            <div class="vstack p-1">
+                                <div class="hstack p-1 ">
+                                    <label class="form-label" for="mesaNumCreate">Número da
+                                        mesa:</label>
+                                    <input class="form-control" max="999"
+                                           min="1" name="numMesa" required id="mesaNumCreate"
+                                           type="number">
+                                    <p class="text-danger hstack p-1" id="backMessage" style="display: none"></p>
+                                </div>
+                            </div>
+                            <div class=" modal-footer">
+                                <button class="btn btn-secondary" type="submit">Criar</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <th:block th:each="mesa : ${mesas}">
             <div th:if="${mesa.mStatus == 'ACTIVE'}">
                 <div aria-labelledby="staticBackdropLabel" class="modal fade"
@@ -123,6 +179,7 @@
                                         <input name="mesaId"
                                                th:value="${mesa.id()}" type="hidden">
                                     </div>
+                                    <p class="text-danger hstack p-1 backMessage" style="display: none"></p>
                                     <div class=" modal-footer">
                                         <button class="btn btn-secondary" type="submit">Editar</button>
                                     </div>
@@ -196,7 +253,7 @@
                                         type="button"></button>
                             </div>
                             <div class="modal-body"
-                                 th:text="${'Tem certeza que deseja deletar a mesa' + mesa.numMesa() + '?'}">
+                                 th:text="${'Tem certeza que deseja deletar a mesa ' + mesa.numMesa() + '?'}">
                                 Error
                             </div>
                             <div class="modal-footer">
@@ -220,5 +277,7 @@
 
 
 </div>
+<script src="/js/mesas.js"></script>
+
 </body>
 </html>

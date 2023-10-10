@@ -6,7 +6,6 @@ import cloudcode.pedidos.model.entity.Mesa;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -40,23 +39,12 @@ public class MesaService {
                 .collect(Collectors.toList());
     }
 
-    public List<MesaRecordDto> findAllInativos() {
-        List<Mesa> mesas = mesaRepository.findAllByMStatusOrderByNumMesa("INACTIVE");
+    public List<MesaRecordDto> findAllMesas() {
+        List<Mesa> mesas = mesaRepository.findAllByMStatusNotOrderByNumMesa("DELETADA");
         return mesas.stream()
                 .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
                 .collect(Collectors.toList());
     }
-//private Integer obterNovNum(){
-//
-//        List<Integer> numeroMesas = mesaRepository.findNumeroMesasAtivas();
-//
-//        for (int i = 1; i<= 1000; i++){
-//            if (!numeroMesas.contains(i)){
-//                return i;
-//            }
-//        }
-//        throw new RuntimeException("Erro ao encontrar número da mesa");
-//}
 
 
 }
