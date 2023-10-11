@@ -30,7 +30,7 @@
             <div class="card text-center" th:id="${produto.id}">
                 <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.id()}">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
+                         th:src="|data:image;base64, *{produto.imagem}|"/>
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
@@ -70,7 +70,7 @@
                         <div class="modal-body vstack">
                             <div class="hstack p-1 ">
                                 <img class="card-img-top image" th:alt="${produto.nome}"
-                                     th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
+                                     th:src="|data:image;base64, *{produto.imagem}|"/>
                                 <p class="p-2" th:text="${produto.descricao}">Error</p>
                             </div>
                             <div class="hstack p-1">

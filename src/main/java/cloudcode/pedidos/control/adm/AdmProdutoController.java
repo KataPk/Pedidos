@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,24 +65,24 @@ public class AdmProdutoController {
 
         try {
             // tratativa da imagem
-//            byte[] image = Base64.getEncoder().encode(file.getBytes());
-//            String imageBase64 = new String(image);
+            byte[] image = Base64.getEncoder().encode(file.getBytes());
+            String imageBase64 = new String(image);
 
-            String uniqueFileName = UUID.randomUUID().toString();
-            String fileName = "";
-            // Obtém a extensão do arquivo original (se necessário)
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = "";
-
-            if (originalFileName != null) {
-                int lastDotIndex = originalFileName.lastIndexOf(".");
-                if (lastDotIndex != -1) {
-                    fileExtension = originalFileName.substring(lastDotIndex);
-                }
-                fileName = uniqueFileName + fileExtension;
-            } else {
-                fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            }
+//            String uniqueFileName = UUID.randomUUID().toString();
+//            String fileName = "";
+//            // Obtém a extensão do arquivo original (se necessário)
+//            String originalFileName = file.getOriginalFilename();
+//            String fileExtension = "";
+//
+//            if (originalFileName != null) {
+//                int lastDotIndex = originalFileName.lastIndexOf(".");
+//                if (lastDotIndex != -1) {
+//                    fileExtension = originalFileName.substring(lastDotIndex);
+//                }
+//                fileName = uniqueFileName + fileExtension;
+//            } else {
+//                fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//            }
 
             // converter o valor para BigDecimal
             valor = valor.replace(",", ".");
@@ -94,8 +95,8 @@ public class AdmProdutoController {
                     nome,
                     descricao,
                     valorDouble,
-//                    imageBase64,
-                    fileName,
+                    imageBase64,
+//                    fileName,
                     categoria,
                     "ACTIVE"
             );
@@ -123,26 +124,26 @@ public class AdmProdutoController {
 
         try {
             // tratativa da imagem
-//            byte[] image = Base64.getEncoder().encode(file.getBytes());
-//            String imageBase64 = new String(image);
+            byte[] image = Base64.getEncoder().encode(file.getBytes());
+            String imageBase64 = new String(image);
             Produto produto = produtoRepository.getReferenceById(produtoId);
-            String imagem = produto.getImagem();
+//            String imagem = produto.getImagem();
 
-            String uniqueFileName = UUID.randomUUID().toString();
-            String fileName = "";
-            // Obtém a extensão do arquivo original (se necessário)
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = "";
-
-            if (originalFileName != null) {
-                int lastDotIndex = originalFileName.lastIndexOf(".");
-                if (lastDotIndex != -1) {
-                    fileExtension = originalFileName.substring(lastDotIndex);
-                }
-                fileName = uniqueFileName + fileExtension;
-            } else {
-                fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            }
+//            String uniqueFileName = UUID.randomUUID().toString();
+//            String fileName = "";
+//            // Obtém a extensão do arquivo original (se necessário)
+//            String originalFileName = file.getOriginalFilename();
+//            String fileExtension = "";
+//
+//            if (originalFileName != null) {
+//                int lastDotIndex = originalFileName.lastIndexOf(".");
+//                if (lastDotIndex != -1) {
+//                    fileExtension = originalFileName.substring(lastDotIndex);
+//                }
+//                fileName = uniqueFileName + fileExtension;
+//            } else {
+//                fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//            }
 
             // converter o valor para BigDecimal
             valor = valor.replace(",", ".");
@@ -154,18 +155,20 @@ public class AdmProdutoController {
             produto.setNome(nome);
             produto.setDescricao(descricao);
             produto.setValor(valorDouble);
-            produto.setImagem(fileName);
+//            produto.setImagem(fileName);
+            produto.setImagem(imageBase64);
+
             produto.setCategoria(categoria);
 
             produtoRepository.save(produto);
 
 //            Criar um metodo de deletar a imagem anterior
-            if (imagem != null && !imagem.isEmpty()) {
-                String uploadDirAnterior = "uploads/images/produtos/" + produto.getCategoria().getId();
-                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-            }
-            String uploadDir = "/uploads/images/produtos/" + categoria.getId();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//            if (imagem != null && !imagem.isEmpty()) {
+//                String uploadDirAnterior = "uploads/images/produtos/" + produto.getCategoria().getId();
+//                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
+//            }
+//            String uploadDir = "/uploads/images/produtos/" + categoria.getId();
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

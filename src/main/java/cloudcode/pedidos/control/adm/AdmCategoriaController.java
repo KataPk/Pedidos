@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,40 +110,44 @@ public class AdmCategoriaController {
         try {
 
             Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
-            String imagem = categoria.getImagem();
-            String fileExtension = "";
-            String fileName = "";
-            if (file != null) {
-                // tratativa da imagem
-                String uniqueFileName = UUID.randomUUID().toString();
-                // Obtém a extensão do arquivo original (se necessário)
-                String originalFileName = file.getOriginalFilename();
 
-                if (originalFileName != null) {
-                    int lastDotIndex = originalFileName.lastIndexOf(".");
-                    if (lastDotIndex != -1) {
-                        fileExtension = originalFileName.substring(lastDotIndex);
-                    }
-                    fileName = uniqueFileName + fileExtension;
-                } else {
-                    fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                }
-                categoria.setImagem(fileName);
-            }
+            byte[] image = Base64.getEncoder().encode(file.getBytes());
+            String imageBase64 = new String(image);
+
+//            String imagem = categoria.getImagem();
+//            String fileExtension = "";
+//            String fileName = "";
+//            if (file != null) {
+//                // tratativa da imagem
+//                String uniqueFileName = UUID.randomUUID().toString();
+//                // Obtém a extensão do arquivo original (se necessário)
+//                String originalFileName = file.getOriginalFilename();
+//
+//                if (originalFileName != null) {
+//                    int lastDotIndex = originalFileName.lastIndexOf(".");
+//                    if (lastDotIndex != -1) {
+//                        fileExtension = originalFileName.substring(lastDotIndex);
+//                    }
+//                    fileName = uniqueFileName + fileExtension;
+//                } else {
+//                    fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//                }
+//                categoria.setImagem(fileName);
+//            }
 
 
             categoria.setNome(nome);
-
+            categoria.setImagem(imageBase64);
 
             categoriaRepository.save(categoria);
 
-            if (imagem != null && !imagem.isEmpty()) {
-                String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
-                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-            }
-
-            String uploadDir = "/static/uploads/images/categorias/" + categoria.getId();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//            if (imagem != null && !imagem.isEmpty()) {
+//                String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
+//                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
+//            }
+//
+//            String uploadDir = "/static/uploads/images/categorias/" + categoria.getId();
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
 
         } catch (IOException e) {
