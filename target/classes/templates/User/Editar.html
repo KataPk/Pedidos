@@ -31,7 +31,8 @@
                 <div class="row g-0">
                     <div class="col-md-3 ">
                         <img class="card-img-top image" th:alt="${item.produto().getNome}"
-                             th:src="${'/uploads/images/produtos/' + item.produto().getCategoria().getId() + '/' + item.produto().getImagem()}"/>
+                             th:src="|data:image;base64, *{item.produto().getImagem()}|"/>
+                    </div>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

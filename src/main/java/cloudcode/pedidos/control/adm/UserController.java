@@ -31,7 +31,7 @@ public class UserController {
         this.userService = userService;
     }
 
-
+    @Transactional
     @PostMapping("/funcionario")
     public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
         var user = new User();

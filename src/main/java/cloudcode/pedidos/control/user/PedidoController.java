@@ -123,7 +123,7 @@ public class PedidoController {
             throw new Exception("Error:", e);
         }
     }
-
+    @Transactional
     @PostMapping("/openPedido")
     public RedirectView openPedido(@RequestParam("mesaNum") int mesaNum) {
 
@@ -156,7 +156,7 @@ public class PedidoController {
 
     }
 
-
+   @Transactional
     @PostMapping("/alterarQuant")
     public ResponseEntity<?> alterarQuant(
             @RequestParam("itemId") long itemId,
@@ -189,7 +189,7 @@ public class PedidoController {
         }
         return ResponseEntity.badRequest().build();
     }
-
+@Transactional
     @PostMapping("/removeItem")
     public ResponseEntity<?> removeItem(
             @RequestParam("ItemId") long itemId

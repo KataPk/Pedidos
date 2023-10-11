@@ -61,36 +61,36 @@ public class AdmCategoriaController {
 
         try {
             // tratativa da imagem
-            String uniqueFileName = UUID.randomUUID().toString();
-            String fileName = "";
-            // Obtém a extensão do arquivo original (se necessário)
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = "";
-
-            if (originalFileName != null) {
-                int lastDotIndex = originalFileName.lastIndexOf(".");
-                if (lastDotIndex != -1) {
-                    fileExtension = originalFileName.substring(lastDotIndex);
-                }
-                fileName = uniqueFileName + fileExtension;
-            } else {
-                fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            }
+//            String uniqueFileName = UUID.randomUUID().toString();
+//            String fileName = "";
+//            // Obtém a extensão do arquivo original (se necessário)
+//            String originalFileName = file.getOriginalFilename();
+//            String fileExtension = "";
+//
+//            if (originalFileName != null) {
+//                int lastDotIndex = originalFileName.lastIndexOf(".");
+//                if (lastDotIndex != -1) {
+//                    fileExtension = originalFileName.substring(lastDotIndex);
+//                }
+//                fileName = uniqueFileName + fileExtension;
+//            } else {
+//                fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//            }
 
 //            método com base 64
-//            byte[] image = Base64.getEncoder().encode(file.getBytes());
-//            String imageBase64 = new String(image);
+            byte[] image = Base64.getEncoder().encode(file.getBytes());
+            String imageBase64 = new String(image);
 
             // criação da Categoria
             Categoria categoria = new Categoria(
                     nome,
-//                    imageBase64,
-                    fileName,
+                    imageBase64,
+//                    fileName,
                     "ACTIVE"
             );
             categoriaRepository.save(categoria);
-            String uploadDir = "uploads/images/categorias/" + categoria.getId();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//            String uploadDir = "uploads/images/categorias/" + categoria.getId();
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
 
         } catch (IOException e) {

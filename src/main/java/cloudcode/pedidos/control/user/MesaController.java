@@ -49,7 +49,7 @@ public class MesaController {
         return "User/Mesas";
 
     }
-
+    @Transactional
     @PostMapping("/inativarMesa")
     public RedirectView inativarMesa(@RequestParam("mesaId") long id) {
 
@@ -67,7 +67,7 @@ public class MesaController {
         }
         return new RedirectView("/api/user/mesas");
     }
-
+    @Transactional
     @PostMapping("/reAtivarMesa")
     public RedirectView reAtivarMesa(@RequestParam("mesaId") long id) {
 
@@ -87,7 +87,7 @@ public class MesaController {
         return new RedirectView("/api/user/mesas");
     }
 
-
+    @Transactional
     @PostMapping("/changeClientMesa")
     public RedirectView mudarMesaClient(@RequestParam("mesaAtualId") long mesaAtualId,
                                         @RequestParam("mesaDestinoId") long mesaDestinoId) {

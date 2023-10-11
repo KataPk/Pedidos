@@ -365,7 +365,7 @@ public class FuncionarioController {
 
 
     }
-
+    @Transactional
     @PostMapping("/deleteFuncionario")
     public RedirectView deleteUser(@RequestParam("userId") long id) {
         try {

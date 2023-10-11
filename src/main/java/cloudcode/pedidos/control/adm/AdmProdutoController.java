@@ -102,8 +102,8 @@ public class AdmProdutoController {
             );
             produtoRepository.save(produto);
 
-            String uploadDir = "/static/uploads/images/produtos/" + produto.getCategoria().getId();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//            String uploadDir = "/static/uploads/images/produtos/" + produto.getCategoria().getId();
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

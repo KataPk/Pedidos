@@ -46,7 +46,7 @@
             <div class="card text-center" th:id="${produto.nome}">
                 <button class="btn">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
+                         th:src="|data:image;base64, *{produto.imagem}|"/>
 
                 </button>
                 <div class="card-body">
