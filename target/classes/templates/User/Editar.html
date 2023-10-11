@@ -9,6 +9,7 @@
     <script crossorigin="anonymous"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
     <script src="/js/navbar.js"></script>
     <link href="/css/navbar.css" rel="stylesheet">
@@ -29,8 +30,8 @@
             <div class="card id" th:attr="data-id=${item.pedido().getId()}">
                 <div class="row g-0">
                     <div class="col-md-3 ">
-                        <img alt="..." class="card-img-top"
-                             th:src="|data:image;base64, *{item.produto().getImagem()}|">
+                        <img class="card-img-top image" th:alt="${item.produto().getNome}"
+                             th:src="${'/uploads/images/produtos/' + item.produto().getCategoria().getId() + '/' + item.produto().getImagem()}"/>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -60,11 +61,10 @@
                             </div>
                             <h2 class="total">Total: R$0,00</h2>
                         </div>
-                        <form class="formRemove">
-
-                            <input th:value="${item.id()}" name="itemId" type="hidden">
-                            <button class="btn btn-danger remover" type="submit">Remover</button>
-                        </form>
+                            <button class="btn btn-danger remover" type="submit"
+                                    data-bs-toggle="modal"
+                                    th:attr="data-bs-target=${'#ModalItem' + item.id()}"
+                            >Remover</button>
                     </div>
                 </div>
             </div>
@@ -87,30 +87,48 @@
     </nav>
 </div>
 
-<th:block th:each="item : ${itens}">
-    <div aria-labelledby="staticBackdropLabel" class="modal fade modalRemove"
-         th:attr="aria-labelledby='labelItem' + ${item.id()}" th:id="'ModalItem' + ${item.id()}">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" th:id="${'labelItem' + item.id()}">Remover produto?</h1>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                </div>
-                <div class="modal-body" th:text="${'Remover ' + item.produto().getNome()+ '?'}">
-                    Error
-                </div>
-                <div class="modal-footer">
-                    <form class="formRemove">
-                        <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
-                        <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                        <button class="btn btn-danger" type="submit">Remover</button>
-                    </form>
+<div id="modals">
+    <th:block th:each="item : ${itens}">
+        <div aria-labelledby="staticBackdropLabel" class="modal fade modalRemove"
+             th:attr="aria-labelledby='labelItem' + ${item.id()}" th:id="'ModalItem' + ${item.id()}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" th:id="${'labelItem' + item.id()}">Remover produto?</h1>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body" th:text="${'Remover ' + item.produto().getNome()+ '?'}">
+                        Error
+                    </div>
+                    <div class="modal-footer">
+                        <form class="formRemove">
+                            <input th:value="${item.produto().getId()}" name="produtoId" type="hidden">
+                            <input th:value="${item.pedido().getId()}" name="pedidoId" type="hidden">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
+                            <button class="btn btn-danger" type="submit">Remover</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </th:block>
+
+
+    <div class="modal fade" id="processingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Processando alteração</h1>
+                </div>
+                <div class="modal-body">
+                    Aguarde enquanto processamos suas alterações
+                </div>
+
+            </div>
+        </div>
     </div>
-</th:block>
+</div>
 
 </body>
 </html>

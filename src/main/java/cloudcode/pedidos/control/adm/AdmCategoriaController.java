@@ -154,7 +154,7 @@ public class AdmCategoriaController {
 
     @Transactional
     @PostMapping("/disableCategoria")
-    public RedirectView desativarCategoria(@RequestParam("id") long categoriaId) {
+    public RedirectView desativarCategoria(@RequestParam("categoriaId") long categoriaId) {
 
         Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
         List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);

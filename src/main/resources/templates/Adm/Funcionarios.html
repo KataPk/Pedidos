@@ -54,7 +54,7 @@
                     <p class="card-text" th:text="'Username: ' + ${user.username}">Username</p>
                     <p class="card-text" th:text="'Email de recuperação: ' + ${user.email}">Email</p>
 
-                    <div class="align-items-start">
+                    <div class="btn-group-vertical align-items-start">
 
                         <button class="btn btn-primary" data-bs-toggle="modal"
                                 th:attr="data-bs-target=${'#editUsuario' + user.id()}">Editar Funcionário

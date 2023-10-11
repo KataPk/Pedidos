@@ -11,7 +11,6 @@ public record ItemPedidoRecordDto(
         @NotNull Produto produto,
 
         @NotNull int quant,
-        String observacao,
         @NotNull Pedido pedido
 
 ) {

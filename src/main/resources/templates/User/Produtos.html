@@ -17,7 +17,7 @@
 
     <script crossorigin='anonymous' src=/fontawesome-free-6.4.0-web/js/all.js></script>
 
-    <title>Produtos</title>
+    <title th:text="${categoria.getNome()}">Error</title>
 </head>
 <body>
 
@@ -28,15 +28,15 @@
         <th:block th:each="produto : ${produtos}">
 
             <div class="card text-center" th:id="${produto.id}">
-                <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.nome}">
+                <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.id()}">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="${'/uploads/images/produtos/' + produto.categoria.id() + '/' + produto.id()}"/>
+                         th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
                     <button class="btn btn-primary"
                             data-bs-toggle="modal"
-                            th:attr="data-bs-target=${'#ModalProduto' + produto.nome}"
+                            th:attr="data-bs-target=${'#ModalProduto' + produto.id()}"
                             th:id="${'productAdd' + produto.nome}"
                             type="button">
                         Adicionar
@@ -57,7 +57,7 @@
 <div id="Modals">
     <th:block th:each="produto : ${produtos}">
         <div aria-hidden="true" class="modal fade" tabindex="-1"
-             th:attr="aria-labelledby=${'label' + produto.nome}" th:id="${'ModalProduto' + produto.nome}">
+             th:attr="aria-labelledby=${'label' + produto.nome}" th:id="${'ModalProduto' + produto.id()}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -69,12 +69,12 @@
                           th:id="${'form' + produto.nome}">
                         <div class="modal-body vstack">
                             <div class="hstack p-1 ">
-                                <img class="card-img-top p-2" th:alt="${produto.nome}"
-                                     th:src="|data:image;base64, *{produto.imagem}|">
+                                <img class="card-img-top image" th:alt="${produto.nome}"
+                                     th:src="${'/uploads/images/produtos/' + produto.categoria().getId() + '/' + produto.imagem()}"/>
                                 <p class="p-2" th:text="${produto.descricao}">Error</p>
                             </div>
                             <div class="hstack p-1">
-                                <h2 class="p-1 preco" th:text="${'Preço: ' + produto.valor}">Error</h2>
+                                <h2 class="p-1 preco" th:text="'Preço: ' + ${#numbers.formatCurrency(produto.valor)}">Error</h2>
                             </div>
 
 
@@ -84,10 +84,6 @@
                                 <p class="text p-1 quant" th:attr="data-price=${produto.valor}">0</p>
                                 <input class="quantInput" name="quant" type="hidden">
                                 <button class="btn plus p-1" type="button"><i class="fas fa-plus-circle"></i></button>
-                                <p class="text">Observações:</p>
-                                <label>
-                                    <textarea class="form-control" name="observacoes"></textarea>
-                                </label>
                             </div>
                             <h2 class="total">Total: R$0,00</h2>
                         </div>

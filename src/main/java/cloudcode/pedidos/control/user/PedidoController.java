@@ -199,7 +199,7 @@ public class PedidoController {
 
         ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
         Pedido pedido = item.getPedido();
-        if (pedido.getStatusPedido() != "FECHADO") {
+        if (!pedido.getStatusPedido().equals("FECHADO")) {
             if (item != null) {
                 itemPedidoRepository.delete(item);
 
@@ -212,9 +212,9 @@ public class PedidoController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Transactional
     @PostMapping("/addItem")
     public RedirectView addItem(@RequestParam("quant") int quant,
-                                @RequestParam("observacoes") String observacoes,
                                 @RequestParam("pedidoId") long pedidoId,
                                 @RequestParam("produtoId") long produtoId) {
 
@@ -240,7 +240,6 @@ public class PedidoController {
             ItemPedido itemPedido = new ItemPedido(
                     produto,
                     quant,
-                    observacoes,
                     pedido
             );
 
@@ -253,7 +252,7 @@ public class PedidoController {
 
     }
 
-
+    @Transactional
     @PostMapping("/closePedido")
     public RedirectView closePedido(@RequestParam("pedidoId") long pedidoId) {
 
@@ -271,6 +270,35 @@ public class PedidoController {
         pedidoRepository.save(pedido);
 
         return new RedirectView("/api/user/mesas");
+    }
+
+    @Transactional
+    @PostMapping("/removePedido")
+    public ResponseEntity<?> deletePedido(@RequestParam("pedidoId") long pedidoId){
+
+try {
+    Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+    List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+    for (ItemPedidoRecordDto it : itens) {
+        ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+        itemPedidoRepository.delete(item);
+    }
+
+    Mesa mesa = pedido.getMesa();
+    mesa.setMStatus("ACTIVE");
+    mesaRepository.save(mesa);
+
+    pedidoRepository.delete(pedido);
+
+
+    return ResponseEntity.ok().build();
+} catch (Exception e){
+    return ResponseEntity.badRequest().body("Error: " + e);
+
+}
+
+
+
     }
 
 

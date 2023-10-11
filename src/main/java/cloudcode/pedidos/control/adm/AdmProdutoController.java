@@ -45,7 +45,7 @@ public class AdmProdutoController {
 
     @GetMapping("/produtos")
     public String produtos(Model model) {
-        List<ProdutoRecordDto> produtos = produtoService.findAll();
+        List<ProdutoRecordDto> produtos = produtoService.findAtivos();
         model.addAttribute("produtos", produtos);
         List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
         model.addAttribute("categorias", categorias);
@@ -177,7 +177,7 @@ public class AdmProdutoController {
     @Transactional
     @PostMapping("/disableProduto")
     public RedirectView disableProduto(
-            @RequestParam("id") long produtoId
+            @RequestParam("produtoId") long produtoId
     ) {
         Produto produto = produtoRepository.getReferenceById(produtoId);
         produto.setStatusProduto("INACTIVE");

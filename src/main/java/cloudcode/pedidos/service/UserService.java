@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService {
 
 
@@ -21,23 +22,23 @@ public class UserService {
     UserRepository userRepository;
 
 
-    public List<CreateUserRecordDto> findAllCreate() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(user -> new CreateUserRecordDto(
-                        user.getNome(), user.getCpf(),
-                        user.getRg(), user.getDataNasc(),
-                        user.getLogradouro(), user.getNumResid(),
-                        user.getCep(), user.getBairro(), user.getCidade(),
-                        user.getUf(), user.getComplemento(),
-                        user.getUsername(),
-                        user.getEmail(), user.getPassword(),
-                        user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())))
-                .collect(Collectors.toList());
-    }
+//    public List<CreateUserRecordDto> findAllCreate() {
+//        List<User> users = userRepository.findAll();
+//        return users.stream()
+//                .map(user -> new CreateUserRecordDto(
+//                        user.getNome(), user.getCpf(),
+//                        user.getRg(), user.getDataNasc(),
+//                        user.getLogradouro(), user.getNumResid(),
+//                        user.getCep(), user.getBairro(), user.getCidade(),
+//                        user.getUf(), user.getComplemento(),
+//                        user.getUsername(),
+//                        user.getEmail(), user.getPassword(),
+//                        user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())))
+//                .collect(Collectors.toList());
+//    }
 
-    public List<UserRecordDto> findAll() {
-        List<User> users = userRepository.findAll();
+    public List<UserRecordDto> findAtivos() {
+        List<User> users = userRepository.findAllByStatusUsuario("ACTIVE");
 
         return users.stream()
                 .map(user ->

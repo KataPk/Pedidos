@@ -67,6 +67,9 @@ public class User {
     @Column(name = "senha", length = 100, nullable = false)
     private String password;
 
+    @Column(name = "statususuario", length = 25, nullable = false)
+    private String statusUsuario;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "FuncionarioAcesso",
             joinColumns = @JoinColumn(name = "Funcionario", referencedColumnName = "Id"),
@@ -78,7 +81,7 @@ public class User {
             String nome, String cpf, String rg, LocalDate dataNasc, String logradouro, String numResid,
             String cep, String bairro, String cidade, String uf, String complemento,
             String email, String username,
-            String senha
+            String senha, String statusUsuario
     ) {
 
 
@@ -96,6 +99,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = senha;
+        this.statusUsuario = statusUsuario;
     }
 
     public User() {

@@ -25,17 +25,16 @@ public class ItemPedido {
     @Column(name = "quantProduto", nullable = false)
     private int quantProduto;
 
-    @Column(name = "observacao", length = 100, nullable = false)
-    private String observacao;
+
     @ManyToOne
     @JoinColumn(name = "pedido", nullable = false)
     private Pedido pedido;
 
 
-    public ItemPedido(Produto produto, int quantProduto, String observacao, Pedido pedido) {
+    public ItemPedido(Produto produto, int quantProduto, Pedido pedido) {
         this.produto = produto;
         this.quantProduto = quantProduto;
-        this.observacao = observacao;
+
         this.pedido = pedido;
     }
 

@@ -24,7 +24,7 @@ public class Produto {
     @Column(name = "descricao", length = 400, nullable = false)
     private String descricao;
 
-    @Column(name = "valor", precision = 5, scale = 2, nullable = false)
+    @Column(name = "valor", precision = 7, scale = 2, nullable = false)
     private double valor;
 
     @Column(name = "statusProduto", length = 20, nullable = false)

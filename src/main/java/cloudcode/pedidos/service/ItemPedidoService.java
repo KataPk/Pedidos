@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ItemPedidoService {
 
     private final ItemPedidoRepository itemPedidoRepository;
@@ -27,7 +28,7 @@ public class ItemPedidoService {
     public List<ItemPedidoRecordDto> findAllByPedido(long pedidoId) {
         List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedidoRepository.getReferenceById(pedidoId));
         return itens.stream()
-                .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getQuantProduto(), item.getObservacao(), item.getPedido()))
+                .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getQuantProduto(), item.getPedido()))
                 .collect(Collectors.toList());
     }
 

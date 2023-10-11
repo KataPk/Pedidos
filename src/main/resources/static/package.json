@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@pqina/pintura": "^8.66.3"
+  }
+}

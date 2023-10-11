@@ -46,7 +46,7 @@ public class FuncionarioController {
     @GetMapping("/funcionarios")
     public String Funcionarios(Model model,
                                @AuthenticationPrincipal UserDetails userDetails) {
-        List<UserRecordDto> users = userService.findAll();
+        List<UserRecordDto> users = userService.findAtivos();
 
         ERole roleUser = ERole.ROLE_USER;
         ERole roleAdmin = ERole.ROLE_ADMIN;
@@ -90,6 +90,7 @@ public class FuncionarioController {
             String cpfValue = cpf.replace(".", "").replace("-", "");
             String rgValue = rg.replace(".", "").replace("-", "");
             String cepValue = cep.replace("-", "");
+            Set<Role> roles = new HashSet<>();
 //            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
 //            String tel2Value = "";
 //            String emailUserValue = "";
@@ -104,10 +105,55 @@ public class FuncionarioController {
             if (userRepository.existsByUsername(username)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
             }
+                if (userRepository.existsByEmail(emailRecup)) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Erro: Email já cadastrado no sistema!"));
+                }
+//            Verifica se o usuario já foi cadastrado anteriormente
+                    if (userRepository.existsByCpf(cpf) && userRepository.existsByRg(rg)) {
+                        User user1 = userRepository.findByCpf(cpf);
+                        User user2 = userRepository.findByRg(rg);
+//                checa se os dados são do usuário
+                        if (user1 == user2) {
+//                 se forem verdadeiros checa se o usuario já está ativo
+                            if (user1.getStatusUsuario().equals("DELETADO")) {
+                                user1.setNome(nome);
+                                user1.setLogradouro(logradouro);
+                                user1.setNumResid(numResid);
+                                user1.setCep(cepValue);
+                                user1.setBairro(bairro);
+                                user1.setCidade(cidade);
+                                user1.setUf(uf);
+                                user1.setComplemento(complemento);
+                                user1.setComplemento(emailRecup);
+                                user1.setUsername(username);
+                                user1.setPassword(encoder.encode(password));
+                                user1.setStatusUsuario("ACTIVE");
+                                userRepository.save(user1);
 
-            if (userRepository.existsByEmail(emailRecup)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Erro: Email já cadastrado no sistema!"));
-            }
+                                if (strRole.equals("admin")) {
+                                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                    roles.add(adminRole);
+
+                                } else {
+                                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                    roles.add(userRole);
+                                }
+
+
+                                user1.setRoles(roles);
+
+                                responseData.put("success", true);
+                                responseData.put("message", "Usuário recadastrado com sucesso.");
+
+                                return ResponseEntity.ok(responseData);
+                            }
+                        }
+                        return ResponseEntity.badRequest().body(new MessageResponse("Erro: Os dados CPF e RG são de pessoas diferentes!"));
+                    }
+
+
             if (userRepository.existsByCpf(cpfValue) || userRepository.existsByRg(rgValue)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Erro: Usuário já cadastrado no sistema!"));
             }
@@ -127,11 +173,10 @@ public class FuncionarioController {
                     complemento,
                     emailRecup,
                     username,
-                    encoder.encode(password)
+                    encoder.encode(password),
+                    "ACTIVE"
             );
             userRepository.save(user);
-
-            Set<Role> roles = new HashSet<>();
 
 
             if (strRole.equals("admin")) {
@@ -326,7 +371,13 @@ public class FuncionarioController {
         try {
             User user = userRepository.getReferenceById(id);
 
-            userRepository.delete(user);
+            user.setStatusUsuario("DELETADO");
+            String userDeleted = "DELETADO" + user.getId();
+            user.setUsername(userDeleted);
+            user.setEmail(userDeleted);
+            user.setPassword(userDeleted);
+            user.getRoles().clear();
+            userRepository.save(user);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

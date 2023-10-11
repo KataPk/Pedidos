@@ -19,10 +19,12 @@ for (let i = 0; i < plusButtons.length; i++) {
     let quantData = parseInt(quantElements[i].getAttribute('data-quant'));
     quantElements[i].innerHTML = quantData.toString()
     let total = (price * quantData).toFixed(2).toString().replace('.', ',')
-    let isSubmitting = false;
 
     totalElements[i].innerHTML = `Total: R$${total}`;
     formPlus[i].addEventListener('submit', function (event) {
+
+        desabilitarBotoes();
+        mostrarModal();
 
         event.preventDefault();
 
@@ -41,13 +43,15 @@ for (let i = 0; i < plusButtons.length; i++) {
                     valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
 
-
                 } else {
                     console.log('Ocorreu um erro durante a solicitação.')
 
                 }
-            })
-            .catch(error => {
+            }).finally(() =>
+        {
+            habilitarBotoes();
+            fecharModal();
+        }).catch(error => {
                 console.error('Erro na solicitação:', error)
             });
 
@@ -56,8 +60,10 @@ for (let i = 0; i < plusButtons.length; i++) {
 
     formLess[i].addEventListener('submit', function (event) {
 
+        desabilitarBotoes();
+        mostrarModal();
         event.preventDefault();
-      
+
         let quant = parseInt(quantElements[i].innerHTML);
         if (quant > 1) {
             fetch('/api/user/pedido/alterarQuant', {
@@ -75,13 +81,16 @@ for (let i = 0; i < plusButtons.length; i++) {
                         tempTotal -= price
                         valorTotal.innerHTML = `Total: R$${(tempTotal).toFixed(2).replace('.', ',')}`
 
-                        isSubmiting = true;
 
                     } else {
                         console.log('Ocorreu um erro durante a solicitação.')
 
                     }
-                })
+                }).finally(() =>
+            {
+                habilitarBotoes();
+                fecharModal();
+            })
                 .catch(error => {
                     console.error('Erro na solicitação:', error)
                 });
@@ -159,4 +168,40 @@ if (quantElements.length === 0) {
     valorTotal.innerHTML = `Total: R$${tempTotal.toFixed(2).replace('.', ',')}`;
     buttonFinish.disabled = false
 
+}
+
+function desabilitarBotoes() {
+    // Selecione os botões que você deseja desabilitar (substitua pelo seletor correto)
+    const botoes = document.querySelectorAll('.btn');
+    // Desabilite os botões
+    botoes.forEach(botao => {
+        botao.disabled = true;
+    });
+}
+
+// Função para habilitar botões
+function habilitarBotoes() {
+    // Selecione os botões que você deseja habilitar (substitua pelo seletor correto)
+    const botoes = document.querySelectorAll('.btn');
+
+    // Habilite os botões
+    botoes.forEach(botao => {
+        botao.disabled = false;
+    });
+}
+
+// Função para mostrar o modal de processamento
+function mostrarModal() {
+    // Selecione o modal de processamento pelo seu ID (substitua pelo ID correto)
+    $('#processingModal').modal('show')
+}
+
+// Função para fechar o modal de processamento
+function fecharModal() {
+    // const modal = new bootstrap.Modal(document.getElementById('processingModal'));
+    //
+    // // Feche o modal (você pode ocultá-lo definindo seu estilo de exibição como 'none')
+    // modal._hideModal();
+
+    $('#processingModal').modal('hide')
 }

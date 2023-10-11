@@ -13,6 +13,7 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/fontawesome-free-6.4.0-web/js/all.js"></script>
+    <link href="/css/pintura.css" type="text/css" rel="stylesheet">
     <link href="/css/navbar.css" rel="stylesheet">
     <link href="/css/categorias.css" rel="stylesheet">
     <title>Categorias</title>
@@ -91,7 +92,7 @@
                         <div class="hstack p-2">
                             <div class="m2">
                                 <label class="form-label" for="formFile">Imagem</label>
-                                <input accept="image/png, image/jpeg" class="form-control"
+                                <input accept="image/png, image/jpeg" class="form-control fileInput"
                                        id="formFile" name="file" type="file" required>
                             </div>
                         </div>
@@ -169,6 +170,7 @@
 </div>
 
 </body>
-
+<script type="module" src="/js/imageEdit.js">
+</script>
 </html>
 
