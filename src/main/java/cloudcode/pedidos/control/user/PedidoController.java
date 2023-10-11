@@ -10,15 +10,12 @@ import cloudcode.pedidos.service.ItemPedidoService;
 import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
 import cloudcode.pedidos.service.ProdutoService;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -59,7 +56,6 @@ public class PedidoController {
     }
 
 
-
     @GetMapping("/Pedidos")
     public String pedidos(Model model) {
         List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
@@ -71,7 +67,6 @@ public class PedidoController {
     }
 
 
-    @Transactional
     @PostMapping("/createPedido")
     public RedirectView createPedido(@RequestParam("clientName") String cliente,
                                      @RequestParam("mesaId") long mesaId,
@@ -125,7 +120,7 @@ public class PedidoController {
             throw new Exception("Error:", e);
         }
     }
-    @Transactional
+
     @PostMapping("/openPedido")
     public RedirectView openPedido(@RequestParam("mesaNum") int mesaNum) {
 
@@ -158,7 +153,6 @@ public class PedidoController {
 
     }
 
-   @Transactional
     @PostMapping("/alterarQuant")
     public ResponseEntity<?> alterarQuant(
             @RequestParam("itemId") long itemId,
@@ -191,7 +185,7 @@ public class PedidoController {
         }
         return ResponseEntity.badRequest().build();
     }
-@Transactional
+
     @PostMapping("/removeItem")
     public ResponseEntity<?> removeItem(
             @RequestParam("ItemId") long itemId
@@ -214,7 +208,6 @@ public class PedidoController {
         return ResponseEntity.badRequest().build();
     }
 
-    @Transactional
     @PostMapping("/addItem")
     public RedirectView addItem(@RequestParam("quant") int quant,
                                 @RequestParam("pedidoId") long pedidoId,
@@ -254,7 +247,6 @@ public class PedidoController {
 
     }
 
-    @Transactional
     @PostMapping("/closePedido")
     public RedirectView closePedido(@RequestParam("pedidoId") long pedidoId) {
 
@@ -265,7 +257,7 @@ public class PedidoController {
         pedido.setStatusPedido("FECHADO");
         pedido.setDtFechamento(dateTime);
         if (mesa.getMStatus().equals("OCUPADA")) {
-           mesa.setMStatus("ACTIVE");
+            mesa.setMStatus("ACTIVE");
             mesaRepository.save(mesa);
 
         }
@@ -274,31 +266,29 @@ public class PedidoController {
         return new RedirectView("/api/user/mesas");
     }
 
-    @Transactional
     @PostMapping("/removePedido")
-    public ResponseEntity<?> deletePedido(@RequestParam("pedidoId") long pedidoId){
+    public ResponseEntity<?> deletePedido(@RequestParam("pedidoId") long pedidoId) {
 
-try {
-    Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-    List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
-    for (ItemPedidoRecordDto it : itens) {
-        ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
-        itemPedidoRepository.delete(item);
-    }
+        try {
+            Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+            List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+            for (ItemPedidoRecordDto it : itens) {
+                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+                itemPedidoRepository.delete(item);
+            }
 
-    Mesa mesa = pedido.getMesa();
-    mesa.setMStatus("ACTIVE");
-    mesaRepository.save(mesa);
+            Mesa mesa = pedido.getMesa();
+            mesa.setMStatus("ACTIVE");
+            mesaRepository.save(mesa);
 
-    pedidoRepository.delete(pedido);
+            pedidoRepository.delete(pedido);
 
 
-    return ResponseEntity.ok().build();
-} catch (Exception e){
-    return ResponseEntity.badRequest().body("Error: " + e);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e);
 
-}
-
+        }
 
 
     }

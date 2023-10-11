@@ -3,6 +3,8 @@ package cloudcode.pedidos.security.services;
 
 import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetailService implements UserDetailsService {
 
 
-//    public static final Logger log = LoggerFactory.getLogger(CustomUserDetailService.class);
+    public static final Logger log = LoggerFactory.getLogger(CustomUserDetailService.class);
 
     @Autowired
     UserRepository userRepository;

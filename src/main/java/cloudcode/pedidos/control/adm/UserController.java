@@ -6,14 +6,11 @@ import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.service.UserService;
 import jakarta.validation.Valid;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +30,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Transactional
     @PostMapping("/funcionario")
     public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
         var user = new User();

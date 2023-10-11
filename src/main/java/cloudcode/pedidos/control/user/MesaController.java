@@ -8,14 +8,11 @@ import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -51,7 +48,7 @@ public class MesaController {
         return "User/Mesas";
 
     }
-    @Transactional
+
     @PostMapping("/inativarMesa")
     public RedirectView inativarMesa(@RequestParam("mesaId") long id) {
 
@@ -69,7 +66,7 @@ public class MesaController {
         }
         return new RedirectView("/api/user/mesas");
     }
-    @Transactional
+
     @PostMapping("/reAtivarMesa")
     public RedirectView reAtivarMesa(@RequestParam("mesaId") long id) {
 
@@ -89,7 +86,6 @@ public class MesaController {
         return new RedirectView("/api/user/mesas");
     }
 
-    @Transactional
     @PostMapping("/changeClientMesa")
     public RedirectView mudarMesaClient(@RequestParam("mesaAtualId") long mesaAtualId,
                                         @RequestParam("mesaDestinoId") long mesaDestinoId) {

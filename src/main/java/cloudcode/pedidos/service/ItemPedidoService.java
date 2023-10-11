@@ -5,8 +5,6 @@ import cloudcode.pedidos.dtos.ItemPedidoRecordDto;
 import cloudcode.pedidos.model.entity.ItemPedido;
 import cloudcode.pedidos.model.repository.ItemPedidoRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+
 public class ItemPedidoService {
 
     private final ItemPedidoRepository itemPedidoRepository;
@@ -33,7 +32,6 @@ public class ItemPedidoService {
                 .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getQuantProduto(), item.getPedido()))
                 .collect(Collectors.toList());
     }
-
 
     public String getSubTotal(long pedidoId) {
         double subTotal = 0;
