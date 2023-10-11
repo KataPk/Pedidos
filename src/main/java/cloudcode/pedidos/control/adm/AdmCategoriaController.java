@@ -141,7 +141,7 @@ public class AdmCategoriaController {
                 FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
             }
 
-            String uploadDir = "uploads/images/categorias/" + categoria.getId();
+            String uploadDir = "/static/uploads/images/categorias/" + categoria.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, file);
 
 
