@@ -6,6 +6,8 @@ import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.service.UserService;
 import jakarta.validation.Valid;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

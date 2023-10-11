@@ -10,8 +10,11 @@ import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
 import cloudcode.pedidos.service.ProdutoService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,8 +59,8 @@ public class AdmCategoriaController {
 
     @Transactional
     @PostMapping("/createCategoria")
-    public RedirectView createCategoria(@RequestParam("nome") String nome,
-                                        @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> createCategoria(@RequestParam("nome") String nome,
+                                          @RequestParam("file") MultipartFile file) throws IOException {
 
         try {
             // tratativa da imagem
@@ -92,17 +95,16 @@ public class AdmCategoriaController {
 //            String uploadDir = "uploads/images/categorias/" + categoria.getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
-
+            return  ResponseEntity.ok().build();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
 
-        return new RedirectView("/api/admin/categorias");
+        }
     }
 
     @Transactional
     @PostMapping("/editCategoria")
-    public RedirectView editCategoria(
+    public ResponseEntity<?> editCategoria(
             @RequestParam("categoriaId") long categoriaId,
             @RequestParam("nome") String nome,
             @Param("file") MultipartFile file) throws IOException {
@@ -149,12 +151,11 @@ public class AdmCategoriaController {
 //            String uploadDir = "/static/uploads/images/categorias/" + categoria.getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
-
+return ResponseEntity.ok().build();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new RedirectView("/api/admin/categorias");
     }
 
     @Transactional

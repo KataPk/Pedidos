@@ -6,6 +6,8 @@ import cloudcode.pedidos.dtos.UserRecordDto;
 import cloudcode.pedidos.model.entity.Role;
 import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

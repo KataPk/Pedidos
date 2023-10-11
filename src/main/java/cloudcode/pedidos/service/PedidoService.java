@@ -6,6 +6,8 @@ import cloudcode.pedidos.dtos.PedidoSubTotalRecordDTO;
 import cloudcode.pedidos.model.entity.Pedido;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

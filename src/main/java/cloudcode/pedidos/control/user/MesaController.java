@@ -8,6 +8,8 @@ import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

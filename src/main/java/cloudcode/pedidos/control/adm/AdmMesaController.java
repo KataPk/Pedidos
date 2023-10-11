@@ -6,6 +6,8 @@ import cloudcode.pedidos.model.entity.Mesa;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.response.MessageResponse;
 import cloudcode.pedidos.service.MesaService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

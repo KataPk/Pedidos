@@ -43,7 +43,10 @@
         <th:block th:each="categoria : ${categorias}">
 
             <div class="card text-center" th:id="${categoria.nome}">
-                <button class="btn">
+                <button class="btn"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#editCategoria' + categoria.id()}"
+                >
                     <img class="card-img-top image" th:alt="${categoria.nome}"
                          th:src="|data:image;base64, *{categoria.imagem}|"/>
 
@@ -81,7 +84,7 @@
 
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
-                <form action="/api/admin/createCategoria" enctype="multipart/form-data" method="POST">
+                <form action="/api/admin/createCategoria" id="formCreate" enctype="multipart/form-data" method="POST">
                     <div class="modal-body vstack">
                         <div class="hstack p-1 ">
                             <label class="form-label" for="categoriaNome">Nome da Categoria:</label>
@@ -97,7 +100,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" type="submit">Criar</button>
+                            <button class="btn btn-secondary" type="submit"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#processingModal"
+                            >Criar</button>
                         </div>
                     </div>
                 </form>
@@ -135,7 +141,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" type="submit">Editar</button>
+                                <button class="btn btn-secondary" type="submit"
+
+                                >Editar</button>
                             </div>
                         </div>
 
@@ -156,10 +164,14 @@
                         Error
                     </div>
                     <div class="modal-footer">
-                        <form action="/api/admin/disableCategoria" method="post">
+                        <form action="/api/admin/disableCategoria" class="formDelete" method="post">
                             <input th:value="${categoria.id()}" name="categoriaId" type="hidden">
                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                            <button class="btn btn-danger" type="submit">Deletar categoria</button>
+                            <button class="btn btn-danger" type="submit"
+                            data-bs-toggle="modal"
+                                    data-bs-target="#processingModal"
+
+                            >Deletar categoria</button>
                         </form>
                     </div>
                 </div>
@@ -168,9 +180,25 @@
 
     </th:block>
 </div>
+<div class="modal fade" id="processingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Processando alteração</h1>
+            </div>
+            <div class="modal-body">
+                Aguarde enquanto processamos suas alterações
+            </div>
+
+        </div>
+    </div>
+</div>
 
 </body>
 <script type="module" src="/js/imageEdit.js">
+</script>
+<script src="/js/categoriasAdm.js">
 </script>
 </html>
 

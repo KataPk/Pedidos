@@ -10,7 +10,11 @@ import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
 import cloudcode.pedidos.service.ProdutoService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,11 +61,11 @@ public class AdmProdutoController {
 
     @Transactional
     @PostMapping("/createProduto")
-    public RedirectView createProduto(@RequestParam("nome") String nome,
-                                      @RequestParam("descricao") String descricao,
-                                      @RequestParam("valor") String valor,
-                                      @RequestParam("file") MultipartFile file,
-                                      @RequestParam("categoria") String categoriaId) {
+    public ResponseEntity<?> createProduto(@RequestParam("nome") String nome,
+                                        @RequestParam("descricao") String descricao,
+                                        @RequestParam("valor") String valor,
+                                        @RequestParam("file") MultipartFile file,
+                                        @RequestParam("categoria") String categoriaId) {
 
         try {
             // tratativa da imagem
@@ -104,29 +108,33 @@ public class AdmProdutoController {
 
 //            String uploadDir = "/static/uploads/images/produtos/" + produto.getCategoria().getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
-
+return ResponseEntity.ok().build();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new RedirectView("/api/admin/produtos");
     }
 
     @Transactional
     @PostMapping("/editProduto")
-    public RedirectView editProduto(
+    public ResponseEntity<?> editProduto(
             @RequestParam("produtoId") long produtoId,
             @RequestParam("nome") String nome,
             @RequestParam("descricao") String descricao,
             @RequestParam("valor") String valor,
-            @RequestParam("file") MultipartFile file,
+            @Param("file") MultipartFile file,
             @RequestParam("categoria") String categoriaId) {
 
         try {
-            // tratativa da imagem
-            byte[] image = Base64.getEncoder().encode(file.getBytes());
-            String imageBase64 = new String(image);
             Produto produto = produtoRepository.getReferenceById(produtoId);
+
+            // tratativa da imagem
+           if (!file.isEmpty()) {
+               byte[] image = Base64.getEncoder().encode(file.getBytes());
+               String imageBase64 = new String(image);
+               produto.setImagem(imageBase64);
+
+           }
 //            String imagem = produto.getImagem();
 
 //            String uniqueFileName = UUID.randomUUID().toString();
@@ -156,7 +164,6 @@ public class AdmProdutoController {
             produto.setDescricao(descricao);
             produto.setValor(valorDouble);
 //            produto.setImagem(fileName);
-            produto.setImagem(imageBase64);
 
             produto.setCategoria(categoria);
 
@@ -169,30 +176,29 @@ public class AdmProdutoController {
 //            }
 //            String uploadDir = "/uploads/images/produtos/" + categoria.getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
+            return ResponseEntity.ok().build();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new RedirectView("/api/admin/produtos");
     }
 
     @Transactional
     @PostMapping("/disableProduto")
-    public RedirectView disableProduto(
+    public ResponseEntity<?> disableProduto(
             @RequestParam("produtoId") long produtoId
     ) {
-        Produto produto = produtoRepository.getReferenceById(produtoId);
-        produto.setStatusProduto("INACTIVE");
-        produtoRepository.save(produto);
-        String imagem = produto.getImagem();
-        if (imagem != null && !imagem.isEmpty()) {
-            String uploadDirAnterior = "uploads/images/produtos/" + produto.getCategoria().getId();
-            FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-        }
+try {
+    Produto produto = produtoRepository.getReferenceById(produtoId);
+    produto.setStatusProduto("INACTIVE");
+    produtoRepository.save(produto);
 
+    return ResponseEntity.ok().build();
 
-        return new RedirectView("/api/admin/produtos");
+} catch (Exception e){
+    return ResponseEntity.badRequest().body("Erro: " + e);
+}
 
     }
 }

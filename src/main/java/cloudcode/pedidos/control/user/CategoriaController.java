@@ -12,6 +12,8 @@ import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
 import cloudcode.pedidos.service.PedidoService;
 import cloudcode.pedidos.service.ProdutoService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

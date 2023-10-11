@@ -9,6 +9,8 @@ import cloudcode.pedidos.model.repository.RoleRepository;
 import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.response.MessageResponse;
 import cloudcode.pedidos.service.UserService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import java.util.*;
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "false")
 @PreAuthorize("hasRole('ADMIN')")
+
 @RequestMapping("/api/admin/")
 public class FuncionarioController {
 

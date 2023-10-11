@@ -83,7 +83,7 @@
 
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
-                <form action="/api/admin/createProduto" enctype="multipart/form-data" method="POST">
+                <form action="/api/admin/createProduto" enctype="multipart/form-data" id="formCreate" method="POST">
                     <div class="modal-body vstack">
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoNome">Nome do Produto:</label>
@@ -124,7 +124,9 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Criar</button>
+                            <button class="btn btn-primary" type="submit"
+
+                            >Criar</button>
                         </div>
                     </div>
                 </form>
@@ -141,7 +143,7 @@
                     <div class="modal-header">
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
-                    <form action="/api/admin/editProduto" enctype="multipart/form-data" method="POST">
+                    <form action="/api/admin/editProduto" enctype="multipart/form-data" class="formEdit" method="POST">
                         <div class="modal-body vstack">
                             <div class="hstack p-1 ">
                                 <label class="form-label" th:for="${'produtoNome' + produto.id()}">Nome do
@@ -155,14 +157,14 @@
                                 <label class="form-label" th:for="${'descricao' + produto.id() }">Descrição:</label>
                                 <textarea class="form-control" th:id="${'descricao' + produto.id()}" name="descricao"
                                           rows="3"
-                                          type="text" th:value="${produto.descricao()}"></textarea>
+                                          type="text"  th:text="${produto.descricao()}"></textarea>
                             </div>
                             <div class="hstack p-1 ">
                                 <label class="form-label" for="produtoValor">Valor do Produto:</label>
                                 <input class="form-control produtoValor" th:id="${'produtoValor' + produto.id()}"
                                        max="10000.00" min="0.00"
                                        name="valor"
-                                       required step="0.01" type="number"
+                                        step="0.01" type="number"
                                        th:value="${produto.valor()}"
                                 >
 
@@ -171,11 +173,12 @@
                                 <label class="form-label" th:for="${'produtoCategoria' + produto.id}">Categoria do
                                     Produto:</label>
                                 <select class="form-select" th:id="${'produtoCategoria' + produto.id()}"
-                                        name="categoria" required>
+                                        name="categoria" >
                                     <option th:each="categoria : ${categorias}" th:text="${categoria.nome}"
                                             th:value="${categoria.id}"
                                             th:selected="${categoria == produto.categoria()}"></option>
                                 </select>
+                                <input th:value="${produto.id()}" name="produtoId" type="hidden">
 
                             </div>
                             <div class="hstack p-2">
@@ -190,7 +193,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Editar</button>
+                                <button class="btn btn-primary" type="submit"
+                                >Editar</button>
                             </div>
                         </div>
                     </form>
@@ -212,10 +216,11 @@
                         Error
                     </div>
                     <div class="modal-footer">
-                        <form action="/api/admin/disableProduto" method="post">
+                        <form action="/api/admin/disableProduto" class="formDelete" method="post">
                             <input th:value="${produto.id()}" name="produtoId" type="hidden">
                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
-                            <button class="btn btn-danger" type="submit">Deletar produto</button>
+                            <button class="btn btn-danger" type="submit"
+                            >Deletar produto</button>
                         </form>
                     </div>
                 </div>
@@ -224,10 +229,30 @@
 
 
     </th:block>
+
+
+
+    <div class="modal fade" id="processingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Processando alteração</h1>
+                </div>
+                <div class="modal-body">
+                    Aguarde enquanto processamos suas alterações
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </body>
 
 <script type="module" src="/js/imageEdit.js">
+</script>
+<script src="/js/produtosAdm.js">
 </script>
 </html>

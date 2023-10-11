@@ -4,6 +4,8 @@ package cloudcode.pedidos.service;
 import cloudcode.pedidos.dtos.CategoriaRecordDto;
 import cloudcode.pedidos.model.entity.Categoria;
 import cloudcode.pedidos.model.repository.CategoriaRepository;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

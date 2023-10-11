@@ -10,6 +10,8 @@ import cloudcode.pedidos.service.ItemPedidoService;
 import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
 import cloudcode.pedidos.service.ProdutoService;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
