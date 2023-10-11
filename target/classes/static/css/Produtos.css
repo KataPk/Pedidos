@@ -1,0 +1,88 @@
+.card {
+    padding: 10px;
+    margin: 1.5%;
+    align-items: center;
+    width: 12.5rem;
+    background-color: lightsalmon;
+    /*height: 341px;*/
+}
+
+.card-title {
+    text-align: center;
+    font-size: 1.91em;
+}
+
+.card a:link {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.card a:visited {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.card a:hover {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.card a:active {
+    color: #000;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.modal-body img {
+
+    width: 15rem;
+    margin-left: 1vh;
+    padding-bottom: 10px;
+}
+
+.modal-body button {
+    font-size: large;
+    width: fit-content;
+    border: none;
+}
+
+.less {
+    margin: 5px;
+    color: #D82435;
+}
+
+.plus {
+    margin: 5px;
+    color: #4CAF50;
+}
+
+.text, .quant {
+    font-size: large;
+    margin-top: 15px;
+}
+
+.form-control {
+    margin-top: 2.24em;
+    margin-left: 5px;
+}
+
+h2 {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.finalizar {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 85%;
+
+}
+
+#navFinalizar {
+    background-color: #D82435;
+    z-index: 1;
+}
+

@@ -1,0 +1,71 @@
+html, body {
+    overflow: hidden;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-image: url("../img/PNG/bg_login.jpg");
+    background-size: cover;
+
+}
+
+.login-container {
+    background-color: #fff;
+    max-width: 40em;
+    padding: 3vw;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+
+
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+input[type="text"],
+input[type="password"],
+#SendForm {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#SendForm {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#SendForm:hover {
+    background-color: #3e8e41;
+}
+
+input:focus,
+button:focus {
+    outline: none;
+    border-color: #aaa;
+}
+
+
+.toast {
+    z-index: 10;
+    margin-top: 40vh;
+    background-color: #f2f2f2;
+}
+
+#togglePassword {
+    font-size: 25px;
+    margin-bottom: 15px;
+    margin-left: 5px;
+}
