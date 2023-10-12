@@ -100,7 +100,7 @@ public class AdmProdutoController {
                     "ACTIVE"
             );
             produtoRepository.save(produto);
-
+            produtoService.updateProdutosView();
 //            String uploadDir = "/static/uploads/images/produtos/" + produto.getCategoria().getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
             return ResponseEntity.ok().build();
@@ -162,6 +162,7 @@ public class AdmProdutoController {
             produto.setCategoria(categoria);
 
             produtoRepository.save(produto);
+            produtoService.updateProdutosView();
 
 //            Criar um metodo de deletar a imagem anterior
 //            if (imagem != null && !imagem.isEmpty()) {
@@ -186,6 +187,7 @@ public class AdmProdutoController {
             Produto produto = produtoRepository.getReferenceById(produtoId);
             produto.setStatusProduto("INACTIVE");
             produtoRepository.save(produto);
+            produtoService.updateProdutosView();
 
             return ResponseEntity.ok().build();
 

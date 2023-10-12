@@ -128,7 +128,6 @@ public class FuncionarioController {
                         user1.setPassword(encoder.encode(password));
                         user1.setStatusUsuario("ACTIVE");
                         userRepository.save(user1);
-
                         if (strRole.equals("admin")) {
                             Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -142,6 +141,7 @@ public class FuncionarioController {
 
 
                         user1.setRoles(roles);
+                        userService.updateFuncionariosView();
 
                         responseData.put("success", true);
                         responseData.put("message", "Usuário recadastrado com sucesso.");
@@ -189,6 +189,7 @@ public class FuncionarioController {
                 roles.add(userRole);
             }
             user.setRoles(roles);
+            userService.updateFuncionariosView();
 
 
 //            Contato contato1 = new Contato(
@@ -305,19 +306,21 @@ public class FuncionarioController {
 
             userRepository.save(editUser);
 
-            if (strRole != null && !strRole.isEmpty())
+            if (strRole != null && !strRole.isEmpty()) {
                 editUser.getRoles().clear();
-            Set<Role> roles = new HashSet<>();
-            if ("admin".equals(strRole)) {
-                Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(adminRole);
-            } else {
-                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
+                Set<Role> roles = new HashSet<>();
+                if ("admin".equals(strRole)) {
+                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(adminRole);
+                } else {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                }
+                editUser.setRoles(roles);
             }
-            editUser.setRoles(roles);
+            userService.updateFuncionariosView();
 
 //            contatoRepository.deleteByUser(editUser);
 
@@ -376,6 +379,7 @@ public class FuncionarioController {
             user.setPassword(userDeleted);
             user.getRoles().clear();
             userRepository.save(user);
+            userService.updateFuncionariosView();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

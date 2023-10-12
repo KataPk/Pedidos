@@ -47,7 +47,7 @@ public class AdmCategoriaController {
 
     @GetMapping("/categorias")
     public String categorias(Model model) {
-        List<CategoriaRecordDto> categorias = categoriaService.findAll();
+        List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
         model.addAttribute("categorias", categorias);
         return "Adm/CategoriasAdm";
     }
@@ -86,6 +86,7 @@ public class AdmCategoriaController {
                     "ACTIVE"
             );
             categoriaRepository.save(categoria);
+            categoriaService.updateCategoriasView();
 //            String uploadDir = "uploads/images/categorias/" + categoria.getId();
 //            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
@@ -135,6 +136,7 @@ public class AdmCategoriaController {
             categoria.setImagem(imageBase64);
 
             categoriaRepository.save(categoria);
+            categoriaService.updateCategoriasView();
 
 //            if (imagem != null && !imagem.isEmpty()) {
 //                String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
@@ -171,6 +173,7 @@ public class AdmCategoriaController {
 
         categoria.setStatusCategoria("INACTIVE");
         categoriaRepository.save(categoria);
+        categoriaService.updateCategoriasView();
 
         String imagem = categoria.getImagem();
         if (imagem != null && !imagem.isEmpty()) {

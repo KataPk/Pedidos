@@ -8,6 +8,7 @@ import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,15 +30,6 @@ public class ProdutoService {
     @Autowired
     MesaRepository mesaRepository;
 
-
-    public List<ProdutoRecordDto> findAll() {
-        List<Produto> produtos = produtoRepository.findAll();
-        return produtos.stream()
-                .map(produto -> new ProdutoRecordDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getImagem(),
-                        produto.getValor(), produto.getCategoria()))
-                .collect(Collectors.toList());
-
-    }
 
     public List<ProdutoRecordDto> findByCategoria(Categoria categoria) {
 
@@ -62,6 +54,12 @@ public class ProdutoService {
                         produto.getValor(), produto.getCategoria()))
                 .collect(Collectors.toList());
 
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void updateProdutosView() {
+
+        produtoRepository.updateProdutosView();
     }
 
 }

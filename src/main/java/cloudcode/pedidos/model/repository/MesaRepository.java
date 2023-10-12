@@ -1,7 +1,10 @@
 package cloudcode.pedidos.model.repository;
 
 import cloudcode.pedidos.model.entity.Mesa;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,20 +12,22 @@ import java.util.List;
 @Repository
 public interface MesaRepository extends JpaRepository<Mesa, Long> {
 
-    Boolean existsByNumMesa(int numMesa);
+    @Query(value = "SELECT COUNT(*) > 0 FROM MesasView WHERE mesasview.num_mesa = :numMesa", nativeQuery = true)
+    Boolean existsByNumMesa(@Param("numMesa") int numMesa);
 
-    Mesa findByNumMesa(int numMesa);
+    @Query(value = "SELECT * FROM MesasView WHERE num_mesa = :numMesa", nativeQuery = true)
+    Mesa findByNumMesa(@Param("numMesa") int numMesa);
 
-
-    List<Mesa> findByMStatus(String status);
-
-    List<Mesa> findByNumMesaAndMStatusNot(int numMesa, String status);
-
+    @Query(value = "SELECT * FROM MesasView WHERE mesasview.mstatus <> :status ORDER BY num_mesa", nativeQuery = true)
     List<Mesa> findAllByMStatusNotOrderByNumMesa(String status);
 
-    List<Mesa> findAllByMStatusOrderByNumMesa(String status);
+    @NotNull
+    @Query(value = "SELECT * FROM MesasView", nativeQuery = true)
+    List<Mesa> findAll();
 
 
-//    List<Integer> findNumeroMesasAtivas();
+    @Query(value = "REFRESH MATERIALIZED VIEW mesasview", nativeQuery = true)
+    void updateMesasView();
+
 
 }

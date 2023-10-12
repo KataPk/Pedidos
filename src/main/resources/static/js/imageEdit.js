@@ -1,10 +1,11 @@
 const fileInputs = document.querySelectorAll('.fileInput')
 
 import {openDefaultEditor} from './pintura.js'
-for (let i = 0; i < fileInputs.length; i++){
+
+for (let i = 0; i < fileInputs.length; i++) {
     let fileInput = fileInputs[i]
 
-    fileInput.addEventListener('change', () =>{
+    fileInput.addEventListener('change', () => {
 
         if (!fileInput.files.length) return;
 
@@ -13,7 +14,7 @@ for (let i = 0; i < fileInputs.length; i++){
             src: fileInput.files[0]
         });
 
-        editor.on('process', (imageState) =>{
+        editor.on('process', (imageState) => {
 
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(imageState.dest);

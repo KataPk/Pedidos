@@ -5,6 +5,7 @@ import cloudcode.pedidos.dtos.MesaRecordDto;
 import cloudcode.pedidos.model.entity.Mesa;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +47,12 @@ public class MesaService {
         return mesas.stream()
                 .map(mesa -> new MesaRecordDto(mesa.getId(), mesa.getNumMesa(), mesa.getMStatus()))
                 .collect(Collectors.toList());
+    }
+
+    @Scheduled(fixedRate = 30000)
+    public void updateMesasView() {
+
+        mesaRepository.updateMesasView();
     }
 
 

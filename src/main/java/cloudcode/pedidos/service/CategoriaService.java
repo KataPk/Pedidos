@@ -5,6 +5,7 @@ import cloudcode.pedidos.dtos.CategoriaRecordDto;
 import cloudcode.pedidos.model.entity.Categoria;
 import cloudcode.pedidos.model.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,13 @@ public class CategoriaService {
         return categorias.stream()
                 .map(categoria -> new CategoriaRecordDto(categoria.getId(), categoria.getNome(), categoria.getImagem()))
                 .collect(Collectors.toList());
+    }
+
+
+    @Scheduled(fixedRate = 60000)
+    public void updateCategoriasView() {
+
+        categoriaRepository.updateCategoriasView();
     }
 
 

@@ -59,7 +59,7 @@ public class PedidoController {
     @GetMapping("/Pedidos")
     public String pedidos(Model model) {
         List<PedidoSubTotalRecordDTO> pedidos = pedidoService.findPedidosAbertosWithSubtotal();
-        List<MesaRecordDto> mesas = mesaService.findAll();
+        List<MesaRecordDto> mesas = mesaService.findAllAtivos();
         model.addAttribute("mesas", mesas);
         model.addAttribute("pedidos", pedidos);
 
@@ -96,11 +96,12 @@ public class PedidoController {
 
             );
             pedidoRepository.save(pedido);
-
+            pedidoService.updatePedidosView();
 //        muda o status da mesa para ocupada
             if (mesa.getMStatus().equals("ACTIVE")) {
                 mesa.setMStatus("OCUPADA");
                 mesaRepository.save(mesa);
+                mesaService.updateMesasView();
             }
             long pedidoId = pedido.getId();
             int buttonValue = Integer.parseInt(button);
@@ -161,28 +162,24 @@ public class PedidoController {
     ) {
 
 
-        ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
+        ItemPedido item = itemPedidoRepository.getReferenceById(itemId);
         Pedido pedido = item.getPedido();
         if (!pedido.getStatusPedido().equals("FECHADO")) {
 
-            if (item != null) {
-                if (acao == 0) {
-                    item.setQuantProduto(item.getQuantProduto() - 1);
-                } else if (acao == 1) {
-                    item.setQuantProduto(item.getQuantProduto() + 1);
+            if (acao == 0) {
+                item.setQuantProduto(item.getQuantProduto() - 1);
+            } else if (acao == 1) {
+                item.setQuantProduto(item.getQuantProduto() + 1);
 
-                } else {
-                    return ResponseEntity.badRequest().build();
-                }
-
-                itemPedidoRepository.save(item);
-                return ResponseEntity.ok().build();
-
+            } else {
+                return ResponseEntity.badRequest().build();
             }
 
+            itemPedidoRepository.save(item);
+            return ResponseEntity.ok().build();
 
-            return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity.badRequest().build();
     }
 
@@ -259,10 +256,10 @@ public class PedidoController {
         if (mesa.getMStatus().equals("OCUPADA")) {
             mesa.setMStatus("ACTIVE");
             mesaRepository.save(mesa);
-
+            mesaService.updateMesasView();
         }
         pedidoRepository.save(pedido);
-
+        pedidoService.updatePedidosView();
         return new RedirectView("/api/user/mesas");
     }
 
@@ -280,9 +277,9 @@ public class PedidoController {
             Mesa mesa = pedido.getMesa();
             mesa.setMStatus("ACTIVE");
             mesaRepository.save(mesa);
-
+            mesaService.updateMesasView();
             pedidoRepository.delete(pedido);
-
+            pedidoService.updatePedidosView();
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
