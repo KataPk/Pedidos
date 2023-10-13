@@ -27,17 +27,12 @@ public class Produto {
     @Column(name = "descricao", length = 400, nullable = false)
     private String descricao;
 
-    @NotNull
     @Column(name = "valor", precision = 7, scale = 2, nullable = false)
     private double valor;
 
-    @NotNull
     @Column(name = "statusProduto", length = 20, nullable = false)
     private String statusProduto;
 
-
-    @Lob
-    @NotNull
     @Column(name = "imagem", nullable = false)
     private String imagem;
 

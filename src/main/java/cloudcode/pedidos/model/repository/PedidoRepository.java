@@ -19,7 +19,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findByStatusPedido(String statusPedido);
 
-    Pedido getReferenceById(long id);
-
 
 }

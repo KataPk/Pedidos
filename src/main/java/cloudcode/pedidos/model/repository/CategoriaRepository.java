@@ -11,8 +11,7 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 
-    List<Categoria> findAllByStatusCategoriaIs(String status);
+    List<Categoria> findAllByStatusCategoria(String status);
 
-    Categoria getReferenceById(long id);
 
 }

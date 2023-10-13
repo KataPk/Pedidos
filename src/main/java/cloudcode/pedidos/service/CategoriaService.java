@@ -29,7 +29,7 @@ public class CategoriaService {
 
         long startTime = System.currentTimeMillis();
 
-        List<Categoria> categorias = categoriaRepository.findAllByStatusCategoriaIs("ACTIVE");
+        List<Categoria> categorias = categoriaRepository.findAllByStatusCategoria("ACTIVE");
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
         System.out.println("Tempo total da consulta: " + elapsedTime + " milissegundos");

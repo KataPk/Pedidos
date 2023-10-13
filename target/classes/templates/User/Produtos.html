@@ -47,14 +47,15 @@
         </th:block>
 
     </div>
-    <nav class="navbar fixed-bottom  navBottom" id="navFinalizar">
-        <div class="container-fluid">
-            <a class="btn btn-primary finalizar" role="button"
-               th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}">Finalizar</a>
-        </div>
-    </nav>
 
 </div>
+<nav class="navbar fixed-bottom  navBottom" id="navFinalizar">
+    <div class="container-fluid">
+        <a class="btn btn-primary finalizar" role="button"
+           th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}">Finalizar</a>
+    </div>
+</nav>
+
 <div id="Modals">
     <th:block th:each="produto : ${produtos}">
         <div aria-hidden="true" class="modal fade" tabindex="-1"

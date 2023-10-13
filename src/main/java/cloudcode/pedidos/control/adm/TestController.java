@@ -1,11 +1,19 @@
 package cloudcode.pedidos.control.adm;
 
+import cloudcode.pedidos.dtos.CategoriaRecordDto;
+import cloudcode.pedidos.dtos.ProdutoRecordDto;
+import cloudcode.pedidos.model.entity.Categoria;
+import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.service.CategoriaService;
+import cloudcode.pedidos.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 //            CLASSE PARA TESTES DE NÍVEL DE ACESSO
@@ -18,8 +26,14 @@ public class TestController {
 
     private final CategoriaService categoriaService;
 
-    public TestController(CategoriaService categoriaService) {
+    private final ProdutoService produtoService;
+
+    @Autowired
+    CategoriaRepository categoriaRepository;
+
+    public TestController(CategoriaService categoriaService, ProdutoService produtoService) {
         this.categoriaService = categoriaService;
+        this.produtoService = produtoService;
     }
 
     @GetMapping("/all")
@@ -39,5 +53,17 @@ public class TestController {
         return "Admin Board.";
     }
 
+    @GetMapping("/categoria")
+    public String test() {
+
+        List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
+        long id = 20;
+        Categoria categoria = categoriaRepository.getReferenceById(id);
+        List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
+
+        return "teste";
+
+
+    }
 
 }

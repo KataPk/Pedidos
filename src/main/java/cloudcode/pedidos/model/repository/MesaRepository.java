@@ -17,7 +17,5 @@ public interface MesaRepository extends JpaRepository<Mesa, Long> {
 
     List<Mesa> findAllByMStatusIsOrderByNumMesa(String status);
 
-    Mesa getReferenceById(long id);
-
 
 }

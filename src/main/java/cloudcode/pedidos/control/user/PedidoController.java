@@ -219,7 +219,6 @@ public class PedidoController {
                 break;
             }
         }
-        Categoria categoria = produto.getCategoria();
 
         if (controle == 0) {
 
@@ -234,7 +233,7 @@ public class PedidoController {
             itemPedidoRepository.save(itemPedido);
 
         }
-        return new RedirectView("/api/user/" + pedidoId + "/categoria/" + categoria.getId());
+        return new RedirectView("/api/user/" + pedidoId + "/categoria/" + produto.getCategoria().getId());
 
 
     }

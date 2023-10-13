@@ -65,7 +65,7 @@ public class AdmProdutoController {
                                       @RequestParam("descricao") String descricao,
                                       @RequestParam("valor") String valor,
                                       @RequestParam("file") MultipartFile multipartFile,
-                                      @RequestParam("categoria") String categoriaId) {
+                                      @RequestParam("categoria") long categoriaId) {
 
         try {
 
@@ -81,7 +81,7 @@ public class AdmProdutoController {
                 double valorDouble = Double.parseDouble(valor);
 
                 // busca a categoria
-                Categoria categoria = categoriaRepository.getReferenceById(Long.valueOf(categoriaId));
+                Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
                 // criação do Produto
                 Produto produto = new Produto(
                         nome,
