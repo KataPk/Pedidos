@@ -19,14 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     public static final Logger log = LoggerFactory.getLogger(IndexController.class);
-    private final UserService userService;
     @Autowired
     UserRepository userRepository;
 
 
-    public IndexController(UserService userService) {
-        this.userService = userService;
-    }
+   
 
     @GetMapping("/index")
     public String index() {

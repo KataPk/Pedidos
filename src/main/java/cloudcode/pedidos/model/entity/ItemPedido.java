@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Cacheable
+
 @Table(name = "ItemPedido")
 public class ItemPedido {
 

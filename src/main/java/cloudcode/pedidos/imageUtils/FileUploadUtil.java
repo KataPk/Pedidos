@@ -1,53 +1,77 @@
 package cloudcode.pedidos.imageUtils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 
 
+@Component
 public class FileUploadUtil {
 
-    public static void saveFile(String uploadDir, String fileName,
-                                MultipartFile file) throws IOException {
+    public ResponseEntity<String> upload(File file) {
 
-        Path uploadPath = Path.of(uploadDir);
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        try (InputStream inputStream = file.getInputStream()) {
-
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ioe) {
-            throw new IOException("Could not save image file:" + fileName, ioe);
-        }
-
-
-    }
-
-    public static void deleteFile(String uploadDirAnterior, String imagem) {
         try {
-            String filePath = uploadDirAnterior + File.separator + imagem;
-            File file = new File(filePath);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            headers.add("key", "***REMOVED***");
 
-            if (file.exists() && file.isFile()) {
-                if (file.delete()) {
-                    System.out.println("Arquivo excluído com sucesso: " + filePath);
-                } else {
-                    System.err.println("Não foi possível excluir o arquivo: " + filePath);
-                }
-            } else {
-                System.err.println("Arquivo não encontrado: " + filePath);
-            }
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", new FileSystemResource(file));
+
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            String serverUrl = "https://api.e-z.host/files";
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.postForEntity(serverUrl, requestEntity, String.class);
+
+            HttpStatusCode statusCode = response.getStatusCode();
+            String responseBody = response.getBody();
+            HttpHeaders responseHeaders = response.getHeaders();
+
+
+            return response;
         } catch (Exception e) {
-            System.err.println("Erro ao excluir o arquivo: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body("Erro:" + e);
         }
     }
+
+    public String getImageUrl(ResponseEntity<String> response) {
+        try {
+            String responseBody = response.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+
+            String imageUrl = jsonNode.get("imageUrl").asText();
+            String prefix = ***REMOVED***";
+            String newPrefix = "***REMOVED***";
+
+            return imageUrl.replaceFirst(prefix, newPrefix);
+
+        } catch (Exception e) {
+            // Lidar com erros de análise JSON
+            return "Erro:" + e;
+        }
+    }
+
+
+    public File convertMultiPartFileToFile(MultipartFile multipartFile) throws IOException {
+        File file = new File(multipartFile.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(multipartFile.getBytes());
+        fos.close();
+        return file;
+    }
+
 }

@@ -18,13 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.slf4j.LoggerFactory.getLogger;
 
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    private static final Logger log = getLogger(WebSecurityConfig.class);
+    // private static final Logger log = getLogger(WebSecurityConfig.class);
 
 
     @Autowired

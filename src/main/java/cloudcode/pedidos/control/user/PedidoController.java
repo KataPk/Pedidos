@@ -77,14 +77,13 @@ public class PedidoController {
         try {
 
             Mesa mesa = mesaRepository.getReferenceById(mesaId);
+            if (mesa.getMStatus().equals("OCUPADA")) {
+                return new RedirectView("/api/user/mesas");
+            }
 
             User user = userRepository.findByUsername(userDetails.getUsername());
 
             LocalDateTime dtRegistro = LocalDateTime.now();
-
-            if (mesa.getMStatus().equals("OCUPADA")) {
-                throw new RuntimeException("Mesa Ocupada, recarregue a página e tente novamente");
-            }
 
             Pedido pedido = new Pedido(
                     cliente,
@@ -96,12 +95,11 @@ public class PedidoController {
 
             );
             pedidoRepository.save(pedido);
-            pedidoService.updatePedidosView();
 //        muda o status da mesa para ocupada
             if (mesa.getMStatus().equals("ACTIVE")) {
                 mesa.setMStatus("OCUPADA");
                 mesaRepository.save(mesa);
-                mesaService.updateMesasView();
+
             }
             long pedidoId = pedido.getId();
             int buttonValue = Integer.parseInt(button);
@@ -141,10 +139,9 @@ public class PedidoController {
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
 
 
-        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
 
-
-        String subTotal = itemPedidoService.getSubTotal(pedidoId);
+        String subTotal = itemPedidoService.getSubTotal(pedido);
         model.addAttribute("pedido", pedido);
         model.addAttribute("itens", itens);
         model.addAttribute("subtotal", subTotal);
@@ -190,7 +187,7 @@ public class PedidoController {
     ) {
 
 
-        ItemPedido item = itemPedidoRepository.findById(itemId).orElseThrow(null);
+        ItemPedido item = itemPedidoRepository.getReferenceById(itemId);
         Pedido pedido = item.getPedido();
         if (!pedido.getStatusPedido().equals("FECHADO")) {
             if (item != null) {
@@ -199,8 +196,6 @@ public class PedidoController {
                 return ResponseEntity.ok().build();
             }
 
-
-            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.badRequest().build();
     }
@@ -212,7 +207,7 @@ public class PedidoController {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
         Produto produto = produtoRepository.getReferenceById(produtoId);
-        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
 
         int controle = 0;
         for (ItemPedidoRecordDto it : itens) {
@@ -256,10 +251,8 @@ public class PedidoController {
         if (mesa.getMStatus().equals("OCUPADA")) {
             mesa.setMStatus("ACTIVE");
             mesaRepository.save(mesa);
-            mesaService.updateMesasView();
         }
         pedidoRepository.save(pedido);
-        pedidoService.updatePedidosView();
         return new RedirectView("/api/user/mesas");
     }
 
@@ -268,7 +261,7 @@ public class PedidoController {
 
         try {
             Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-            List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedidoId);
+            List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
             for (ItemPedidoRecordDto it : itens) {
                 ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
                 itemPedidoRepository.delete(item);
@@ -277,9 +270,7 @@ public class PedidoController {
             Mesa mesa = pedido.getMesa();
             mesa.setMStatus("ACTIVE");
             mesaRepository.save(mesa);
-            mesaService.updateMesasView();
             pedidoRepository.delete(pedido);
-            pedidoService.updatePedidosView();
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {

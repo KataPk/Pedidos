@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Cacheable
 @Table(name = "Mesa")
 public class Mesa {
 

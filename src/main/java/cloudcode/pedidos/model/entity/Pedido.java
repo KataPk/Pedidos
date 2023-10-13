@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Cacheable
 @Table(name = "Pedido")
 public class Pedido {
 

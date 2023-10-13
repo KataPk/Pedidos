@@ -6,7 +6,8 @@ public record CategoriaRecordDto(
 
         @NotNull long id,
         @NotNull String nome,
-        @NotNull String imagem
+        @NotNull String imagem,
+        @NotNull String statusCategoria
 
 
 ) {

@@ -10,7 +10,6 @@ import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.response.MessageResponse;
 import cloudcode.pedidos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -75,7 +74,7 @@ public class FuncionarioController {
             @RequestParam("cidade") String cidade,
             @RequestParam("bairro") String bairro,
             @RequestParam("uf") String uf,
-            @Param("complemento") String complemento,
+            @RequestParam(value = "complemento", required = false) String complemento,
             @RequestParam("emailRecup") String emailRecup,
             @RequestParam("username") String username,
             @RequestParam("senha") String password,
@@ -90,16 +89,6 @@ public class FuncionarioController {
             String rgValue = rg.replace(".", "").replace("-", "");
             String cepValue = cep.replace("-", "");
             Set<Role> roles = new HashSet<>();
-//            String tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
-//            String tel2Value = "";
-//            String emailUserValue = "";
-
-//            if (emailUser != null){
-//                emailUserValue = emailUser;
-//            }
-//            if (tel2 != null) {
-//                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
-//            }
 
             if (userRepository.existsByUsername(username)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
@@ -141,7 +130,6 @@ public class FuncionarioController {
 
 
                         user1.setRoles(roles);
-                        userService.updateFuncionariosView();
 
                         responseData.put("success", true);
                         responseData.put("message", "Usuário recadastrado com sucesso.");
@@ -189,44 +177,8 @@ public class FuncionarioController {
                 roles.add(userRole);
             }
             user.setRoles(roles);
-            userService.updateFuncionariosView();
 
 
-//            Contato contato1 = new Contato(
-//                    user,
-//                    tel1Value,
-//                    emailRecup
-//            );
-//                contatoRepository.save(contato1);
-//            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")){
-//
-//                Contato contato2 = new Contato(
-//                        user,
-//                        tel2Value,
-//                        emailUser
-//                );
-//
-//                contatoRepository.save(contato2);
-//
-//            } else if (!Objects.equals(tel2Value, "")) {
-//                Contato contato2 = new Contato(
-//                        user,
-//                        tel2Value,
-//                        null
-//                );
-//
-//                contatoRepository.save(contato2);
-//
-//
-//            } else if (!Objects.equals(emailUserValue, "")) {
-//                Contato contato2 = new Contato(
-//                        user,
-//                        null,
-//                        emailUser
-//                );
-//                contatoRepository.save(contato2);
-//
-//            }
             responseData.put("success", true);
             responseData.put("message", "Usuário registrado com sucesso.");
 
@@ -254,10 +206,10 @@ public class FuncionarioController {
             @RequestParam("cidade") String cidade,
             @RequestParam("bairro") String bairro,
             @RequestParam("uf") String uf,
-            @Param("complemento") String complemento,
+            @RequestParam(value = "complemento", required = false) String complemento,
             @RequestParam("emailRecup") String emailRecup,
             @RequestParam("username") String username,
-            @Param("Role") String strRole
+            @RequestParam(value = "Role", required = false) String strRole
     ) {
         // UserForm é uma classe que você deve criar para representar os campos do formulário
         Map<String, Object> responseData = new HashMap<>();
@@ -265,23 +217,12 @@ public class FuncionarioController {
         try {
 
             String cepValue = cep.replace("-", "");
-//            String tel1Value = "";
-//            tel1Value = tel1.replace("(", "").replace(")", "").replace("-", "");
-//            String tel2Value = "";
-//            String emailUserValue = "";
 
             User editUser = userRepository.findById(userId).orElse(null);
             if (editUser == null) {
                 // Trate o caso em que o usuário não existe
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuário não encontrado."));
             }
-
-//            if (emailUser != null) {
-//                emailUserValue = emailUser;
-//            }
-//            if (tel2 != null) {
-//                tel2Value = tel2.replace("(", "").replace(")", "").replace("-", "");
-//            }
 
             if (userRepository.existsByUsername(username) && !Objects.equals(editUser.getUsername(), username)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username já registrado!"));
@@ -291,6 +232,9 @@ public class FuncionarioController {
 
             }
 
+            if (complemento != null && !complemento.isEmpty()) {
+                editUser.setComplemento(complemento);
+            }
 
             editUser.setNome(nome);
             editUser.setLogradouro(logradouro);
@@ -299,7 +243,6 @@ public class FuncionarioController {
             editUser.setBairro(bairro);
             editUser.setCidade(cidade);
             editUser.setUf(uf);
-            editUser.setComplemento(complemento);
             editUser.setEmail(emailRecup);
             editUser.setUsername(username);
 
@@ -320,37 +263,7 @@ public class FuncionarioController {
                 }
                 editUser.setRoles(roles);
             }
-            userService.updateFuncionariosView();
 
-//            contatoRepository.deleteByUser(editUser);
-
-//            Contato contato1 = new Contato(
-//                    editUser,
-//                    tel1Value,
-//                    emailRecup
-//            );
-//            contatoRepository.save(contato1);
-
-
-//            if (!Objects.equals(tel2Value, "") && !Objects.equals(emailUserValue, "")) {
-//
-//                Contato contato2 = new Contato(
-//                        editUser,
-//                        tel2Value,
-//                        emailUser
-//                );
-//
-//                contatoRepository.save(contato2);
-//
-//            } else if (!Objects.equals(tel2Value, "")) {
-//                Contato contato2 = new Contato(
-//                        editUser,
-//                        tel2Value,
-//                        null
-//                );
-//
-//                contatoRepository.save(contato2);
-//            }
 
             responseData.put("success", true);
             responseData.put("message", "Usuário atualizado com sucesso.");
@@ -379,7 +292,6 @@ public class FuncionarioController {
             user.setPassword(userDeleted);
             user.getRoles().clear();
             userRepository.save(user);
-            userService.updateFuncionariosView();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

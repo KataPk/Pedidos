@@ -51,9 +51,10 @@ public class AdmMesaController {
             if (mesaRepository.existsByNumMesa(numMesa)) {
                 Mesa mesaExist = mesaRepository.findByNumMesa(numMesa);
                 if (mesaExist.getMStatus().equals("DELETADA")) {
+
                     mesaExist.setMStatus("ACTIVE");
                     mesaRepository.save(mesaExist);
-                    mesaService.updateMesasView();
+
                     responseData.put("success", true);
                     responseData.put("message", "Mesa registrada com sucesso.");
                     return ResponseEntity.ok().body(responseData);
@@ -67,7 +68,6 @@ public class AdmMesaController {
             );
 
             mesaRepository.save(mesa);
-            mesaService.updateMesasView();
 
             responseData.put("success", true);
             responseData.put("message", "Mesa registrada com sucesso.");
@@ -106,7 +106,7 @@ public class AdmMesaController {
                     mesa.setNumMesa(newNum);
                     mesaRepository.save(mesaExist);
                     mesaRepository.save(mesa);
-                    mesaService.updateMesasView();
+
                     responseData.put("success", true);
                     responseData.put("message", "Mesa registrada com sucesso.");
                     return ResponseEntity.ok().body(responseData);
@@ -116,7 +116,6 @@ public class AdmMesaController {
 
             mesa.setNumMesa(numMesa);
             mesaRepository.save(mesa);
-            mesaService.updateMesasView();
 
             responseData.put("success", true);
             responseData.put("message", "Mesa registrada com sucesso.");
@@ -143,7 +142,6 @@ public class AdmMesaController {
 
             mesa.setMStatus("DELETADA");
             mesaRepository.save(mesa);
-            mesaService.updateMesasView();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -162,7 +160,6 @@ public class AdmMesaController {
 
                 mesa.setMStatus("ACTIVE");
                 mesaRepository.save(mesa);
-                mesaService.updateMesasView();
 
             }
         } catch (Exception e) {

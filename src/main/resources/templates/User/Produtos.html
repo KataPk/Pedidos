@@ -30,7 +30,7 @@
             <div class="card text-center" th:id="${produto.id}">
                 <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.id()}">
                     <img class="card-img-top image" th:alt="${produto.nome}"
-                         th:src="|data:image;base64, *{produto.imagem}|"/>
+                         th:src="${produto.imagem()}"/>
                 </button>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
@@ -49,7 +49,8 @@
     </div>
     <nav class="navbar fixed-bottom  navBottom" id="navFinalizar">
         <div class="container-fluid">
-            <a class="btn btn-primary finalizar" role="button" th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}" >Finalizar</a>
+            <a class="btn btn-primary finalizar" role="button"
+               th:href="${'/api/user/pedido/'+ pedido.getId() + '/finalizarPedido'}">Finalizar</a>
         </div>
     </nav>
 
@@ -70,11 +71,12 @@
                         <div class="modal-body vstack">
                             <div class="hstack p-1 ">
                                 <img class="card-img-top image" th:alt="${produto.nome}"
-                                     th:src="|data:image;base64, *{produto.imagem}|"/>
+                                     th:src="${produto.imagem()}"/>
                                 <p class="p-2" th:text="${produto.descricao}">Error</p>
                             </div>
                             <div class="hstack p-1">
-                                <h2 class="p-1 preco" th:text="'Preço: ' + ${#numbers.formatCurrency(produto.valor)}">Error</h2>
+                                <h2 class="p-1 preco" th:text="'Preço: ' + ${#numbers.formatCurrency(produto.valor)}">
+                                    Error</h2>
                             </div>
 
 

@@ -11,7 +11,7 @@ import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
 import cloudcode.pedidos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -38,10 +38,12 @@ public class AdmCategoriaController {
     @Autowired
     ProdutoRepository produtoRepository;
 
+    private final FileUploadUtil fileUploadUtil;
 
-    public AdmCategoriaController(CategoriaService categoriaService, ProdutoService produtoService) {
+    public AdmCategoriaController(CategoriaService categoriaService, ProdutoService produtoService, FileUploadUtil fileUploadUtil) {
         this.categoriaService = categoriaService;
         this.produtoService = produtoService;
+        this.fileUploadUtil = fileUploadUtil;
     }
 
 
@@ -53,101 +55,64 @@ public class AdmCategoriaController {
     }
 
     @PostMapping("/createCategoria")
-    public ResponseEntity<?> createCategoria(@RequestParam("nome") String nome,
-                                             @RequestParam("file") MultipartFile file) throws IOException {
+    public RedirectView createCategoria(@RequestParam("nome") String nome,
+                                        @RequestParam("file") MultipartFile multipartFile) {
+
 
         try {
-            // tratativa da imagem
-//            String uniqueFileName = UUID.randomUUID().toString();
-//            String fileName = "";
-//            // Obtém a extensão do arquivo original (se necessário)
-//            String originalFileName = file.getOriginalFilename();
-//            String fileExtension = "";
-//
-//            if (originalFileName != null) {
-//                int lastDotIndex = originalFileName.lastIndexOf(".");
-//                if (lastDotIndex != -1) {
-//                    fileExtension = originalFileName.substring(lastDotIndex);
-//                }
-//                fileName = uniqueFileName + fileExtension;
-//            } else {
-//                fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//            }
 
-//            método com base 64
-            byte[] image = Base64.getEncoder().encode(file.getBytes());
-            String imageBase64 = new String(image);
+            File file = fileUploadUtil.convertMultiPartFileToFile(multipartFile);
 
-            // criação da Categoria
-            Categoria categoria = new Categoria(
-                    nome,
-                    imageBase64,
-//                    fileName,
-                    "ACTIVE"
-            );
-            categoriaRepository.save(categoria);
-            categoriaService.updateCategoriasView();
-//            String uploadDir = "uploads/images/categorias/" + categoria.getId();
-//            FileUploadUtil.saveFile(uploadDir, fileName, file);
+            ResponseEntity<String> response = fileUploadUtil.upload(file);
 
-            return ResponseEntity.ok().build();
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String imageUrl = fileUploadUtil.getImageUrl(response);
+
+                // criação da Categoria
+                Categoria categoria = new Categoria(
+                        nome,
+                        imageUrl,
+                        "ACTIVE"
+                );
+                categoriaRepository.save(categoria);
+
+                return new RedirectView("/api/admin/categorias");
+            } else {
+                throw new RuntimeException("Algo deu errado no upload para o host");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
-
         }
     }
 
     @PostMapping("/editCategoria")
-    public ResponseEntity<?> editCategoria(
+    public RedirectView editCategoria(
             @RequestParam("categoriaId") long categoriaId,
             @RequestParam("nome") String nome,
-            @Param("file") MultipartFile file) throws IOException {
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 
         try {
 
             Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
+            File file = fileUploadUtil.convertMultiPartFileToFile(multipartFile);
 
-            byte[] image = Base64.getEncoder().encode(file.getBytes());
-            String imageBase64 = new String(image);
+            ResponseEntity<String> response = fileUploadUtil.upload(file);
 
-//            String imagem = categoria.getImagem();
-//            String fileExtension = "";
-//            String fileName = "";
-//            if (file != null) {
-//                // tratativa da imagem
-//                String uniqueFileName = UUID.randomUUID().toString();
-//                // Obtém a extensão do arquivo original (se necessário)
-//                String originalFileName = file.getOriginalFilename();
-//
-//                if (originalFileName != null) {
-//                    int lastDotIndex = originalFileName.lastIndexOf(".");
-//                    if (lastDotIndex != -1) {
-//                        fileExtension = originalFileName.substring(lastDotIndex);
-//                    }
-//                    fileName = uniqueFileName + fileExtension;
-//                } else {
-//                    fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//                }
-//                categoria.setImagem(fileName);
-//            }
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String imageUrl = fileUploadUtil.getImageUrl(response);
 
 
-            categoria.setNome(nome);
-            categoria.setImagem(imageBase64);
+                categoria.setNome(nome);
+                categoria.setImagem(imageUrl);
 
-            categoriaRepository.save(categoria);
-            categoriaService.updateCategoriasView();
+                categoriaRepository.save(categoria);
 
-//            if (imagem != null && !imagem.isEmpty()) {
-//                String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
-//                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-//            }
-//
-//            String uploadDir = "/static/uploads/images/categorias/" + categoria.getId();
-//            FileUploadUtil.saveFile(uploadDir, fileName, file);
 
-            return ResponseEntity.ok().build();
-        } catch (IOException e) {
+                return new RedirectView("/api/admin/categorias");
+            } else {
+                throw new RuntimeException("Algo deu errado no upload para o host");
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -164,22 +129,12 @@ public class AdmCategoriaController {
             produto1.setStatusProduto("INACTIVE");
             produtoRepository.save(produto1);
 
-            String imagem = produto.imagem();
-            if (imagem != null && !imagem.isEmpty()) {
-                String uploadDirAnterior = "uploads/images/produtos/" + produto.categoria().getId();
-                FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-            }
         }
+
 
         categoria.setStatusCategoria("INACTIVE");
         categoriaRepository.save(categoria);
-        categoriaService.updateCategoriasView();
 
-        String imagem = categoria.getImagem();
-        if (imagem != null && !imagem.isEmpty()) {
-            String uploadDirAnterior = "uploads/images/categorias/" + categoria.getId();
-            FileUploadUtil.deleteFile(uploadDirAnterior, imagem);
-        }
 
         return new RedirectView("/api/admin/categorias");
 

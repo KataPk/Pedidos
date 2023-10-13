@@ -6,7 +6,6 @@ import cloudcode.pedidos.model.entity.Role;
 import cloudcode.pedidos.model.entity.User;
 import cloudcode.pedidos.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,9 +48,5 @@ public class UserService {
 
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void updateFuncionariosView() {
 
-        userRepository.updateFuncionariosView();
-    }
 }

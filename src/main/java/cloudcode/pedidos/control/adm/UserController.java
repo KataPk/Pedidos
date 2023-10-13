@@ -22,14 +22,10 @@ import java.util.Optional;
 public class UserController {
 
 
-    private final UserService userService;
     @Autowired
     UserRepository userRepository;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    
     @PostMapping("/funcionario")
     public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRecordDto createUserRecordDto) {
         var user = new User();

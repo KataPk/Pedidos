@@ -8,11 +8,9 @@ import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +31,7 @@ public class ProdutoService {
 
     public List<ProdutoRecordDto> findByCategoria(Categoria categoria) {
 
-        List<Produto> produtos = produtoRepository.findByCategoriaAndAndStatusProduto(categoria, "ACTIVE");
+        List<Produto> produtos = produtoRepository.findByCategoriaAndStatusProduto(categoria, "ACTIVE");
 
         return produtos.stream().map(produto -> new ProdutoRecordDto(
                 produto.getId(),
@@ -46,8 +44,7 @@ public class ProdutoService {
     }
 
     public List<ProdutoRecordDto> findAtivos() {
-        List<Produto> produtos = produtoRepository.findAllByStatusProduto("ACTIVE");
-        produtos.sort(Comparator.comparing(produto -> produto.getCategoria().getId()));
+        List<Produto> produtos = produtoRepository.findAllByStatusProdutoOrderByCategoria("ACTIVE");
 
         return produtos.stream()
                 .map(produto -> new ProdutoRecordDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getImagem(),
@@ -56,11 +53,6 @@ public class ProdutoService {
 
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void updateProdutosView() {
-
-        produtoRepository.updateProdutosView();
-    }
 
 }
 

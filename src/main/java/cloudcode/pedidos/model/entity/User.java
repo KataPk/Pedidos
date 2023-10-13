@@ -15,6 +15,7 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "funLogin")})
 @Getter
 @Setter
+@Cacheable
 public class User {
 
     //    public static final Logger log = LoggerFactory.getLogger(User.class);

@@ -1,12 +1,14 @@
 package cloudcode.pedidos.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Cacheable
 @Table(name = "Produto")
 public class Produto {
 
@@ -17,24 +19,29 @@ public class Produto {
     @Column(name = "id")
     private long id;
 
-
+    @NotNull
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
+
 
     @Column(name = "descricao", length = 400, nullable = false)
     private String descricao;
 
+    @NotNull
     @Column(name = "valor", precision = 7, scale = 2, nullable = false)
     private double valor;
 
+    @NotNull
     @Column(name = "statusProduto", length = 20, nullable = false)
     private String statusProduto;
 
 
     @Lob
+    @NotNull
     @Column(name = "imagem", nullable = false)
     private String imagem;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria", nullable = false)
     private Categoria categoria;
 

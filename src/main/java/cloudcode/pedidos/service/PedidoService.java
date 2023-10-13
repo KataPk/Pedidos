@@ -7,7 +7,6 @@ import cloudcode.pedidos.model.entity.Pedido;
 import cloudcode.pedidos.model.repository.MesaRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,17 +45,12 @@ public class PedidoService {
 
         return pedidos.stream().map(pedido -> new PedidoSubTotalRecordDTO(pedido.getId(), pedido.getNomeCliente(),
                         pedido.getDtRegistro(), pedido.getDtFechamento(), pedido.getUser(), pedido.getMesa(),
-                        pedido.getStatusPedido(), itemPedidoService.getSubTotal(pedido.getId())))
+                        pedido.getStatusPedido(), itemPedidoService.getSubTotal(pedido)))
                 .collect(Collectors.toList());
 
 
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void updatePedidosView() {
-
-        pedidoRepository.updatePedidosView();
-    }
 
 }
 

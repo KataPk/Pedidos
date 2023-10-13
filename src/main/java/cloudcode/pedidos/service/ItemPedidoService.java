@@ -3,6 +3,7 @@ package cloudcode.pedidos.service;
 
 import cloudcode.pedidos.dtos.ItemPedidoRecordDto;
 import cloudcode.pedidos.model.entity.ItemPedido;
+import cloudcode.pedidos.model.entity.Pedido;
 import cloudcode.pedidos.model.repository.ItemPedidoRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
@@ -26,16 +27,16 @@ public class ItemPedidoService {
         this.pedidoRepository = pedidoRepository;
     }
 
-    public List<ItemPedidoRecordDto> findAllByPedido(long pedidoId) {
-        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedidoRepository.getReferenceById(pedidoId));
+    public List<ItemPedidoRecordDto> findAllByPedido(Pedido pedido) {
+        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedido);
         return itens.stream()
                 .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getQuantProduto(), item.getPedido()))
                 .collect(Collectors.toList());
     }
 
-    public String getSubTotal(long pedidoId) {
+    public String getSubTotal(Pedido pedido) {
         double subTotal = 0;
-        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedidoRepository.getReferenceById(pedidoId));
+        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedido);
         for (ItemPedido item : itens) {
 
             int quant = item.getQuantProduto();

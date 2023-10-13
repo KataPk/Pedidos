@@ -1,5 +1,6 @@
 package cloudcode.pedidos.control.adm;
 
+import cloudcode.pedidos.service.CategoriaService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 //    public static final Logger log = LoggerFactory.getLogger(TestController.class);
+
+    private final CategoriaService categoriaService;
+
+    public TestController(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
 
     @GetMapping("/all")
     public String allAccess() {
@@ -31,4 +38,6 @@ public class TestController {
     public String adminAccess() {
         return "Admin Board.";
     }
+
+
 }

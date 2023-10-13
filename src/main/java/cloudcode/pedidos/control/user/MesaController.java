@@ -43,7 +43,7 @@ public class MesaController {
 
     @GetMapping("/mesas")
     public String mesas(Model model) {
-        List<MesaRecordDto> mesas = mesaService.findAll();
+        List<MesaRecordDto> mesas = mesaService.findAllMesas();
         model.addAttribute("mesas", mesas);
         return "User/Mesas";
 
@@ -51,7 +51,6 @@ public class MesaController {
 
     @PostMapping("/inativarMesa")
     public RedirectView inativarMesa(@RequestParam("mesaId") long id) {
-
 
         try {
 
@@ -105,7 +104,6 @@ public class MesaController {
 
                 pedido.setMesa(mesaDestino);
                 pedidoRepository.save(pedido);
-
 
             }
         } catch (Exception e) {

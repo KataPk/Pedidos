@@ -7,8 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "Categoria")
+@Cacheable
+@Entity(name = "Categoria")
+@Table(name = "categoria")
 public class Categoria {
 
 //    public static final Logger log = LoggerFactory.getLogger(Categoria.class);
@@ -22,11 +23,10 @@ public class Categoria {
     @Column(name = "Nome", length = 20, nullable = false)
     private String nome;
 
-    @Lob
     @Column(name = "Imagem", nullable = false)
     private String imagem;
 
-    @Column(name = "statusCategoria", nullable = true)
+    @Column(name = "statusCategoria", nullable = false)
     private String statusCategoria;
 
     public Categoria(String nome, String imagem, String statusCategoria) {
