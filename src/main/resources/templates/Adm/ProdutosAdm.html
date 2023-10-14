@@ -100,8 +100,8 @@
                         </div>
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoValor">Valor do Produto:</label>
-                            <input class="form-control produtoValor fileInput" id="produtoValor" max="10000.00"
-                                   min="0.00"
+                            <input class="form-control produtoValor fileInput" id="produtoValor" max="9999.99"
+                                   min="1.00"
                                    name="valor"
                                    required step="0.01" type="number">
 
@@ -167,7 +167,7 @@
                             <div class="hstack p-1 ">
                                 <label class="form-label" for="produtoValor">Valor do Produto:</label>
                                 <input class="form-control produtoValor" th:id="${'produtoValor' + produto.id()}"
-                                       max="10000.00" min="0.00"
+                                       max="9999.99" min="1.00"
                                        name="valor"
                                        step="0.01" type="number"
                                        th:value="${produto.valor()}"

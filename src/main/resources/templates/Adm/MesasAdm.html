@@ -170,16 +170,19 @@
                             <form action="/api/admin/editMesa" class="formEdit"
                                   method="POST">
                                 <div class="modal-body vstack">
-                                    <div class="hstack p-1 ">
-                                        <label class="form-label" th:for="${'mesaNum' + mesa.id()}">Número da
-                                            mesa:</label>
-                                        <input class="form-control" max="999"
-                                               min="1" name="numMesa" required th:id="${'mesaNum' + mesa.id()}"
-                                               th:value="${mesa.numMesa()}" type="number">
-                                        <input name="mesaId"
-                                               th:value="${mesa.id()}" type="hidden">
+                                    <div class="vstack p-1">
+                                        <div class="hstack p-1 ">
+                                            <label class="form-label" th:for="${'mesaNum' + mesa.id()}">
+                                                Número da mesa:
+                                            </label>
+                                            <input class="form-control" max="999"
+                                                   min="1" name="numMesa" required th:id="${'mesaNum' + mesa.id()}"
+                                                   th:value="${mesa.numMesa()}" type="number">
+                                            <input name="mesaId"
+                                                   th:value="${mesa.id()}" type="hidden">
+                                        </div>
+                                        <p class="text-danger hstack p-1 backMessage" style="display: none"></p>
                                     </div>
-                                    <p class="text-danger hstack p-1 backMessage" style="display: none"></p>
                                     <div class=" modal-footer">
                                         <button class="btn btn-secondary" type="submit">Editar</button>
                                     </div>

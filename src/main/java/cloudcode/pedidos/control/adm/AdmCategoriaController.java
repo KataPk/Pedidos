@@ -94,24 +94,27 @@ public class AdmCategoriaController {
         try {
 
             Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
-            File file = fileUploadUtil.convertMultiPartFileToFile(multipartFile);
 
-            ResponseEntity<String> response = fileUploadUtil.upload(file);
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                File file = fileUploadUtil.convertMultiPartFileToFile(multipartFile);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-                String imageUrl = fileUploadUtil.getImageUrl(response);
+                ResponseEntity<String> response = fileUploadUtil.upload(file);
 
-
-                categoria.setNome(nome);
-                categoria.setImagem(imageUrl);
-
-                categoriaRepository.save(categoria);
+                if (response.getStatusCode() == HttpStatus.OK) {
+                    String imageUrl = fileUploadUtil.getImageUrl(response);
 
 
-                return new RedirectView("/api/admin/categorias");
-            } else {
-                throw new RuntimeException("Algo deu errado no upload para o host");
+                    categoria.setImagem(imageUrl);
+                } else {
+                    throw new RuntimeException("Algo deu errado no upload para o host");
+                }
+
             }
+
+            categoria.setNome(nome);
+            categoriaRepository.save(categoria);
+            return new RedirectView("/api/admin/categorias");
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
