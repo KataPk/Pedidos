@@ -28,7 +28,7 @@ public class ItemPedidoService {
     }
 
     public List<ItemPedidoRecordDto> findAllByPedido(Pedido pedido) {
-        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedido);
+        List<ItemPedido> itens = itemPedidoRepository.findByPedidoOrderById(pedido);
         return itens.stream()
                 .map(item -> new ItemPedidoRecordDto(item.getId(), item.getProduto(), item.getQuantProduto(), item.getPedido()))
                 .collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class ItemPedidoService {
 
     public String getSubTotal(Pedido pedido) {
         double subTotal = 0;
-        List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedido);
+        List<ItemPedido> itens = itemPedidoRepository.findByPedidoOrderById(pedido);
         for (ItemPedido item : itens) {
 
             int quant = item.getQuantProduto();

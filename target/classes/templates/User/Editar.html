@@ -29,45 +29,46 @@
         <th:block th:each="item : ${itens}">
             <div class="card id" th:attr="data-id=${item.pedido().getId()}">
                 <div class="row g-0">
-                    <div class="col-md-3 ">
+                    <div class="">
                         <img class="card-img-top image" th:alt="${item.produto().getNome}"
-                             th:src="|data:image;base64, *{item.produto().getImagem()}|"/>
-                    </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
-                            <div class="hstack p-1">
-                                <h2 class="p-1 preco" th:attr="data-price=${item.produto.getValor}"
-                                    th:text="'Preço: ' + ${#numbers.formatCurrency(item.produto().getValor())}">
-                                    Error</h2>
-
-                            </div>
-                            <div class="hstack  p-1">
-                                <p class="p-1 text">Quantidade:</p>
-                                <form class="formLess">
-                                    <input th:value="${item.id()}" name="itemId" type="hidden">
-                                    <input value="0" name="acao" type="hidden">
-
-                                    <button class="less p-1" type="submit" role="button"><i
-                                            class="fas fa-minus-circle"></i></button>
-                                </form>
-                                <p class="text p-1 quant" th:attr="data-quant=${item.quant()}">0</p>
-                                <form class="formPlus">
-                                    <input th:value="${item.id()}" name="itemId" type="hidden">
-                                    <input value="1" name="acao" type="hidden">
-                                    <button class="plus p-1" type="submit" role="button"><i
-                                            class="fas fa-plus-circle"></i></button>
-                                </form>
-                            </div>
-                            <h2 class="total">Total: R$0,00</h2>
-                        </div>
-                            <button class="btn btn-danger remover" type="submit"
-                                    data-bs-toggle="modal"
-                                    th:attr="data-bs-target=${'#ModalItem' + item.id()}"
-                            >Remover</button>
+                             th:src="${item.produto().getImagem()}"/>
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.produto().getNome()}">Error</h5>
+                        <div class="hstack p-1">
+                            <h2 class="p-1 preco" th:attr="data-price=${item.produto.getValor}"
+                                th:text="'Preço: ' + ${#numbers.formatCurrency(item.produto().getValor())}">
+                                Error</h2>
+
+                        </div>
+                        <div class="hstack  p-1">
+                            <p class="p-1 text">Quantidade:</p>
+                            <form class="formLess">
+                                <input th:value="${item.id()}" name="itemId" type="hidden">
+                                <input value="0" name="acao" type="hidden">
+
+                                <button class="less p-1" type="submit" role="button"><i
+                                        class="fas fa-minus-circle"></i></button>
+                            </form>
+                            <p class="text p-1 quant" th:attr="data-quant=${item.quant()}">0</p>
+                            <form class="formPlus">
+                                <input th:value="${item.id()}" name="itemId" type="hidden">
+                                <input value="1" name="acao" type="hidden">
+                                <button class="plus p-1" type="submit" role="button"><i
+                                        class="fas fa-plus-circle"></i></button>
+                            </form>
+                        </div>
+                        <h2 class="total">Total: R$0,00</h2>
+                    </div>
+                    <button class="btn btn-danger remover" type="submit"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target=${'#ModalItem' + item.id()}"
+                    >Remover
+                    </button>
+                </div>
+            </div>
 
 
         </th:block>

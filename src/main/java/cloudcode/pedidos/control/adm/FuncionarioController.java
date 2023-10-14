@@ -9,6 +9,7 @@ import cloudcode.pedidos.model.repository.RoleRepository;
 import cloudcode.pedidos.model.repository.UserRepository;
 import cloudcode.pedidos.response.MessageResponse;
 import cloudcode.pedidos.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,6 +63,7 @@ public class FuncionarioController {
     }
 
 
+    @Transactional
     @PostMapping("/funcionarios/createFuncionario")
     public ResponseEntity<?> createFuncionario(
             @RequestParam("nome") String nome,
@@ -130,6 +132,7 @@ public class FuncionarioController {
 
 
                         user1.setRoles(roles);
+                        userRepository.save(user1);
 
                         responseData.put("success", true);
                         responseData.put("message", "Usuário recadastrado com sucesso.");
@@ -177,6 +180,7 @@ public class FuncionarioController {
                 roles.add(userRole);
             }
             user.setRoles(roles);
+            userRepository.save(user);
 
 
             responseData.put("success", true);
@@ -196,6 +200,7 @@ public class FuncionarioController {
     }
 
 
+    @Transactional
     @PostMapping("/EditUsuario")
     public ResponseEntity<?> editUsuario(
             @RequestParam("id") long userId,
@@ -247,8 +252,6 @@ public class FuncionarioController {
             editUser.setUsername(username);
 
 
-            userRepository.save(editUser);
-
             if (strRole != null && !strRole.isEmpty()) {
                 editUser.getRoles().clear();
                 Set<Role> roles = new HashSet<>();
@@ -264,6 +267,7 @@ public class FuncionarioController {
                 editUser.setRoles(roles);
             }
 
+            userRepository.save(editUser);
 
             responseData.put("success", true);
             responseData.put("message", "Usuário atualizado com sucesso.");
@@ -280,6 +284,7 @@ public class FuncionarioController {
 
     }
 
+    @Transactional
     @PostMapping("/deleteFuncionario")
     public RedirectView deleteUser(@RequestParam("userId") long id) {
         try {

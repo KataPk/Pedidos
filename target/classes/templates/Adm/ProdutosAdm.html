@@ -127,9 +127,9 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary"
+                                    type="submit"
                                     data-bs-toggle="modal"
                                     data-bs-target="#processingModal"
-                                    type="submit"
                             >Criar
                             </button>
                         </div>
@@ -181,7 +181,7 @@
                                         name="categoria">
                                     <option th:each="categoria : ${categorias}" th:text="${categoria.nome}"
                                             th:value="${categoria.id}"
-                                            th:selected="${categoria == produto.categoria()}"></option>
+                                            th:selected="${categoria.id() == produto.categoria().getId()}"></option>
                                 </select>
                                 <input th:value="${produto.id()}" name="produtoId" type="hidden">
 
@@ -192,16 +192,16 @@
                                     <input type="file" accept="image/png, image/jpeg" class="form-control fileInput"
                                            th:id="${'formFile' + produto.id()}"
                                            name="file"
-                                           required
                                            maxlength="10000000">
 
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary"
+                                        type="submit"
+
                                         data-bs-toggle="modal"
                                         data-bs-target="#processingModal"
-                                        type="submit"
 
                                 >Editar
                                 </button>
@@ -230,10 +230,10 @@
                             <input th:value="${produto.id()}" name="produtoId" type="hidden">
                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar</button>
                             <button class="btn btn-danger"
+                                    type="submit"
 
                                     data-bs-toggle="modal"
                                     data-bs-target="#processingModal"
-                                    type="submit"
 
                             >Deletar produto
                             </button>
