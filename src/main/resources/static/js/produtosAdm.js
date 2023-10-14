@@ -1,36 +1,36 @@
-const formsEdit = document.querySelectorAll('.formEdit')
-const formsDelete = document.querySelectorAll('.formDelete')
+const inputValues = document.querySelectorAll('.produtoValor');
 
-for (let i = 0; i < formsEdit.length; i++) {
+{
+    for (let i = 0; i < inputValues.length; i++) {
+        const inputValue = inputValues[i];
+        inputValue.addEventListener("input", function () {
+            let valor = parseFloat(inputValue.value);
 
-    formsEdit[i].addEventListener('submit', function (event) {
+            if (valor === 0) {
+                // Se o valor for 0, defina-o automaticamente como 1
+                inputValue.value = "1";
+            }
 
-        mostrarModal();
+            if (valor > 1000) {
+
+                inputValue.value = "1000"
+            }
+
+            // Arredonde o valor para duas casas decimais
+
+        });
 
 
-    })
-    formsDelete[i].addEventListener('submit', function (event) {
+        inputValue.addEventListener("change", function () {
+            let valor = parseFloat(inputValue.value);
 
-        mostrarModal();
+            valor = valor.toFixed(2);
+            // Defina o valor arredondado de volta no input
+            inputValue.value = valor;
+        });
 
 
-    })
+    }
 
 
 }
-
-const formCreate = document.getElementById('formCreate')
-
-formCreate.addEventListener('submit', function (event) {
-
-    mostrarModal();
-
-})
-
-
-// Função para mostrar o modal de processamento
-function mostrarModal() {
-    // Selecione o modal de processamento pelo seu ID (substitua pelo ID correto)
-    $('#processingModal').modal('show')
-}
-

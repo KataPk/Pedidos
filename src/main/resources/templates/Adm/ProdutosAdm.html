@@ -46,7 +46,10 @@
         <th:block th:each="produto : ${produtos}">
 
             <div class="card text-center" th:id="${produto.nome}">
-                <button class="btn">
+                <button class="btn"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#editProduto' + produto.id()}"
+                >
                     <img class="card-img-top image" th:alt="${produto.nome}"
                          th:src="${produto.imagem()}"/>
 
@@ -100,10 +103,12 @@
                         </div>
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoValor">Valor do Produto:</label>
-                            <input class="form-control produtoValor fileInput" id="produtoValor" max="9999.99"
-                                   min="1.00"
+                            <input class="form-control produtoValor" id="produtoValor" max="1000.00"
+                                   min="1"
                                    name="valor"
-                                   required step="0.01" type="number">
+                                   step="0.01"
+                                   required
+                                   type="number">
 
                         </div>
                         <div class="hstack p-1 ">
@@ -128,8 +133,7 @@
                         <div class="modal-footer">
                             <button class="btn btn-primary"
                                     type="submit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#processingModal"
+
                             >Criar
                             </button>
                         </div>
@@ -155,21 +159,24 @@
                                     Produto:</label>
                                 <input class="form-control produtoNome" th:id="${'produtoNome' + produto.id()}"
                                        name="nome"
-                                       th:value="${produto.nome()}" type="text">
+                                       th:value="${produto.nome()}" type="text" required>
                             </div>
                             <div class="hstack p-1">
 
                                 <label class="form-label" th:for="${'descricao' + produto.id() }">Descrição:</label>
                                 <textarea class="form-control" th:id="${'descricao' + produto.id()}" name="descricao"
                                           rows="3"
-                                          type="text" maxlength="400" th:text="${produto.descricao()}"></textarea>
+                                          type="text" maxlength="400" th:text="${produto.descricao()}"
+                                          required></textarea>
                             </div>
                             <div class="hstack p-1 ">
                                 <label class="form-label" for="produtoValor">Valor do Produto:</label>
                                 <input class="form-control produtoValor" th:id="${'produtoValor' + produto.id()}"
-                                       max="9999.99" min="1.00"
+                                       max="1000.00" min="1.00"
                                        name="valor"
-                                       step="0.01" type="number"
+                                       step="0.01"
+                                       type="number"
+                                       required
                                        th:value="${produto.valor()}"
                                 >
 
@@ -200,8 +207,6 @@
                                 <button class="btn btn-primary"
                                         type="submit"
 
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#processingModal"
 
                                 >Editar
                                 </button>
@@ -268,4 +273,5 @@
 
 <script type="module" src="/js/imageEdit.js">
 </script>
+<script src="/js/produtosAdm.js"></script>
 </html>
