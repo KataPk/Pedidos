@@ -137,17 +137,24 @@ public class PedidoController {
     public String finalizarPedido(@PathVariable long pedidoId, Model model) {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+        if (pedido.getStatusPedido().equals("ABERTO")) {
+
+            List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
+
+            String subTotal = itemPedidoService.getSubTotal(pedido);
+            model.addAttribute("pedido", pedido);
+            model.addAttribute("itens", itens);
+            model.addAttribute("subtotal", subTotal);
 
 
-        List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
+            return "User/Editar";
+        } else {
 
-        String subTotal = itemPedidoService.getSubTotal(pedido);
-        model.addAttribute("pedido", pedido);
-        model.addAttribute("itens", itens);
-        model.addAttribute("subtotal", subTotal);
+            List<MesaRecordDto> mesas = mesaService.findAllMesas();
+            model.addAttribute("mesas", mesas);
+            return "User/Mesas";
+        }
 
-
-        return "User/Editar";
 
     }
 
@@ -242,38 +249,43 @@ public class PedidoController {
     public RedirectView closePedido(@RequestParam("pedidoId") long pedidoId) {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-        Mesa mesa = pedido.getMesa();
+        if (pedido.getStatusPedido().equals("ABERTO")) {
+            Mesa mesa = pedido.getMesa();
 
-        LocalDateTime dateTime = LocalDateTime.now();
-        pedido.setStatusPedido("FECHADO");
-        pedido.setDtFechamento(dateTime);
-        if (mesa.getMStatus().equals("OCUPADA")) {
-            mesa.setMStatus("ACTIVE");
-            mesaRepository.save(mesa);
+            LocalDateTime dateTime = LocalDateTime.now();
+            pedido.setStatusPedido("FECHADO");
+            pedido.setDtFechamento(dateTime);
+            if (mesa.getMStatus().equals("OCUPADA")) {
+                mesa.setMStatus("ACTIVE");
+                mesaRepository.save(mesa);
+            }
+            pedidoRepository.save(pedido);
         }
-        pedidoRepository.save(pedido);
         return new RedirectView("/api/user/mesas");
     }
 
     @PostMapping("/removePedido")
-    public ResponseEntity<?> deletePedido(@RequestParam("pedidoId") long pedidoId) {
+    public RedirectView deletePedido(@RequestParam("pedidoId") long pedidoId) {
 
         try {
             Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-            List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
-            for (ItemPedidoRecordDto it : itens) {
-                ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
-                itemPedidoRepository.delete(item);
+            if (pedido.getStatusPedido().equals("ABERTO")) {
+                List<ItemPedidoRecordDto> itens = itemPedidoService.findAllByPedido(pedido);
+                for (ItemPedidoRecordDto it : itens) {
+                    ItemPedido item = itemPedidoRepository.getReferenceById(it.id());
+                    itemPedidoRepository.delete(item);
+                }
+
+                Mesa mesa = pedido.getMesa();
+                if (!mesa.getMStatus().equals("BALCAO")) {
+                    mesa.setMStatus("ACTIVE");
+                    mesaRepository.save(mesa);
+                }
+                pedidoRepository.delete(pedido);
             }
-
-            Mesa mesa = pedido.getMesa();
-            mesa.setMStatus("ACTIVE");
-            mesaRepository.save(mesa);
-            pedidoRepository.delete(pedido);
-
-            return ResponseEntity.ok().build();
+            return new RedirectView("/api/user/pedido/Pedidos");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e);
+            throw new RuntimeException(e);
 
         }
 

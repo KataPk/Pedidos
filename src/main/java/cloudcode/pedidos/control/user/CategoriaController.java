@@ -2,6 +2,7 @@ package cloudcode.pedidos.control.user;
 
 
 import cloudcode.pedidos.dtos.CategoriaRecordDto;
+import cloudcode.pedidos.dtos.MesaRecordDto;
 import cloudcode.pedidos.dtos.PedidoRecordDTO;
 import cloudcode.pedidos.dtos.ProdutoRecordDto;
 import cloudcode.pedidos.model.entity.Categoria;
@@ -10,6 +11,7 @@ import cloudcode.pedidos.model.repository.CategoriaRepository;
 import cloudcode.pedidos.model.repository.PedidoRepository;
 import cloudcode.pedidos.model.repository.ProdutoRepository;
 import cloudcode.pedidos.service.CategoriaService;
+import cloudcode.pedidos.service.MesaService;
 import cloudcode.pedidos.service.PedidoService;
 import cloudcode.pedidos.service.ProdutoService;
 import org.slf4j.Logger;
@@ -39,6 +41,8 @@ public class CategoriaController {
 
     private final PedidoService pedidoService;
 
+    private final MesaService mesaService;
+
     @Autowired
     CategoriaRepository categoriaRepository;
 
@@ -48,25 +52,33 @@ public class CategoriaController {
     @Autowired
     PedidoRepository pedidoRepository;
 
-    public CategoriaController(CategoriaService categoriaService, ProdutoService produtoService, PedidoService pedidoService) {
+    public CategoriaController(CategoriaService categoriaService, ProdutoService produtoService, PedidoService pedidoService, MesaService mesaService) {
         this.categoriaService = categoriaService;
         this.produtoService = produtoService;
         this.pedidoService = pedidoService;
+        this.mesaService = mesaService;
     }
 
 
     @GetMapping("/{pedidoId}/categorias")
     public String categorias(@PathVariable long pedidoId, Model model) {
 
-        List<PedidoRecordDTO> clientes = pedidoService.findAbertos();
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+        if (pedido.getStatusPedido().equals("ABERTO")) {
 
-        List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
-        model.addAttribute("categorias", categorias);
-        model.addAttribute("clientes", clientes);
-        model.addAttribute("pedido", pedido);
-        return "User/Categorias";
+            List<PedidoRecordDTO> clientes = pedidoService.findAbertos();
+            List<CategoriaRecordDto> categorias = categoriaService.findAllAtivos();
+            model.addAttribute("categorias", categorias);
+            model.addAttribute("clientes", clientes);
+            model.addAttribute("pedido", pedido);
+            return "User/Categorias";
+        } else {
+
+            List<MesaRecordDto> mesas = mesaService.findAllMesas();
+            model.addAttribute("mesas", mesas);
+            return "User/Mesas";
+        }
     }
 
     @GetMapping("/{pedidoId}/categoria/{categoriaId}")
@@ -75,18 +87,22 @@ public class CategoriaController {
                                    Model model) {
 
         Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
-        Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
+        if (pedido.getStatusPedido().equals("ABERTO")) {
+            Categoria categoria = categoriaRepository.getReferenceById(categoriaId);
+            List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
 
+            model.addAttribute("categoria", categoria);
+            model.addAttribute("produtos", produtos);
+            model.addAttribute("pedido", pedido);
 
-        List<ProdutoRecordDto> produtos = produtoService.findByCategoria(categoria);
+            return "User/Produtos";
+        } else {
 
-        model.addAttribute("categoria", categoria);
-        model.addAttribute("produtos", produtos);
-        model.addAttribute("pedido", pedido);
-
-        return "User/Produtos";
+            List<MesaRecordDto> mesas = mesaService.findAllMesas();
+            model.addAttribute("mesas", mesas);
+            return "User/Mesas";
+        }
     }
-
 }
 
 
