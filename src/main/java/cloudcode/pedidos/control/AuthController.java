@@ -16,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -25,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Controller
+@RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -58,6 +57,26 @@ public class AuthController {
 
         } else {
             return new RedirectView("/api/v1/login-error");
+
+        }
+
+
+    }
+
+    @PostMapping("/loginMobile")
+    public ResponseEntity<?> authenticateUserMobile(
+            @RequestParam("username") String username, @RequestParam("password") String password
+    ) {
+
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(username, encoder.encode(password)));
+
+        if (authentication.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return ResponseEntity.ok("Login bem-sucedido");
+
+        } else {
+            return ResponseEntity.badRequest().body("Username ou senha incorreto");
 
         }
 
@@ -107,7 +126,7 @@ public class AuthController {
                     email,
                     username,
                     encoder.encode(password),
-            "ACTIVE"
+                    "ACTIVE"
             );
 
             Set<Role> roles = new HashSet<>();
