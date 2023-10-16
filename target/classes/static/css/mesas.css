@@ -8,6 +8,10 @@
 
 }
 
+.admCard {
+    height: 22.5rem;
+}
+
 .modal-dialog h1 {
     font-size: calc(1.25rem + .9vw);
     margin: 5px;

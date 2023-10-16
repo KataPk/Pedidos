@@ -150,6 +150,23 @@ public class AdmMesaController {
         return new RedirectView("/api/admin/mesas");
     }
 
+    @PostMapping("/inativarMesa")
+    public RedirectView inativarMesa(@RequestParam("mesaId") long id) {
+
+        try {
+
+            Mesa mesa = mesaRepository.getReferenceById(id);
+            if (!mesa.getMStatus().equals("OCUPADA")) {
+                mesa.setMStatus("INACTIVE");
+                mesaRepository.save(mesa);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+        return new RedirectView("/api/admin/mesas");
+    }
+
     @PostMapping("/reAtivarMesa")
     public RedirectView reAtivarMesa(@RequestParam("mesaId") long id) {
 

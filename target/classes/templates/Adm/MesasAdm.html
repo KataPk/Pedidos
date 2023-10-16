@@ -23,7 +23,7 @@
     <!--Card para adicionar mesas-->
     <div class="row align-items-start text-center" id="MesaContainer">
 
-        <div class="card">
+        <div class="card admCard">
             <button class="btn imageBtn addMesa" type="button"
                     data-bs-target="#ModalcreateMesa"
                     data-bs-toggle="modal"
@@ -44,7 +44,7 @@
 
         <th:block th:each="mesa : ${mesas}">
 
-            <div class="card" th:if="${mesa.mStatus == 'ACTIVE'}">
+            <div class="card admCard text-center" th:if="${mesa.mStatus == 'ACTIVE'}">
                 <button class="btn imageBtn" th:id="${'addPedido' + mesa.numMesa}" type="button"
                         data-bs-toggle="modal"
                         th:attr="data-bs-target=${'#editMesa' + mesa.id()}"
@@ -61,6 +61,11 @@
                                 type="button">
                             Editar
                         </button>
+                        <button class="btn btn-secondary" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#ModalMesaDesativar'+${mesa.numMesa }"
+                                th:id="${'desativar' + mesa.numMesa}" type="button">
+                            Desativar mesa
+                        </button>
                         <button class="btn btn-danger" data-bs-toggle="modal"
                                 th:attr="data-bs-target=${'#delete' + mesa.id()}"
                                 th:id="${'exclude' + mesa.numMesa}"
@@ -71,7 +76,7 @@
                 </div>
             </div>
 
-            <div class="card" th:if="${mesa.mStatus == 'OCUPADA'}">
+            <div class="card admCard text-center" th:if="${mesa.mStatus == 'OCUPADA'}">
                 <button class="btn imageBtn disabled" type="button">
                     <img alt="..." class="card-img-top image" src="/img/PNG/mesa-ocupada.png">
                 </button>
@@ -82,6 +87,11 @@
                                 th:id="${'addPedido' + mesa.numMesa}" type="button">
                             Editar
                         </button>
+                        <button class="btn btn-secondary" data-bs-toggle="modal"
+                                disabled th:attr="data-bs-target='#ModalMesaDesativar'+${mesa.numMesa }"
+                                th:id="${'desativar' + mesa.numMesa}" type="button">
+                            Desativar mesa
+                        </button>
                         <button class="btn btn-danger disabled" th:id="${'exclude' + mesa.numMesa}" type="button">
                             Excluir
                         </button>
@@ -89,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="card text-center" th:if="${mesa.mStatus == 'INACTIVE'}">
+            <div class="card admCard text-center" th:if="${mesa.mStatus == 'INACTIVE'}">
                 <button class="btn imageBtn "
                         data-bs-toggle="modal"
                         th:attr="data-bs-target=${'#ModalMesa' + mesa.numMesa()}"
@@ -213,6 +223,30 @@
                                     <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar
                                     </button>
                                     <button class="btn btn-danger" type="submit">Deletar mesa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div aria-labelledby="staticBackdropLabel" class="modal fade"
+                     th:attr="aria-labelledby='labelMesaDesativar' + ${mesa.numMesa}"
+                     th:id="'ModalMesaDesativar' + ${mesa.numMesa}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:id="${'labelMesa' + mesa.numMesa()}">Desativar Mesa</h1>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
+                            </div>
+                            <div class="modal-body" th:text="${'Deseja desativar a mesa ' + mesa.numMesa() + '?'}">
+                                Error
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/api/admin/inativarMesa" method="post">
+                                    <input th:value="${mesa.id()}" name="mesaId" type="hidden">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fechar
+                                    </button>
+                                    <button class="btn btn-primary" type="submit">Desativar mesa</button>
                                 </form>
                             </div>
                         </div>
