@@ -26,7 +26,8 @@ public class ErrorController {
 
         if (throwable instanceof ChangeSetPersister.NotFoundException || throwable instanceof NoHandlerFoundException) {
             httpStatus = HttpStatus.NOT_FOUND;
-            errorMessage = "Resource not found";
+
+            errorMessage = "Opps não encontramos o que você está procurando";
         } else if (throwable instanceof HttpClientErrorException.Forbidden) {
             httpStatus = HttpStatus.FORBIDDEN;
             errorMessage = "Access forbidden";
@@ -48,6 +49,6 @@ public class ErrorController {
         model.addAttribute("httpStatus", httpStatus);
         model.addAttribute("httpStatusCode", httpStatus.value());
 
-        return "ErrorsPage";
+        return "error";
     }
 }

@@ -1,7 +1,6 @@
 package cloudcode.pedidos.security;
 
 import cloudcode.pedidos.security.services.CustomUserDetailService;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 
 @Configuration
@@ -41,6 +41,10 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        return new SpringSecurityDialect();
+    }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
@@ -59,6 +63,7 @@ public class WebSecurityConfig {
 
 
     @Bean
+
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -107,3 +112,4 @@ public class WebSecurityConfig {
 
 
 }
+

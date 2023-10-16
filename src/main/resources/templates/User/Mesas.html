@@ -121,7 +121,7 @@
                                 <div class="hstack p-1 ">
                                     <label class="form-label" th:for="'clientNameMesa' + ${mesa.numMesa}">Nome do
                                         Cliente:</label>
-                                    <input class="form-control clientNameMesa"
+                                    <input class="form-control clientNameMesa" maxlength="40"
                                            name="clientName" required th:id="'clientNameMesa' + ${mesa.numMesa}"
                                            type="text">
                                     <input class="form-control" name="mesaId" th:id="'mesaId' + ${mesa.id()}"

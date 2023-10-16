@@ -91,6 +91,7 @@
                         <div class="hstack p-1 ">
                             <label class="form-label" for="categoriaNome">Nome da Categoria:</label>
                             <input class="form-control categoriaNome" id="categoriaNome" name="nome" required
+                                   maxlength="30"
                                    type="text">
 
                         </div>
@@ -129,7 +130,7 @@
                                 <label class="form-label" th:for="${'categoriaNome' + categoria.id()}">Nome da
                                     Categoria:</label>
                                 <input class="form-control categoriaNome" th:id="${'categoriaNome' + categoria.id()}"
-                                       name="nome" required
+                                       name="nome" required maxlength="30"
                                        th:value="${categoria.nome()}" type="text">
 
                             </div>

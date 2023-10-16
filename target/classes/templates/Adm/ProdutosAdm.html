@@ -92,7 +92,8 @@
                     <div class="modal-body vstack">
                         <div class="hstack p-1 ">
                             <label class="form-label" for="produtoNome">Nome do Produto:</label>
-                            <input class="form-control produtoNome" id="produtoNome" name="nome" required type="text">
+                            <input class="form-control produtoNome" id="produtoNome" name="nome" maxlength="100"
+                                   required type="text">
 
                         </div>
                         <div class="hstack p-1">
@@ -158,7 +159,7 @@
                                 <label class="form-label" th:for="${'produtoNome' + produto.id()}">Nome do
                                     Produto:</label>
                                 <input class="form-control produtoNome" th:id="${'produtoNome' + produto.id()}"
-                                       name="nome"
+                                       name="nome" maxlength="100"
                                        th:value="${produto.nome()}" type="text" required>
                             </div>
                             <div class="hstack p-1">

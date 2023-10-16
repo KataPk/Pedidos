@@ -81,7 +81,8 @@
                     <div class="modal-body vstack text-center">
                         <div class="hstack p-1">
                             <label class="form-label" for="nomeUsuario">Nome:</label>
-                            <input class="form-control nomeUser " id="nomeUsuario" name="nome" required type="text">
+                            <input class="form-control nomeUser " id="nomeUsuario" name="nome" maxlength="100" required
+                                   type="text">
                         </div>
                         <p class="text-danger hstack p-1" style="display: none;"></p>
 
@@ -134,7 +135,8 @@
 
                         <div class="hstack p-1">
                             <label class="form-label" for="enderecoUsuario">Endereço: </label>
-                            <input class="form-control input-with-loader enderecoUser" id="enderecoUsuario"
+                            <input class="form-control input-with-loader enderecoUser" maxlength="100"
+                                   id="enderecoUsuario"
                                    name="endereco" required type="text">
                         </div>
                         <div class="hstack p-1">
@@ -143,16 +145,19 @@
                                    name="numResid" placeholder="000" required
                                    type="number">
                             <label class="form-label" for="complementoUsuario">Complemento: </label>
-                            <input class="form-control complementoUser" id="complementoUsuario" name="complemento"
+                            <input class="form-control complementoUser" id="complementoUsuario" maxlength="50"
+                                   name="complemento"
                                    type="text">
                         </div>
 
                         <div class="hstack p-1">
                             <label class="form-label" for="BairroUsuario">Bairro: </label>
-                            <input class="form-control bairroUser input-with-loader" id="BairroUsuario" name="bairro"
+                            <input class="form-control bairroUser input-with-loader" maxlength="100" id="BairroUsuario"
+                                   name="bairro"
                                    required type="text">
                             <label class="form-label" for="cidade">Cidade: </label>
-                            <input class="form-control cidadeUser input-with-loader" id="cidade" name="cidade" required
+                            <input class="form-control cidadeUser input-with-loader" id="cidade" maxlength="50"
+                                   name="cidade" required
                                    type="text">
                             <label class="form-label" for="uf">UF: </label>
                             <input class="form-control ufUser input-with-loader" id="uf" maxlength="2" minlength="2"
@@ -165,7 +170,8 @@
                         <div class="vstack p-1">
                             <div class="hstack p-1">
                                 <label class="form-label" for="emaiRecuperacaolUsuario">Email de Recuperação: </label>
-                                <input class="form-control emailUser" id="emaiRecuperacaolUsuario" name="emailRecup"
+                                <input class="form-control emailUser" maxlength="100" id="emaiRecuperacaolUsuario"
+                                       name="emailRecup"
                                        required type="email">
                             </div>
                             <p class="text-danger hstack p-1" style="display: none"></p>
@@ -174,11 +180,13 @@
 
                         <div class="hstack p-1">
                             <label class="form-label" for="username">Username: </label>
-                            <input class="form-control" id="username" name="username" required type="text">
+                            <input class="form-control" id="username" name="username" maxlength="20" required
+                                   type="text">
                         </div>
                         <div class="hstack p-1">
                             <label class="form-label" for="senhaUsuario">Senha: </label>
-                            <input class="form-control" id="senhaUsuario" minlength="8" name="senha" required
+                            <input class="form-control" id="senhaUsuario" minlength="8" maxlength="64" name="senha"
+                                   required
                                    type="password">
                             <i class="bi bi-eye-slash eye" id="togglePassword"></i>
 
@@ -232,7 +240,7 @@
                                 <label class="form-label" th:for="${'nomeUsuario' + user.id()}">Nome:</label>
                                 <input class="form-control nomeUser" name="nome"
                                        required th:id="${'nomeUsuario' + user.id()}" th:value="${user.nome()}"
-                                       type="text">
+                                       maxlength="100" type="text">
                             </div>
                             <p class="text-danger hstack p-1" style="display: none;"></p>
 
@@ -250,7 +258,7 @@
                                 <div class="hstack p-1">
                                     <label class="form-label"
                                            th:for="${'enderecoUsuario' + user.id()}">Endereço: </label>
-                                    <input class="form-control enderecoUser" name="endereco"
+                                    <input class="form-control enderecoUser" maxlength="100" name="endereco"
                                            required th:id="${'enderecoUsuario' + user.id()}"
                                            th:value="${user.logradouro()}"
                                            type="text">
@@ -266,19 +274,19 @@
                                        type="number">
                                 <label class="form-label"
                                        th:for="${'complementoUsuario' + user.id()}">Complemento: </label>
-                                <input class="form-control complementoUser" name="complemento"
+                                <input class="form-control complementoUser" maxlength="50" name="complemento"
                                        th:id="${'complementoUsuario' + user.id()}" th:value="${user.complemento()}"
                                        type="text">
                             </div>
 
                             <div class="hstack p-1">
                                 <label class="form-label" th:for="${'BairroUsuario' + user.id()}">Bairro: </label>
-                                <input class="form-control bairroUser" name="bairro"
+                                <input class="form-control bairroUser" maxlength="100" name="bairro"
                                        required th:id="${'BairroUsuario' + user.id()}" th:value="${user.bairro()}"
                                        type="text">
 
                                 <label class="form-label" th:for="${'cidade' + user.id()}">Cidade: </label>
-                                <input class="form-control cidadeUser" name="cidade"
+                                <input class="form-control cidadeUser" maxlength="50" name="cidade"
                                        required th:id="${'cidade' + user.id()}" th:value="${user.cidade()}" type="text">
 
                                 <label class="form-label" th:for="${'uf' + user.id()}">UF: </label>
@@ -293,7 +301,7 @@
                             <div class="hstack p-1">
                                 <label class="form-label" th:for="${'emailRecuperacaoUsuario' + user.id()}">Email de
                                     recuperação: </label>
-                                <input class="form-control emailUser"
+                                <input class="form-control emailUser" maxlength="100"
                                        name="emailRecup" th:id="${'emailRecuperacaoUsuario' + user.id()}"
                                        th:value="${user.email()}" type="email">
                             </div>
@@ -303,7 +311,8 @@
                             <div class="hstack p-1">
                                 <label class="form-label" th:for="${'username' + user.id()}">Username: </label>
                                 <input class="form-control" name="username"
-                                       required th:id="${'username' + user.id()}" th:value="${user.username()}"
+                                       required th:id="${'username' + user.id()}" maxlength="20"
+                                       th:value="${user.username()}"
                                        type="text">
                             </div>
                             <p class="text-danger hstack p-1" style="display: none"></p>
