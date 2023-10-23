@@ -39,7 +39,8 @@ public class ProdutoService {
                 produto.getDescricao(),
                 produto.getImagem(),
                 produto.getValor(),
-                produto.getCategoria()
+                produto.getCategoria(),
+                produto.getStatusProduto()
         )).collect(Collectors.toList());
     }
 
@@ -48,7 +49,7 @@ public class ProdutoService {
 
         return produtos.stream()
                 .map(produto -> new ProdutoRecordDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getImagem(),
-                        produto.getValor(), produto.getCategoria()))
+                        produto.getValor(), produto.getCategoria(), produto.getStatusProduto()))
                 .collect(Collectors.toList());
 
     }

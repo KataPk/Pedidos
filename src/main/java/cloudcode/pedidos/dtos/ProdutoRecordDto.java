@@ -13,7 +13,9 @@ public record ProdutoRecordDto(
 
         @NotNull String imagem,
         double valor,
-        @NotBlank Categoria categoria
+        @NotBlank Categoria categoria,
+
+        String statusProduto
 ) {
 
     public ProdutoRecordDto {

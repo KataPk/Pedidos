@@ -27,7 +27,7 @@
     <div class="row align-items-start" id="productContainer">
         <th:block th:each="produto : ${produtos}">
 
-            <div class="card text-center" th:id="${produto.id}">
+            <div class="card text-center" th:id="${produto.id}" th:if="${produto.statusProduto().equals('ACTIVE')}">
                 <button class="btn" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalProduto' + produto.id()}">
                     <img class="card-img-top image" th:alt="${produto.nome}"
                          th:src="${produto.imagem()}"/>
@@ -44,6 +44,25 @@
 
                 </div>
             </div>
+
+            <div class="card text-center" th:id="${produto.id}" th:if="${produto.statusProduto().equals('INACTIVE')}">
+                <button class="btn" disabled>
+                    <img class="card-img-top image" th:alt="${produto.nome}"
+                         th:src="${produto.imagem()}"/>
+                </button>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${produto.nome}">Teste</h5>
+                    <button class="btn btn-primary"
+                            disabled
+                            th:id="${'productAdd' + produto.nome}"
+                            type="button">
+                        Não disponivel
+                    </button>
+
+                </div>
+            </div>
+
+
         </th:block>
 
     </div>
@@ -58,8 +77,8 @@
 
 <div id="Modals">
     <th:block th:each="produto : ${produtos}">
-        <div aria-hidden="true" class="modal fade" tabindex="-1"
-             th:attr="aria-labelledby=${'label' + produto.nome}" th:id="${'ModalProduto' + produto.id()}">
+        <div aria-hidden="true" class="modal fade" tabindex="-1" th:attr="aria-labelledby=${'label' + produto.nome}"
+             th:id="${'ModalProduto' + produto.id()}" th:if="${produto.statusProduto().equals('ACTIVE')}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

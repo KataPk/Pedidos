@@ -94,7 +94,7 @@ public class MesaController {
 
             Mesa mesaAtual = mesaRepository.getReferenceById(mesaAtualId);
             Mesa mesaDestino = mesaRepository.getReferenceById(mesaDestinoId);
-            Pedido pedido = pedidoRepository.findByMesa(mesaAtual);
+            Pedido pedido = pedidoRepository.findByMesaAndStatusPedido(mesaAtual, "ABERTO");
             if (mesaAtual.getMStatus().equals("OCUPADA") && !mesaDestino.getMStatus().equals("OCUPADA")) {
 
                 mesaAtual.setMStatus("ACTIVE");
