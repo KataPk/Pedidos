@@ -23,7 +23,7 @@ public class FileUploadUtil {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-            headers.add("key", "***REMOVED***");
+            headers.add("key", "");
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("file", new FileSystemResource(file));
