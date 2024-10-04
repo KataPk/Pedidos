@@ -54,8 +54,8 @@ public class FileUploadUtil {
             JsonNode jsonNode = objectMapper.readTree(responseBody);
 
             String imageUrl = jsonNode.get("imageUrl").asText();
-            String prefix = ***REMOVED***";
-            String newPrefix = "***REMOVED***";
+            String prefix = "*******";
+            String newPrefix = "********";
 
             return imageUrl.replaceFirst(prefix, newPrefix);
 
